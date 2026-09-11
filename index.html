@@ -302,12 +302,14 @@ button{font:inherit;color:inherit}
   flex:none;--mkgap:var(--card);
   transition:transform .16s cubic-bezier(.2,.8,.3,1),background .16s;
 }
-/* 아래 두 단계는 지름이 같다 — 속이 비었나 찼나로만 갈린다 */
+/* 세 단계를 크기로 가른다(2026-09-12 기자 지시). 전에는 0단계를 속 빈 원으로 뒀는데
+   테두리가 굵어 채운 원만큼 눈에 띄었고, 지도에서 추천작이 묻혔다.
+   작은 점으로 바꾸니 물러나고, 그만큼 1·2단계가 앞으로 나온다. */
 .mk.m0{
-  width:11px;height:11px;vertical-align:-1px;
-  background:transparent;border:2.5px solid var(--seal);opacity:.9;
+  width:7px;height:7px;vertical-align:1px;
+  background:var(--seal);opacity:.8;
 }
-.mk.m1{width:11px;height:11px;vertical-align:-1px;background:var(--seal)}
+.mk.m1{width:12px;height:12px;vertical-align:-1px;background:var(--seal)}
 /* 강력 추천만 크다. 바깥 테 / 얇은 틈 / 꽉 찬 가운데 원 */
 .mk.m2{
   width:16px;height:16px;vertical-align:-3px;
