@@ -26,7 +26,7 @@
   --river:#A4BFC5;
   --ink:#161A1C;
   --ink-2:#4C575C;
-  --ink-3:#7B868B;
+  --ink-3:#697378;
   --line:#D1D8DA;
   --line-2:#E2E7E8;
   --seal:#B23A2E;
@@ -44,8 +44,8 @@
     --land-2:#2A3336;
     --river:#1C333A;
     --ink:#E9E6E1;
-    --ink-2:#A2ACB0;
-    --ink-3:#78848A;
+    --ink-2:#B0B9BD;
+    --ink-3:#8E999E;
     --line:#2A3235;
     --line-2:#222A2D;
     --seal:#E0705C;
@@ -63,8 +63,8 @@
   --land-2:#2A3336;
   --river:#1C333A;
   --ink:#E9E6E1;
-  --ink-2:#A2ACB0;
-  --ink-3:#78848A;
+  --ink-2:#B0B9BD;
+  --ink-3:#8E999E;
   --line:#2A3235;
   --line-2:#222A2D;
   --seal:#E0705C;
@@ -117,28 +117,30 @@ button{font:inherit;color:inherit}
 }
 .byline{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:13px;color:var(--ink-3)}
 .byline b{color:var(--ink-2);font-weight:500}
+/* 붉은 바탕이 모바일에서 눈에 피로해 테두리형으로 바꿨다(2026-09-11 기자 지적).
+   존재감은 채움이 아니라 테두리와 글자 굵기로 낸다. */
 .author-link{
   display:inline-flex;align-items:baseline;gap:9px;
-  padding:7px 15px 7px 14px;margin-right:4px;
-  background:var(--seal);border-radius:999px;
-  text-decoration:none;color:#FCF8F7;
+  padding:7px 15px;margin-right:4px;
+  background:var(--card);
+  border:1px solid var(--seal-ring);border-radius:999px;
+  text-decoration:none;color:var(--ink);
+  transition:border-color .14s;
 }
 .author-link .who{font-weight:600;font-size:13.5px;letter-spacing:-.01em}
 .author-link .more{
-  font-size:11.5px;opacity:.82;
-  border-left:1px solid rgba(255,255,255,.35);padding-left:9px;
+  font-size:11.5px;color:var(--ink-3);
+  border-left:1px solid var(--line);padding-left:9px;
 }
-.author-link:hover{background:var(--seal-deep)}
-:root[data-theme="dark"] .author-link,
-:root:not([data-theme="light"]) .author-link{color:#15110F}
-:root[data-theme="dark"] .author-link .more,
-:root:not([data-theme="light"]) .author-link .more{border-left-color:rgba(0,0,0,.28)}
+.author-link:hover{border-color:var(--seal)}
 .tally{
   font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
   font-variant-numeric:tabular-nums;color:var(--seal);font-weight:500;
 }
 
-.controls{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;padding:17px 0;border-bottom:1px solid var(--line)}
+/* 컨트롤은 지도 아래, 목록 바로 위에 둔다(2026-09-11 기자 지시).
+   모바일에서 기준일 다음에 지도가 바로 나오게 하려는 배치다. */
+.controls{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--line)}
 .ctrl-group{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
 .ctrl-label{
   font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
@@ -157,7 +159,7 @@ button{font:inherit;color:inherit}
   font-size:11.5px;opacity:.7;margin-left:5px;
 }
 
-.rating-key{padding:16px 0 2px}
+.rating-key{padding:18px 2px 2px}
 .key-label{
   margin:0 0 9px;font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
   font-size:10.5px;letter-spacing:.04em;color:var(--ink-3);
@@ -178,10 +180,15 @@ button{font:inherit;color:inherit}
 @media (max-width:1020px){.map-panel{position:static}}
 .map-frame{
   background:var(--land);border:1px solid var(--line);border-radius:4px;overflow:hidden;
-  max-width:min(100%,72vh);margin:0 auto;
+  max-width:min(100%,62vh);margin:0 auto;
 }
 .map-inner{position:relative;width:100%}
-@media (max-width:1020px){.map-frame{max-width:100%}}
+@media (max-width:1020px){
+  .map-frame{max-width:100%}
+  /* 모바일에서는 지도가 먼저 와야 하므로 붙는 여백을 줄인다 */
+  .board{padding-top:18px}
+  .rating-key{padding-top:16px}
+}
 .map-base{display:block;width:100%;height:auto}
 .pin-layer{position:absolute;inset:0}
 
@@ -359,21 +366,6 @@ button{font:inherit;color:inherit}
     </p>
   </header>
 
-  <div class="controls">
-    <div class="ctrl-group" id="zoneChips"><span class="ctrl-label">권역</span></div>
-    <div class="ctrl-group" id="sortChips"><span class="ctrl-label">정렬</span></div>
-  </div>
-
-  <section class="rating-key" aria-label="별점 기준">
-    <p class="key-label">별점 기준</p>
-    <ul>
-      <li><span class="mk m0"></span><span class="what">좋은 전시</span></li>
-      <li><span class="mk m1"></span><span class="what">기자가 추천하는 전시</span></li>
-      <li><span class="mk m2"></span><span class="what">기자가 강력 추천하는 전시</span></li>
-    </ul>
-    <p class="key-note">별점은 개인적인 취향이 반영된 평가로, 한국경제신문 및 아르떼의 공식 입장과 관련 없습니다.</p>
-  </section>
-
   <div class="board">
     <section class="map-panel" aria-label="전시 지도">
       <div class="map-frame">
@@ -415,9 +407,23 @@ button{font:inherit;color:inherit}
           <span>위치는 권역 기준 대략치입니다</span>
         </div>
       </div>
+
+      <section class="rating-key" aria-label="별점 기준">
+        <p class="key-label">별점 기준</p>
+        <ul>
+          <li><span class="mk m0"></span><span class="what">좋은 전시</span></li>
+          <li><span class="mk m1"></span><span class="what">기자가 추천하는 전시</span></li>
+          <li><span class="mk m2"></span><span class="what">기자가 강력 추천하는 전시</span></li>
+        </ul>
+        <p class="key-note">별점은 개인적인 취향이 반영된 평가로, 한국경제신문 및 아르떼의 공식 입장과 관련 없습니다.</p>
+      </section>
     </section>
 
     <section aria-label="전시 목록">
+      <div class="controls">
+        <div class="ctrl-group" id="zoneChips"><span class="ctrl-label">권역</span></div>
+        <div class="ctrl-group" id="sortChips"><span class="ctrl-label">정렬</span></div>
+      </div>
       <div class="list-head">
         <h2 id="listTitle">전시 목록</h2>
         <span class="count" id="listCount"></span>
