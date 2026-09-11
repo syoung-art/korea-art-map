@@ -133,7 +133,7 @@ button{font:inherit;color:inherit}
 }
 .author-link:hover{border-color:var(--seal)}
 /* 좁은 화면에서는 이름이 길어 부가 설명을 숨긴다 */
-@media (max-width:430px){.author-link .more{display:none}}
+@media (max-width:430px){.author-link .more-ext{display:none}}
 .tally{
   font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
   font-variant-numeric:tabular-nums;color:var(--seal);font-weight:500;
@@ -369,7 +369,7 @@ button{font:inherit;color:inherit}
     <p class="byline">
       <a class="author-link" href="#profile">
         <span class="who">성수영 한국경제신문 문화부 기자</span>
-        <span class="more">소개 · SNS</span>
+        <span class="more">소개<span class="more-ext"> · SNS</span></span>
       </a>
       <span class="tally" id="tally">—</span>
       <span>·</span><span>기준일 <b id="today">—</b></span>
