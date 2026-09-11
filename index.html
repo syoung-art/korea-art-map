@@ -80,9 +80,8 @@ body{
   background:var(--paper);
   color:var(--ink);
   font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
-  font-size:15px;
+  font-size:16px;
   line-height:1.7;
-  -webkit-font-smoothing:antialiased;
 }
 a{color:inherit}
 button{font:inherit;color:inherit}
@@ -93,7 +92,7 @@ button{font:inherit;color:inherit}
 .masthead{display:grid;gap:16px;padding-bottom:22px;border-bottom:1px solid var(--line)}
 .eyebrow{
   font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
-  font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+  font-size:12px;letter-spacing:.06em;
   color:var(--seal);margin:0;
 }
 .masthead h1{
@@ -109,11 +108,11 @@ button{font:inherit;color:inherit}
   color:var(--seal);border:1px solid var(--seal-ring);border-radius:999px;
   padding:.34em .8em;
 }
-.standfirst{margin:0;max-width:62ch;color:var(--ink-2);font-size:15.5px}
+.standfirst{margin:0;max-width:60ch;color:var(--ink-2);font-size:16.5px;line-height:1.72}
 .off-note{
   margin:0;padding:10px 13px;
   border:1px dashed var(--line);border-radius:4px;
-  font-size:12.5px;color:var(--ink-3);
+  font-size:13.5px;color:var(--ink-3);
 }
 .byline{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:13px;color:var(--ink-3)}
 .byline b{color:var(--ink-2);font-weight:500}
@@ -144,12 +143,12 @@ button{font:inherit;color:inherit}
 .ctrl-group{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
 .ctrl-label{
   font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
-  font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  font-size:11.5px;letter-spacing:.02em;
   color:var(--ink-3);margin-right:2px;
 }
 .chip{
   border:1px solid var(--line);background:var(--card);border-radius:999px;
-  padding:5px 13px;font-size:13px;color:var(--ink-2);cursor:pointer;white-space:nowrap;
+  padding:7px 14px;font-size:13.5px;color:var(--ink-2);cursor:pointer;white-space:nowrap;
   transition:border-color .14s,color .14s,background .14s;
 }
 .chip:hover{border-color:var(--ink-3);color:var(--ink)}
@@ -162,13 +161,13 @@ button{font:inherit;color:inherit}
 .rating-key{padding:18px 2px 2px}
 .key-label{
   margin:0 0 9px;font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
-  font-size:10.5px;letter-spacing:.04em;color:var(--ink-3);
+  font-size:11.5px;letter-spacing:.02em;color:var(--ink-3);
 }
 .rating-key ul{
   display:flex;flex-wrap:wrap;
   gap:7px 26px;list-style:none;margin:0;padding:0;
 }
-.rating-key li{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--ink-2)}
+.rating-key li{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--ink-2)}
 .rating-key .mk{--mkgap:var(--paper)}
 .key-note{margin:11px 0 0;font-size:11.5px;line-height:1.6;color:var(--ink-3);max-width:74ch}
 .entry h3 .mk{margin-right:7px}
@@ -191,6 +190,16 @@ button{font:inherit;color:inherit}
 }
 .map-base{display:block;width:100%;height:auto}
 .pin-layer{position:absolute;inset:0}
+/* 권역 이름은 SVG 안에 두면 지도와 함께 줄어들어 휴대폰에서 5~6px이 된다.
+   고정 크기 HTML로 빼내 어느 화면에서나 같은 크기로 읽히게 했다. */
+.zone-layer{position:absolute;inset:0;pointer-events:none}
+.zone-label{
+  position:absolute;transform:translate(-50%,-50%);
+  font-size:clamp(10.5px,2.7vw,13px);
+  font-weight:500;letter-spacing:-.01em;
+  color:var(--ink-2);white-space:nowrap;
+  text-shadow:0 0 3px var(--land),0 0 6px var(--land);
+}
 
 .pin{
   position:absolute;transform:translate(-50%,-50%);
@@ -260,37 +269,37 @@ button{font:inherit;color:inherit}
 .list .entry:hover{border-color:var(--ink-3)}
 .entry.on{border-color:var(--seal);box-shadow:0 0 0 1px var(--seal),var(--shadow)}
 .entry-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
-.place{font-size:12.5px;color:var(--ink-2);font-weight:500}
+.place{font-size:13px;color:var(--ink-2);font-weight:500}
 .place .zone{color:var(--ink-3);font-weight:400}
 .dday{
-  font-family:"IBM Plex Mono",monospace;font-size:11.5px;
-  font-variant-numeric:tabular-nums;color:var(--ink-3);white-space:nowrap;
+  font-family:"IBM Plex Mono",monospace;font-size:12.5px;
+  font-variant-numeric:tabular-nums;color:var(--ink-3);white-space:nowrap;font-weight:500;
 }
 .entry h3{
   font-family:Hahmlet,serif;font-weight:600;font-size:18px;line-height:1.34;
   margin:0;letter-spacing:-.015em;text-wrap:balance;
 }
-.artist{font-size:13.5px;color:var(--ink-2);margin:0}
-.blurb{margin:0;font-size:13.5px;line-height:1.72;color:var(--ink-2)}
+.artist{font-size:14px;color:var(--ink-2);margin:0}
+.blurb{margin:0;font-size:14.5px;line-height:1.78;color:var(--ink-2)}
 .entry-foot{
   display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;
   margin-top:3px;padding-top:9px;border-top:1px solid var(--line-2);
 }
 .run{font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-variant-numeric:tabular-nums;color:var(--ink-3)}
 .fee{
-  font-size:11.5px;font-weight:500;
+  font-size:12.5px;font-weight:500;
   color:var(--ink-2);background:var(--card-2);
   border:1px solid var(--line);border-radius:3px;
   padding:2px 8px;
   font-variant-numeric:tabular-nums;
 }
 .fee.free{color:var(--ink);border-color:var(--ink-3)}
-.read{font-size:12.5px;color:var(--seal);text-decoration:none;border-bottom:1px solid var(--seal-ring);padding-bottom:1px}
+.read{font-size:13.5px;color:var(--seal);text-decoration:none;border-bottom:1px solid var(--seal-ring);padding-bottom:1px}
 .read:hover{border-bottom-color:var(--seal)}
 .read .arr{font-family:"IBM Plex Mono",monospace}
 .read.map{color:var(--ink-3);border-bottom-color:var(--line)}
 .read.map:hover{color:var(--ink-2);border-bottom-color:var(--ink-3)}
-.headline{font-size:12px;color:var(--ink-3);width:100%;margin:0}
+.headline{font-size:12.5px;color:var(--ink-3);width:100%;margin:0}
 
 .empty{border:1px dashed var(--line);border-radius:4px;padding:26px 20px;text-align:center;color:var(--ink-3);font-size:13.5px}
 
@@ -304,7 +313,7 @@ button{font:inherit;color:inherit}
 .list .entry.off:hover{border-color:var(--line)}
 .region{
   font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
-  font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--seal);
+  font-size:11.5px;letter-spacing:.02em;color:var(--seal);
 }
 
 .profile{
@@ -319,13 +328,13 @@ button{font:inherit;color:inherit}
 }
 .profile-label{
   margin:0;font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
-  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);
+  font-size:11.5px;letter-spacing:.02em;color:var(--ink-3);
 }
 .profile-name{
   font-family:Hahmlet,serif;font-weight:600;font-size:24px;
   margin:0;letter-spacing:-.02em;
 }
-.bio{margin:0;font-size:14.5px;line-height:1.78;color:var(--ink-2)}
+.bio{margin:0;font-size:15.5px;line-height:1.82;color:var(--ink-2)}
 .links{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:4px 0 0;padding:0}
 .links a{
   display:inline-flex;align-items:baseline;gap:7px;
@@ -336,13 +345,13 @@ button{font:inherit;color:inherit}
 .links a:hover{border-color:var(--seal);color:var(--seal)}
 .links .handle{
   font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
-  font-size:12px;color:var(--ink-3);
+  font-size:13px;color:var(--ink-3);
 }
 .links a:hover .handle{color:var(--seal)}
 .byline a{color:var(--ink-2);text-underline-offset:3px;text-decoration-color:var(--line)}
 .byline a:hover{text-decoration-color:var(--seal)}
 
-.colophon{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);display:grid;gap:8px;font-size:12.5px;color:var(--ink-3);max-width:76ch}
+.colophon{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);display:grid;gap:9px;font-size:13px;line-height:1.7;color:var(--ink-3);max-width:72ch}
 .colophon b{color:var(--ink-2);font-weight:500}
 
 @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms !important;animation-duration:.01ms !important}}
@@ -385,19 +394,19 @@ button{font:inherit;color:inherit}
 
             <path d="M0,479 C48,530 96,575 144,620 C200,645 256,668 313,691 C354,705 396,720 438,730 C473,734 509,739 544,738 C579,714 609,689 644,664 C685,635 727,613 769,589 C804,568 840,545 875,526 C912,534 950,542 988,550 L1000,556"
                   fill="none" stroke="url(#riverFade)" stroke-width="32" stroke-linecap="round"/>
-            <text x="240" y="742" font-size="15" letter-spacing="7" fill="var(--ink-3)" opacity=".85">한 강</text>
+            <text x="240" y="742" font-size="24" letter-spacing="10" fill="var(--ink-3)" opacity=".9">한 강</text>
 
-            <g opacity=".5">
+            <g opacity=".62">
               <path d="M481,439 L489,422 L497,439 Z" fill="none" stroke="var(--ink-3)" stroke-width="1.6"/>
-              <text x="503" y="438" font-size="12.5" fill="var(--ink-3)">남산</text>
+              <text x="503" y="438" font-size="21" fill="var(--ink-3)">남산</text>
               <circle cx="391" cy="409" r="3.4" fill="var(--ink-3)"/>
-              <text x="383" y="413" font-size="12.5" text-anchor="end" fill="var(--ink-3)">서울역</text>
+              <text x="383" y="413" font-size="21" text-anchor="end" fill="var(--ink-3)">서울역</text>
               <circle cx="932" cy="730" r="3.4" fill="var(--ink-3)"/>
-              <text x="924" y="734" font-size="12.5" text-anchor="end" fill="var(--ink-3)">코엑스</text>
+              <text x="924" y="734" font-size="21" text-anchor="end" fill="var(--ink-3)">코엑스</text>
             </g>
 
-            <g id="zoneLabels"></g>
           </svg>
+          <div class="zone-layer" id="zoneLabels"></div>
           <div class="pin-layer" id="pinLayer"></div>
         </div>
         <div class="map-legend">
@@ -902,23 +911,23 @@ const projX = lon => (lon - BOUNDS.lonMin) / (BOUNDS.lonMax - BOUNDS.lonMin) * V
 const projY = lat => (BOUNDS.latMax - lat) / (BOUNDS.latMax - BOUNDS.latMin) * VB.h;
 
 const ZONES = [
-  { key:"평창",   name:"홍지·부암·평창",     lon:126.9540, lat:37.5960, rx:46, ry:36, lx:0,   ly:-48 },
+  { key:"평창",   short:"부암·평창", name:"홍지·부암·평창", lon:126.9540, lat:37.5960, rx:46, ry:36, lx:0,   ly:-48 },
   /* 창동·마곡은 약도 범위 밖이다. 권역 덩어리를 가장자리에서 잘리게 두어
      "여기서 지도가 끝났다"는 걸 모양으로 알린다(막대그래프의 물결선 자리). */
-  { key:"창동",   name:"창동·노원",          lon:127.0470, lat:37.6040, rx:46, ry:34, lx:-62, ly:5 },
-  { key:"삼청",   name:"삼청·소격·안국",     lon:126.9822, lat:37.5800, rx:84, ry:78, lx:0,   ly:-94 },
-  { key:"서촌",   name:"서촌·경복궁 서측",   lon:126.9715, lat:37.5790, rx:44, ry:34, lx:-56, ly:-2 },
-  { key:"광화문", name:"광화문·정동·서소문", lon:126.9740, lat:37.5660, rx:58, ry:48, lx:-30, ly:70 },
-  { key:"종로",   name:"종로·동대문·중구",   lon:126.9950, lat:37.5630, rx:50, ry:38, lx:0,   ly:54 },
-  { key:"연희",   name:"연희·서교·홍대",     lon:126.9370, lat:37.5580, rx:56, ry:70, lx:-80, ly:0 },
-  { key:"마곡",   name:"마곡·강서",          lon:126.9122, lat:37.5665, rx:42, ry:32, lx:64, ly:5 },
-  { key:"한남",   name:"한남·이태원",        lon:127.0005, lat:37.5372, rx:76, ry:70, lx:0,   ly:-86 },
-  { key:"용산",   name:"용산·이촌",          lon:126.9760, lat:37.5255, rx:52, ry:40, lx:-16, ly:56 },
-  { key:"성수",   name:"성수·서울숲",        lon:127.0440, lat:37.5445, rx:46, ry:36, lx:6,   ly:-48 },
-  { key:"청담",   name:"청담·압구정·신사",   lon:127.0430, lat:37.5250, rx:50, ry:38, lx:8,   ly:56 },
-  { key:"여의도", name:"여의도·영등포",      lon:126.9330, lat:37.5225, rx:66, ry:46, lx:10,  ly:64 },
-  { key:"관악",   name:"관악·사당",          lon:126.9800, lat:37.4785, rx:44, ry:34, lx:0,   ly:-52 },
-  { key:"서초",   name:"서초·예술의전당",    lon:127.0120, lat:37.4802, rx:48, ry:36, lx:0,   ly:52 }
+  { key:"창동",   short:"창동", name:"창동·노원", lon:127.0470, lat:37.6040, rx:46, ry:34, lx:-62, ly:5 },
+  { key:"삼청",   short:"삼청·소격", name:"삼청·소격·안국", lon:126.9822, lat:37.5800, rx:84, ry:78, lx:0,   ly:-94 },
+  { key:"서촌",   short:"서촌", name:"서촌·경복궁 서측", lon:126.9715, lat:37.5790, rx:44, ry:34, lx:-56, ly:-2 },
+  { key:"광화문", short:"광화문·정동", name:"광화문·정동·서소문", lon:126.9740, lat:37.5660, rx:58, ry:48, lx:-30, ly:70 },
+  { key:"종로",   short:"종로·중구", name:"종로·동대문·중구", lon:126.9950, lat:37.5630, rx:50, ry:38, lx:0,   ly:54 },
+  { key:"연희",   short:"연희·홍대", name:"연희·서교·홍대", lon:126.9370, lat:37.5580, rx:56, ry:70, lx:-80, ly:0 },
+  { key:"마곡",   short:"마곡", name:"마곡·강서", lon:126.9122, lat:37.5665, rx:42, ry:32, lx:64, ly:5 },
+  { key:"한남",   short:"한남·이태원", name:"한남·이태원", lon:127.0005, lat:37.5372, rx:76, ry:70, lx:0,   ly:-86 },
+  { key:"용산",   short:"용산", name:"용산·이촌", lon:126.9760, lat:37.5255, rx:52, ry:40, lx:-16, ly:56 },
+  { key:"성수",   short:"성수", name:"성수·서울숲", lon:127.0440, lat:37.5445, rx:46, ry:36, lx:6,   ly:-48 },
+  { key:"청담",   short:"청담·압구정", name:"청담·압구정·신사", lon:127.0430, lat:37.5250, rx:50, ry:38, lx:8,   ly:56 },
+  { key:"여의도", short:"여의도", name:"여의도·영등포", lon:126.9330, lat:37.5225, rx:66, ry:46, lx:10,  ly:64 },
+  { key:"관악",   short:"관악", name:"관악·사당", lon:126.9800, lat:37.4785, rx:44, ry:34, lx:0,   ly:-52 },
+  { key:"서초",   short:"서초", name:"서초·예술의전당", lon:127.0120, lat:37.4802, rx:48, ry:36, lx:0,   ly:52 }
 ];
 const zoneByKey = Object.fromEntries(ZONES.map(z => [z.key, z]));
 
@@ -1012,14 +1021,11 @@ function drawZones(){
     el.setAttribute("fill","var(--land-2)");
     shapes.appendChild(el);
 
-    const t = document.createElementNS(SVGNS,"text");
-    t.setAttribute("x", (x + z.lx).toFixed(1));
-    t.setAttribute("y", (y + z.ly).toFixed(1));
-    t.setAttribute("text-anchor","middle");
-    t.setAttribute("font-size","15.5");
-    t.setAttribute("font-weight","500");
-    t.setAttribute("fill","var(--ink-2)");
-    t.textContent = z.name;
+    const t = document.createElement("span");
+    t.className = "zone-label";
+    t.style.left = ((x + z.lx) / VB.w * 100).toFixed(3) + "%";
+    t.style.top  = ((y + z.ly) / VB.h * 100).toFixed(3) + "%";
+    t.textContent = z.short || z.name;
     labels.appendChild(t);
   });
 }
