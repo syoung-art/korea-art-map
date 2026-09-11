@@ -6,7 +6,6 @@
 <title>성수영 기자의 전시 지도(beta)</title>
 <meta name="description" content="지금 서울에서 열리는 추천 전시들">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="성수영 기자의 전시 지도">
 <meta property="og:title" content="성수영 기자의 전시 지도">
 <meta property="og:description" content="지금 서울에서 열리는 추천 전시들">
 <meta property="og:url" content="https://syoung-art.github.io/korea-art-map/">
@@ -125,11 +124,6 @@ button{font:inherit;color:inherit}
   color:var(--seal);border:1px solid var(--seal-ring);border-radius:999px;
   padding:.34em .8em;
 }
-/* 휴대폰 화면에서만 '기자'를 뗀다(2026-09-11 기자 지시).
-   좁은 화면에서는 짧은 편이 낫고, 직함은 공유될 때만 나오면 된다 —
-   og:title·og:site_name·공유 문구 첫 줄은 '성수영 기자의 전시 지도' 그대로다. */
-.ttl-short{display:none}
-@media (max-width:700px){.ttl-long{display:none}.ttl-short{display:inline}}
 .standfirst{margin:0;max-width:60ch;color:var(--ink-2);font-size:16.5px;line-height:1.72}
 /* 휴대폰에서는 소개문을 지워 지도가 곧바로 나오게 한다(2026-09-11 기자 지시).
    beta 표시는 제목 옆 배지가 계속 알려준다. */
@@ -170,6 +164,7 @@ button{font:inherit;color:inherit}
   cursor:pointer;transition:border-color .14s,color .14s;
 }
 .share-link:hover{border-color:var(--ink-3);color:var(--ink)}
+.share-link .ic{font-size:13px;line-height:1}
 .share-bar{margin-top:22px}
 .share-btn{
   display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
@@ -532,14 +527,14 @@ button{font:inherit;color:inherit}
 <div class="shell">
 
   <header class="masthead">
-    <h1><span class="ttl-long">성수영 기자의</span><span class="ttl-short">성수영의</span> 전시 지도<span class="beta">beta</span></h1>
+    <h1>성수영의 전시 지도<span class="beta">beta</span></h1>
     <p class="standfirst">진행중인 전시 중 가볼 만한 것들을 지도에 표시했습니다. 아직 베타테스트 단계입니다.</p>
     <p class="byline">
       <a class="author-link" href="#profile">
-        <span class="who">성수영 한국경제신문 문화부 기자</span>
+        <span class="who">성수영 한국경제신문 기자</span>
         <span class="more">소개<span class="more-ext"> · SNS</span></span>
       </a>
-      <button class="share-link" type="button" data-share="1">공유하기</button>
+      <button class="share-link" type="button" data-share="1"><span class="ic">🔗</span>공유</button>
     </p>
   </header>
 
