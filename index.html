@@ -1171,6 +1171,8 @@ function drawList(){
   const ul = document.getElementById("list");
   let items = OPEN.filter(e =>
     zoneFilter === "전체" || e.zone === zoneFilter || e.area === zoneFilter);
+  const groupSize = {};
+  items.forEach(e => { const k = e.zone || e.area; groupSize[k] = (groupSize[k]||0)+1; });
   items = items.slice().sort((a,b) => {
     if (sortMode === "별점"){
       const sa = a.stars || 0, sb = b.stars || 0;
@@ -1179,6 +1181,13 @@ function drawList(){
     }
     if (sortMode === "종료") return (daysLeft(a.end) ?? 9999) - (daysLeft(b.end) ?? 9999);
     if (sortMode === "권역"){
+      /* 서울 먼저, 그 안에서는 전시가 많은 동네 먼저.
+         한 건짜리 변두리로 목록이 시작하면 "어디 갈까"에 답이 안 된다.
+         지도 순서(북→남)대로 두려면 groupSize 비교만 지우면 된다. */
+      const sa = a.zone ? 0 : 1, sb = b.zone ? 0 : 1;
+      if (sa !== sb) return sa - sb;
+      const ga = groupSize[a.zone || a.area] || 0, gb = groupSize[b.zone || b.area] || 0;
+      if (ga !== gb) return gb - ga;
       const oa = orderOf(a), ob = orderOf(b);
       if (oa !== ob) return oa - ob;
       return (daysLeft(a.end) ?? 9999) - (daysLeft(b.end) ?? 9999);
@@ -1209,8 +1218,6 @@ function drawList(){
   /* 권역순으로 전체를 볼 때만 묶음 머리글을 끼운다. 카드만 넘겨봐도
      어디서 동네가 바뀌는지 보이게 하려는 것이다(2026-09-11 기자 지시). */
   const grouped = (sortMode === "권역" && zoneFilter === "전체");
-  const sizes = {};
-  if (grouped) items.forEach(e => { const k = e.zone || e.area; sizes[k] = (sizes[k]||0)+1; });
 
   let html = "", lastKey = null;
   items.forEach(e => {
@@ -1218,7 +1225,7 @@ function drawList(){
       const k = e.zone || e.area;
       if (k !== lastKey){
         const label = e.zone ? zoneByKey[e.zone].name : e.area;
-        html += `<li class="group-head"><span>${label}</span><span class="gn">${sizes[k]}</span></li>`;
+        html += `<li class="group-head"><span>${label}</span><span class="gn">${groupSize[k]}</span></li>`;
         lastKey = k;
       }
     }
