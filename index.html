@@ -32,6 +32,7 @@
   --seal:#B23A2E;
   --seal-deep:#8C2B21;
   --seal-ring:rgba(178,58,46,.26);
+  --seal-ghost:rgba(178,58,46,.09);
   --focus:#236F89;
   --shadow:0 1px 2px rgba(22,26,28,.06), 0 8px 24px -12px rgba(22,26,28,.22);
 }
@@ -51,6 +52,7 @@
     --seal:#E0705C;
     --seal-deep:#F09A8A;
     --seal-ring:rgba(224,112,92,.32);
+    --seal-ghost:rgba(224,112,92,.13);
     --focus:#5FB3C9;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
   }
@@ -70,6 +72,7 @@
   --seal:#E0705C;
   --seal-deep:#F09A8A;
   --seal-ring:rgba(224,112,92,.32);
+  --seal-ghost:rgba(224,112,92,.13);
   --focus:#5FB3C9;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
 }
@@ -360,11 +363,26 @@ button{font:inherit;color:inherit}
    단추 19개가 네 줄을 차지해 첫 카드까지 1572px을 내려야 했다.
    서울 권역은 지도에서 직접 누르면 되고, 지도에 점이 없어 손댈 길이
    없는 '서울 바깥'만 단추로 남긴다. 이 단추가 필터를 끄는 길도 겸한다. */
-.chip.out-chip{display:none}
-@media (max-width:1020px){
-  #zoneChips .chip:not(.out-chip),#zoneChips .ctrl-label{display:none}
-  .chip.out-chip{display:inline-block}
+@media (max-width:1020px){.controls #zoneChips{display:none}}
+/* 정렬 단추와 같은 알약으로 두면 같은 급으로 읽힌다는 지적(2026-09-11 기자).
+   지도 바로 밑에 폭 전체를 쓰는 띠로 붙여 "이 지도 밖에 더 있다"는 뜻을 자리로 말한다. */
+.out-bar{display:none}
+@media (max-width:1020px){.out-bar{display:block;margin-top:9px}}
+.out-btn{
+  display:flex;align-items:center;gap:9px;width:100%;
+  padding:14px 15px;border:1px solid var(--seal-ring);border-radius:4px;
+  background:var(--seal-ghost);color:var(--seal);
+  font-family:inherit;font-size:14.5px;font-weight:600;letter-spacing:-.01em;
+  text-align:left;cursor:pointer;
+  transition:background .14s,border-color .14s,color .14s;
 }
+.out-btn .out-n{
+  margin-left:auto;font-variant-numeric:tabular-nums;
+  font-size:12.5px;font-weight:500;opacity:.72;
+}
+.out-btn .out-arr{font-size:11px;opacity:.72}
+.out-btn[aria-pressed="true"]{background:var(--seal);border-color:var(--seal);color:#FCF8F7}
+.out-btn[aria-pressed="true"] .out-n,.out-btn[aria-pressed="true"] .out-arr{opacity:.85}
 .list .entry.off{background:var(--card-2);cursor:default}
 .list .entry.off:hover{border-color:var(--line)}
 .region{
@@ -482,6 +500,7 @@ button{font:inherit;color:inherit}
         </div>
       </div>
 
+      <div class="out-bar" id="outBar"></div>
     </section>
 
     <section aria-label="전시 목록">
@@ -1274,12 +1293,20 @@ function drawList(){
 
 /* 권역을 고른다. 좁은 화면에서는 목록이 지도 아래라 결과가 안 보이므로
    목록 머리로 데려간다 — 눌렀는데 아무 일도 없어 보이는 게 가장 나쁘다. */
+/* 지도 밑 띠 단추. 목록이 저 아래라 결과가 안 보이므로 목록 머리로 데려간다. */
+function pickOut(key){
+  zoneFilter = key; selected = null;
+  buildChips(); drawList(); paintSelection();
+  document.querySelector(".controls").scrollIntoView({ block:"start" });
+}
+
 function pickZone(key){
   zoneFilter = (zoneFilter === key) ? "전체" : key;
   selected = null;
   buildChips(); drawList(); paintSelection();
   if (matchMedia("(max-width:1020px)").matches && zoneFilter !== "전체"){
-    document.querySelector(".controls").scrollIntoView({ block:"start" });
+    /* 띠에 '전체 전시 보기'가 떠 있으므로 그것까지 보이는 자리로 맞춘다 */
+    document.getElementById("outBar").scrollIntoView({ block:"start" });
   }
 }
 
@@ -1329,14 +1356,23 @@ function buildChips(){
      전체를 보는 중이면 서울 바깥을 펼치고, 펼친 중이면 접고, 지도에서 권역을 골랐으면 그걸 푼다. */
   const offTotal = OPEN.filter(e => !e.zone).length;
   const out = zoneFilter === OUT_KEY
-    ? { to:"전체", label:"서울 바깥 전시 접기", n:offTotal, on:true }
+    ? { to:"전체", label:"서울 바깥 전시 접기", n:offTotal, on:true, arr:"▲" }
     : zoneFilter === "전체"
-      ? { to:OUT_KEY, label:"서울 바깥 전시 펼치기", n:offTotal, on:false }
-      : { to:"전체", label:"전체 전시 보기", n:OPEN.length, on:false };
+      ? { to:OUT_KEY, label:"서울 바깥 전시 펼치기", n:offTotal, on:false, arr:"▼" }
+      : { to:"전체", label:"전체 전시 보기", n:OPEN.length, on:false, arr:"↺" };
   zc.innerHTML = `<span class="ctrl-label">권역</span>`
     + ["전체", ...zoneKeys].map(chip).join("")
     + (areaKeys.length ? `<span class="ctrl-label split">지방</span>` + areaKeys.map(chip).join("") : "")
-    + (offTotal ? `<button class="chip out-chip" type="button" data-zone="${out.to}" aria-pressed="${out.on}">${out.label}<span class="n">${out.n}</span></button>` : "");
+;
+
+  const ob = document.getElementById("outBar");
+  ob.innerHTML = offTotal
+    ? `<button class="out-btn" type="button" data-zone="${out.to}" aria-pressed="${out.on}">`
+      + `<span>${out.label}</span><span class="out-n">${out.n}건</span>`
+      + `<span class="out-arr">${out.arr}</span></button>`
+    : "";
+  const ob_btn = ob.querySelector(".out-btn");
+  if (ob_btn) ob_btn.addEventListener("click", () => pickOut(ob_btn.dataset.zone));
   zc.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
     zoneFilter = c.dataset.zone; selected = null; buildChips(); drawList(); paintSelection();
   }));
