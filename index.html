@@ -421,6 +421,9 @@ button.read{background:none;border:0;border-bottom:1px solid var(--seal-ring);fo
 .read.map{color:var(--ink-3);border-bottom-color:var(--line)}
 .read.map:hover{color:var(--ink-2);border-bottom-color:var(--ink-3)}
 .headline{font-size:13px;line-height:1.6;color:var(--ink-3);width:100%;margin:0}
+/* 휴대폰에서는 기사 제목을 뺀다(2026-09-11 기자 지시).
+   전시명·작가·한줄평이면 충분하고, 기사 제목은 눌러서 가면 어차피 보인다. */
+@media (max-width:700px){.headline{display:none}}
 
 .empty{border:1px dashed var(--line);border-radius:4px;padding:26px 20px;text-align:center;color:var(--ink-3);font-size:13.5px}
 
@@ -1261,6 +1264,14 @@ const markHTML = e => {
 const PHOTOS = {"suh":"202608/01.45458019.1.jpg","conceptual":"202606/01.44770030.1.jpg","parkseobo":"202608/01.45437097.1.jpg","hamyangah":"202607/01.45265695.1.jpg","kangyobae":"202608/01.45303264.1.jpg","devlin":"202609/01.45383008.1.jpg","sunhyewon":"202609/01.45651745.1.jpg","kwoninkyung":"202608/01.45494300.1.jpg","yooyoungkuk":"202605/01.44453744.1.jpg","baselitz-sehwa":"202608/AA.45329090.1.jpg","koojeonga":"202609/AA.45548574.1.jpg","attia":"202608/01.45509880.1.jpg","iosifzon":"202608/01.45496184.1.jpg","sallyhan":"202608/01.45402603.1.jpg","atkins":"202609/01.45646522.1.jpg","sollewitt":"202609/AA.45638781.1.jpg","bapsang":"202606/01.44854991.1.jpg","chusa":"202608/01.45296132.1.jpg","consortium":"202609/01.45638139.1.jpg","banksy":"202607/01.45116380.1.jpg","cubist":"202605/AA.44341884.1.jpg","parkseobo-museum":"202608/01.45380144.1.jpg","choilala":"202609/01.45604025.1.jpg","goya":"202606/01.44819640.1.jpg","spain500":"202609/AA.45622873.1.jpg","martinparr":"202607/01.45042953.1.jpg","kaws":"202607/01.45111888.1.jpg","mmca-gwacheon":"202607/01.45006842.1.jpg","shiota":"202608/01.45498600.1.jpg","gwangju-biennale":"202609/01.45575679.1.jpg","austria-pavilion":"202609/AA.45622878.1.jpg","banghyeja":"202604/01.44115526.1.jpg"};
 const photoOf = e => PHOTOS[e.id] ? "https://img.hankyung.com/photo/" + PHOTOS[e.id] : null;
 
+/* 작가 이름이 전시 제목보다 중요하다. "강요배 - 소소, 반색"처럼 한 줄로 붙인다
+   (2026-09-11 기자 지시). 작가명과 전시명이 같으면 한 번만 쓴다. */
+function cardTitle(e){
+  const t = e.title || "", a = e.artist || "";
+  if (a && t && a !== t) return a + " - " + t;
+  return t || (a ? a + " 개인전" : e.venue);
+}
+
 function entryHTML(e){
   const notYet = isUpcoming(e);
   const zone = zoneByKey[e.zone];
@@ -1275,8 +1286,7 @@ function entryHTML(e){
       <span class="place">${e.venue} <span class="zone">· ${zone ? zone.name.split("·")[0] : (e.region || "지방")}</span></span>
       <span class="dday">${stamp}</span>
     </div>
-    <h3>${markHTML(e)}${e.title ? e.title : (e.artist ? e.artist + " 개인전" : e.venue)}</h3>
-    ${e.artist && e.title ? `<p class="artist">${e.artist}</p>` : ""}
+    <h3>${markHTML(e)}${cardTitle(e)}</h3>
     ${e.blurb ? `<p class="blurb">${e.blurb}</p>` : ""}
     ${photoOf(e) ? `<img class="shot" src="${photoOf(e)}" alt="" loading="lazy" decoding="async">` : ""}
     <div class="entry-foot">
@@ -1441,7 +1451,7 @@ async function shareOne(id){
      정적 사이트라 og는 파일 하나에 하나뿐이라서 이렇게 나눴다. */
   const root = location.pathname.replace(/index\.html$/, "");
   const url = location.origin + root + "e/" + encodeURIComponent(id) + "/";
-  const title = e.title || (e.artist ? e.artist + " 개인전" : e.venue);
+  const title = cardTitle(e);
   const tag = e.stars === 2 ? "[강력 추천] " : e.stars === 1 ? "[추천] " : "";
   const when = e.end ? ` (${md(e.end)}까지)` : "";
   const body = briefOf(e);
