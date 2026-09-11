@@ -1280,7 +1280,11 @@ boot();
   sync();
   btn.addEventListener("click", () => {
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    window.scrollTo({ top:0, behavior: still ? "auto" : "smooth" });
+    const before = window.scrollY;
+    try { window.scrollTo({ top:0, behavior: still ? "auto" : "smooth" }); } catch (e) {}
+    /* behavior:"smooth"가 통째로 무시되는 브라우저가 있다(실측). 그런 데서는
+       눌러도 아무 일이 안 일어나므로, 잠시 뒤 안 움직였으면 그냥 올린다. */
+    setTimeout(() => { if (window.scrollY >= before) window.scrollTo(0, 0); }, 350);
   });
 })();
 </script>
