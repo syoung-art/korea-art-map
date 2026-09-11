@@ -210,6 +210,17 @@ button{font:inherit;color:inherit}
 .pin-layer{position:absolute;inset:0}
 /* 권역 이름은 SVG 안에 두면 지도와 함께 줄어들어 휴대폰에서 5~6px이 된다.
    고정 크기 HTML로 빼내 어느 화면에서나 같은 크기로 읽히게 했다. */
+/* 권역 자체를 누를 수 있게 한다. 휴대폰에서 핀은 너무 작고 촘촘해
+   손가락으로 집기 어렵다는 지적(2026-09-11). 큰 과녁을 하나 더 준다. */
+.zone-hit{position:absolute;inset:0}
+.zone-hit button{
+  position:absolute;transform:translate(-50%,-50%);
+  border:0;padding:0;border-radius:50%;
+  background:transparent;cursor:pointer;
+  transition:background .14s;
+}
+.zone-hit button:hover,.zone-hit button:focus-visible{background:var(--seal-ghost)}
+.zone-hit button.on{background:var(--seal-ghost)}
 .zone-layer{position:absolute;inset:0;pointer-events:none}
 .zone-label{
   position:absolute;transform:translate(-50%,-50%);
@@ -389,6 +400,7 @@ button{font:inherit;color:inherit}
 .to-top.on{opacity:1;visibility:visible;transform:none}
 .to-top:hover{border-color:var(--seal);color:var(--seal)}
 
+@media (pointer:coarse){.pin{width:30px;height:30px}}
 @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms !important;animation-duration:.01ms !important}}
 </style>
 </head>
@@ -431,6 +443,7 @@ button{font:inherit;color:inherit}
             <!-- 서울역·남산·코엑스 표시는 권역 이름과 겹쳐 뺐다(2026-09-11). 한강만 남긴다. -->
 
           </svg>
+          <div class="zone-hit" id="zoneHits"></div>
           <div class="zone-layer" id="zoneLabels"></div>
           <div class="pin-layer" id="pinLayer"></div>
         </div>
@@ -438,6 +451,7 @@ button{font:inherit;color:inherit}
           <span class="scale"><i class="mk m0"></i>좋은 전시</span>
           <span class="scale"><i class="mk m1"></i>추천</span>
           <span class="scale"><i class="mk m2"></i>강력 추천</span>
+          <span>권역을 누르면 그 동네 전시만 봅니다</span>
           <span>위치는 권역 기준 대략치입니다</span>
         </div>
       </div>
@@ -1043,8 +1057,9 @@ const SVGNS = "http://www.w3.org/2000/svg";
 function drawZones(){
   const shapes = document.getElementById("zoneShapes");
   const labels = document.getElementById("zoneLabels");
+  const hits   = document.getElementById("zoneHits");
   const used = new Set(PINNED.map(e => e.zone));
-  shapes.innerHTML = ""; labels.innerHTML = "";
+  shapes.innerHTML = ""; labels.innerHTML = ""; hits.innerHTML = "";
   ZONES.filter(z => used.has(z.key)).forEach(z => {
     const x = projX(z.lon), y = projY(z.lat);
     const el = document.createElementNS(SVGNS,"ellipse");
@@ -1059,6 +1074,18 @@ function drawZones(){
     t.style.top  = ((y + z.ly) / VB.h * 100).toFixed(3) + "%";
     t.textContent = z.short || z.name;
     labels.appendChild(t);
+
+    /* 권역 과녁 — 덩어리 크기 그대로 누를 수 있게 한다 */
+    const hit = document.createElement("button");
+    hit.type = "button";
+    hit.dataset.zone = z.key;
+    hit.style.left   = (x / VB.w * 100).toFixed(3) + "%";
+    hit.style.top    = (y / VB.h * 100).toFixed(3) + "%";
+    hit.style.width  = (z.rx * 2 / VB.w * 100).toFixed(3) + "%";
+    hit.style.height = (z.ry * 2 / VB.h * 100).toFixed(3) + "%";
+    hit.setAttribute("aria-label", z.name + " 전시만 보기");
+    hit.addEventListener("click", () => pickZone(z.key));
+    hits.appendChild(hit);
   });
 }
 
@@ -1178,12 +1205,31 @@ function drawList(){
       if (ev.target.closest("a")) return;
       if (ev.type === "keydown" && ev.key !== "Enter" && ev.key !== " ") return;
       if (ev.type === "keydown") ev.preventDefault();
+      /* 지도가 목록 옆에 보이는 넓은 화면에서만 핀을 켠다.
+         좁은 화면에서는 지도가 화면 밖이라 눌러도 아무 반응이 없어 보인다 —
+         그래서 카드를 누르면 곧장 기사로 간다(2026-09-11 독자 반응). */
+      if (matchMedia("(max-width:1020px)").matches){
+        const e = OPEN.find(x => x.id === li.dataset.id);
+        if (e) window.open(e.naverUrl || e.url, "_blank", "noopener");
+        return;
+      }
       select(li.dataset.id, false);
     };
     li.addEventListener("click", go);
     li.addEventListener("keydown", go);
   });
   paintSelection();
+}
+
+/* 권역을 고른다. 좁은 화면에서는 목록이 지도 아래라 결과가 안 보이므로
+   목록 머리로 데려간다 — 눌렀는데 아무 일도 없어 보이는 게 가장 나쁘다. */
+function pickZone(key){
+  zoneFilter = (zoneFilter === key) ? "전체" : key;
+  selected = null;
+  buildChips(); drawList(); paintSelection();
+  if (matchMedia("(max-width:1020px)").matches && zoneFilter !== "전체"){
+    document.querySelector(".controls").scrollIntoView({ block:"start" });
+  }
 }
 
 function paintSelection(){
@@ -1193,6 +1239,8 @@ function paintSelection(){
     p.classList.toggle("dim", zoneFilter !== "전체" && e && e.zone !== zoneFilter);
   });
   document.querySelectorAll(".list .entry").forEach(li => li.classList.toggle("on", li.dataset.id === selected));
+  document.querySelectorAll(".zone-hit button").forEach(b =>
+    b.classList.toggle("on", b.dataset.zone === zoneFilter));
 }
 
 function select(id, fromMap){
