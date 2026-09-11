@@ -196,16 +196,21 @@ button{font:inherit;color:inherit}
    지도 핀·범례·목록이 이 한 벌을 같이 쓴다. --mkgap은 틈 색이라
    놓이는 배경에 맞춰 각 자리에서 덮어쓴다. */
 .mk{
-  display:inline-block;width:15px;height:15px;border-radius:50%;
-  flex:none;vertical-align:-3px;--mkgap:var(--card);
+  display:inline-block;border-radius:50%;
+  flex:none;--mkgap:var(--card);
   transition:transform .16s cubic-bezier(.2,.8,.3,1),background .16s;
 }
-.mk.m0{background:transparent;border:2.5px solid var(--seal);opacity:.92}
-.mk.m1{background:var(--seal)}
-/* 바깥 테 / 얇은 틈 / 꽉 찬 가운데 원. 바깥 지름은 m0·m1과 같다 */
+/* 아래 두 단계는 지름이 같다 — 속이 비었나 찼나로만 갈린다 */
+.mk.m0{
+  width:11px;height:11px;vertical-align:-1px;
+  background:transparent;border:2.5px solid var(--seal);opacity:.9;
+}
+.mk.m1{width:11px;height:11px;vertical-align:-1px;background:var(--seal)}
+/* 강력 추천만 크다. 바깥 테 / 얇은 틈 / 꽉 찬 가운데 원 */
 .mk.m2{
-  background:transparent;border:2.2px solid var(--seal);
-  box-shadow:inset 0 0 0 1.3px var(--mkgap), inset 0 0 0 11px var(--seal);
+  width:16px;height:16px;vertical-align:-3px;
+  background:transparent;border:2.4px solid var(--seal);
+  box-shadow:inset 0 0 0 1.4px var(--mkgap), inset 0 0 0 11px var(--seal);
 }
 .pin i{display:block;--mkgap:var(--land)}
 .pin.s1{z-index:2}
@@ -436,7 +441,7 @@ button{font:inherit;color:inherit}
 
   <footer class="colophon">
     <p><b>전시 기간은 기사 게재 시점에 확인한 일정입니다.</b> 연장되거나 앞당겨 끝나는 경우가 있으니 방문 전 각 미술관·갤러리 공지를 확인하시기 바랍니다. 휴관일도 공간마다 다릅니다.</p>
-    <p>지도의 점은 실제 주소가 아니라 <b>권역 기준 대략적 위치</b>입니다. 같은 동네의 공간들은 겹치지 않도록 조금씩 벌려 찍었습니다.</p>
+    <p>지도의 점은 실제 주소가 아니라 <b>권역 기준 대략적 위치</b>입니다. 같은 동네의 공간들은 겹치지 않도록 조금씩 벌려 찍었고, 창동·노원과 마곡·강서는 약도 범위를 벗어나 가장자리에 붙여 찍었습니다. 정확한 위치는 각 전시의 네이버지도 링크로 확인하십시오.</p>
     <p id="sourceLine"></p>
   </footer>
 
@@ -771,14 +776,14 @@ const EXHIBITIONS = [
  headline:"반 고흐부터 마틴 파까지…명작으로 더위 날려볼까", published:"2026-08-06"},
 
 /* ── 지도 밖 ──────────────────────────────────────────────────── */
-{id:"martinparr", stars:2, zone:null, area:"서울 외곽", region:"서울 창동", lon:127.0480, lat:37.6537,
+{id:"martinparr", stars:2, zone:"창동", lon:127.0470, lat:37.5985,
  venue:"서울시립 사진미술관", title:"마틴 파: 위 아 마틴 파", artist:"마틴 파",
  start:"2026-07-16", end:"2026-10-18",
  blurb:"총 595점에 달하는 작품을 통해 파가 어떤 작가였는지를 보여주는 대규모 회고전이다.",
  url:"https://www.hankyung.com/article/202607156787i", urlAlt:"https://www.hankyung.com/article/2026072051541",
  headline:"오늘 휴대폰으로 찍는 평범한 일상, 이 거장이 30년 전에 찍었다", published:"2026-07-16"},
 
-{id:"kaws", stars:1, zone:null, area:"서울 외곽", region:"서울 마곡", lon:126.8280, lat:37.5670,
+{id:"kaws", stars:1, zone:"마곡", lon:126.9185, lat:37.5665,
  venue:"스페이스K 서울", title:"친구, 그리고 이웃", artist:"카우스",
  start:"2026-07-23", end:"2026-12-27",
  blurb:"전시장의 주인공은 ‘아주 친한 친구’라는 뜻의 캐릭터 ‘첨(CHUM)’이다.",
@@ -875,11 +880,13 @@ const projY = lat => (BOUNDS.latMax - lat) / (BOUNDS.latMax - BOUNDS.latMin) * V
 
 const ZONES = [
   { key:"평창",   name:"홍지·부암·평창",     lon:126.9540, lat:37.5960, rx:46, ry:36, lx:0,   ly:-48 },
+  { key:"창동",   name:"창동·노원",          lon:127.0470, lat:37.5985, rx:44, ry:32, lx:0,   ly:46 },
   { key:"삼청",   name:"삼청·소격·안국",     lon:126.9822, lat:37.5800, rx:84, ry:78, lx:0,   ly:-94 },
   { key:"서촌",   name:"서촌·경복궁 서측",   lon:126.9715, lat:37.5790, rx:44, ry:34, lx:-56, ly:-2 },
   { key:"광화문", name:"광화문·정동·서소문", lon:126.9740, lat:37.5660, rx:58, ry:48, lx:-30, ly:70 },
   { key:"종로",   name:"종로·동대문·중구",   lon:126.9950, lat:37.5630, rx:50, ry:38, lx:0,   ly:54 },
   { key:"연희",   name:"연희·서교·홍대",     lon:126.9370, lat:37.5580, rx:56, ry:70, lx:-80, ly:0 },
+  { key:"마곡",   name:"마곡·강서",          lon:126.9185, lat:37.5665, rx:40, ry:30, lx:0,   ly:44 },
   { key:"한남",   name:"한남·이태원",        lon:127.0005, lat:37.5372, rx:76, ry:70, lx:0,   ly:-86 },
   { key:"용산",   name:"용산·이촌",          lon:126.9760, lat:37.5255, rx:52, ry:40, lx:-16, ly:56 },
   { key:"성수",   name:"성수·서울숲",        lon:127.0440, lat:37.5445, rx:46, ry:36, lx:6,   ly:-48 },
