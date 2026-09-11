@@ -461,7 +461,10 @@ button{font:inherit;color:inherit}
      zone   : 지도 권역 키(아래 ZONES). 지도 범위 밖이면 null
      region : zone이 null일 때 어디인지 (예: "서울 창동", "대전")
      end    : 종료일. 확인된 것만 적는다 — 확인 못 하면 지도에 올리지 않는다
-     url    : 한경 기사. urlAlt는 같은 전시의 짝 기사(지면판·인터넷판)
+     url    : 한경 기사. 카드에 뜨는 링크는 이것 하나뿐이다.
+     urlAlt : 같은 전시의 짝 기사(지면판·인터넷판). **화면에는 안 나온다** —
+              내용이 거의 같아 두 링크가 무의미하다는 기자 판단(2026-09-11).
+              어느 기사와 짝인지 남겨두는 용도로만 데이터에 둔다
      naverUrl : 네이버뉴스 주소(n.news.naver.com/...). 적어 두면 '기사 읽기'가
                 한경 대신 이쪽으로 간다. 비어 있으면 url을 쓴다
      mapq   : 네이버지도 검색어. 안 적으면 venue에서 괄호만 떼고 검색한다.
@@ -1059,7 +1062,6 @@ function entryHTML(e){
   const stamp = notYet ? `${md(e.start)} 개막`
               : (e.end ? `${md(e.end)}까지` : "기간 미확인");
   const links = [`<a class="read" href="${e.naverUrl || e.url}" target="_blank" rel="noopener">기사 읽기 <span class="arr">→</span></a>`];
-  if (e.urlAlt) links.push(`<a class="read" href="${e.urlAlt}" target="_blank" rel="noopener">다른 기사 <span class="arr">→</span></a>`);
   links.push(`<a class="read map" href="https://map.naver.com/p/search/${encodeURIComponent(mapQuery(e))}" target="_blank" rel="noopener">네이버지도 <span class="arr">↗</span></a>`);
   return `
     <div class="entry-top">
