@@ -1415,7 +1415,11 @@ function briefOf(e){
 async function shareOne(id){
   const e = OPEN.find(x => x.id === id);
   if (!e) return;
-  const url = location.origin + location.pathname + "?id=" + encodeURIComponent(id);
+  /* 전시마다 따로 있는 주소를 보낸다. 그 페이지의 og 태그가 기사 사진과
+     한줄평을 실어 카톡에서 큰 그림으로 뜨고, 열면 지도의 이 카드로 온다.
+     정적 사이트라 og는 파일 하나에 하나뿐이라서 이렇게 나눴다. */
+  const root = location.pathname.replace(/index\.html$/, "");
+  const url = location.origin + root + "e/" + encodeURIComponent(id) + "/";
   const title = e.title || (e.artist ? e.artist + " 개인전" : e.venue);
   const tag = e.stars === 2 ? "[강력 추천] " : e.stars === 1 ? "[추천] " : "";
   const when = e.end ? ` (${md(e.end)}까지)` : "";
