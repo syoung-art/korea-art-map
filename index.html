@@ -113,6 +113,10 @@ button{font:inherit;color:inherit}
   color:var(--seal);border:1px solid var(--seal-ring);border-radius:999px;
   padding:.34em .8em;
 }
+/* 휴대폰에서는 제목을 '성수영의 전시 지도'로 줄인다(2026-09-11 기자 지시).
+   좁은 화면에서 두 줄로 접히는 것을 막는다. <title>·og:title은 그대로 둔다. */
+.ttl-short{display:none}
+@media (max-width:700px){.ttl-long{display:none}.ttl-short{display:inline}}
 .standfirst{margin:0;max-width:60ch;color:var(--ink-2);font-size:16.5px;line-height:1.72}
 /* 휴대폰에서는 소개문을 지워 지도가 곧바로 나오게 한다(2026-09-11 기자 지시).
    beta 표시는 제목 옆 배지가 계속 알려준다. */
@@ -173,10 +177,13 @@ button{font:inherit;color:inherit}
    제목 다음에 곧바로 지도가 오도록 머리글에서 내렸다. */
 .tally-line{
   display:flex;flex-wrap:wrap;align-items:baseline;gap:5px 12px;
-  margin:13px 2px 0;font-size:13px;color:var(--ink-3);
+  margin:0;font-size:13px;color:var(--ink-3);
 }
 .tally-line b{color:var(--ink-2);font-weight:500}
-.rating-key{padding:16px 2px 2px}
+/* 집계와 별점 기준은 맨 아래로 내렸다(2026-09-11 기자 지시).
+   지도 바로 밑을 비워야 전시 카드가 빨리 나온다. 지도 옆 범례가 별점 모양은 계속 알려준다. */
+.pagefoot{margin-top:46px;padding-top:26px;border-top:1px solid var(--line);display:grid;gap:16px;justify-items:start}
+.rating-key{padding:0}
 .key-label{
   margin:0 0 9px;font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
   font-size:11.5px;letter-spacing:.02em;color:var(--ink-3);
@@ -204,7 +211,6 @@ button{font:inherit;color:inherit}
   .map-frame{max-width:100%}
   /* 모바일에서는 지도가 먼저 와야 하므로 붙는 여백을 줄인다 */
   .board{padding-top:18px}
-  .rating-key{padding-top:16px}
 }
 .map-base{display:block;width:100%;height:auto}
 .pin-layer{position:absolute;inset:0}
@@ -430,7 +436,7 @@ button{font:inherit;color:inherit}
 <div class="shell">
 
   <header class="masthead">
-    <h1>성수영 기자의 전시 지도<span class="beta">beta</span></h1>
+    <h1><span class="ttl-long">성수영 기자의</span><span class="ttl-short">성수영의</span> 전시 지도<span class="beta">beta</span></h1>
     <p class="standfirst">진행중인 전시 중 가볼 만한 것들을 지도에 표시했습니다. 아직 베타테스트 단계입니다.</p>
     <p class="byline">
       <a class="author-link" href="#profile">
@@ -472,25 +478,10 @@ button{font:inherit;color:inherit}
           <span class="scale"><i class="mk m0"></i>좋은 전시</span>
           <span class="scale"><i class="mk m1"></i>추천</span>
           <span class="scale"><i class="mk m2"></i>강력 추천</span>
-          <span>권역을 누르면 그 동네 전시만 봅니다</span>
-          <span>위치는 권역 기준 대략치입니다</span>
+          <span>권역별 대략적인 위치입니다</span>
         </div>
       </div>
 
-      <p class="tally-line">
-        <span class="tally" id="tally">—</span>
-        <span>·</span><span>기준일 <b id="today">—</b></span>
-      </p>
-
-      <section class="rating-key" aria-label="별점 기준">
-        <p class="key-label">별점 기준</p>
-        <ul>
-          <li><span class="mk m0"></span><span class="what">좋은 전시</span></li>
-          <li><span class="mk m1"></span><span class="what">기자가 추천하는 전시</span></li>
-          <li><span class="mk m2"></span><span class="what">기자가 강력 추천하는 전시</span></li>
-        </ul>
-        <p class="key-note">별점은 개인적인 취향이 반영된 평가로, 한국경제신문 및 아르떼의 공식 입장과 관련 없습니다.</p>
-      </section>
     </section>
 
     <section aria-label="전시 목록">
@@ -525,6 +516,22 @@ button{font:inherit;color:inherit}
       <li><a href="mailto:syoung@hankyung.com">
         강연·방송 문의 <span class="handle">syoung@hankyung.com</span></a></li>
     </ul>
+  </section>
+
+  <section class="pagefoot" aria-label="별점 기준과 집계">
+    <div class="rating-key">
+      <p class="key-label">별점 기준</p>
+      <ul>
+        <li><span class="mk m0"></span><span class="what">좋은 전시</span></li>
+        <li><span class="mk m1"></span><span class="what">기자가 추천하는 전시</span></li>
+        <li><span class="mk m2"></span><span class="what">기자가 강력 추천하는 전시</span></li>
+      </ul>
+      <p class="key-note">별점은 개인적인 취향이 반영된 평가로, 한국경제신문 및 아르떼의 공식 입장과 관련 없습니다.</p>
+    </div>
+    <p class="tally-line">
+      <span class="tally" id="tally">—</span>
+      <span>·</span><span>기준일 <b id="today">—</b></span>
+    </p>
   </section>
 
   <footer class="colophon">
@@ -1213,19 +1220,12 @@ function drawList(){
     : zoneFilter === OUT_KEY ? "서울 바깥 전시"
     : (zoneByKey[zoneFilter] ? zoneByKey[zoneFilter].name : zoneFilter);
 
+  /* 전체를 볼 때는 안내문을 띄우지 않는다(2026-09-11 기자 지시).
+     지방만 따로 걸러 볼 때만 점이 없는 이유를 한 줄로 알린다. */
   const note = document.getElementById("offNote");
   const offCount = items.filter(e => !e.zone).length;
-  if (offCount){
-    note.hidden = false;
-    note.textContent = zoneFilter === "전체"
-      ? `이 가운데 ${offCount}건은 서울 외곽과 지방이라 약도에 점이 없습니다. ${
-          matchMedia("(max-width:1020px)").matches
-            ? "위 '서울 바깥 전시 펼치기'를 누르면"
-            : "위 권역 단추에서 지역을 고르면"} 따로 볼 수 있습니다.`
-      : "약도 범위를 벗어난 곳이라 지도에 점이 없습니다.";
-  } else {
-    note.hidden = true;
-  }
+  note.hidden = !(offCount && zoneFilter !== "전체");
+  if (!note.hidden) note.textContent = "약도 범위를 벗어난 곳이라 지도에 점이 없습니다.";
 
   if (!items.length){
     ul.innerHTML = `<li class="empty">여기는 지금 열려 있는 전시가 없습니다.</li>`;
@@ -1342,7 +1342,7 @@ function buildChips(){
   }));
 
   const sc = document.getElementById("sortChips");
-  const modes = [["권역","권역순"],["별점","별점순"],["최신","기사 최신순"],["종료","종료 빠른 순"]];
+  const modes = [["권역","권역순"],["별점","별점순"],["종료","종료 빠른 순"]];
   sc.innerHTML = `<span class="ctrl-label">정렬</span>` + modes.map(([k,label]) =>
     `<button class="chip" type="button" data-sort="${k}" aria-pressed="${sortMode === k}">${label}</button>`).join("");
   sc.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
