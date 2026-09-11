@@ -6,7 +6,7 @@
 <title>성수영 기자의 전시 지도(beta)</title>
 <meta name="description" content="한국경제신문 성수영 기자가 다녀와 기사로 쓴 전시 가운데 지금 열려 있는 곳을 서울 권역 지도에 표시했습니다.">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="성수영 기자의 전시 지도">
+<meta property="og:site_name" content="성수영 기자의 미술지도">
 <meta property="og:title" content="성수영 기자의 전시 지도(beta)">
 <meta property="og:description" content="지금 서울에서 열리는 전시 중 가볼 만한 곳을 지도에 표시했습니다. 점을 누르면 전시 정보가 열리고 기사로 이어집니다.">
 <meta property="og:url" content="https://syoung-art.github.io/korea-art-map/">
@@ -1437,6 +1437,10 @@ function toast(msg){
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove("on"), 2200);
 }
+/* 공유창 첫 줄에 뜨는 이름표. title과 text가 같은 말을 담으면 받는 쪽에서
+   두 번 찍힌다(2026-09-11 기자 지적). 여기는 이름만 두고 내용은 text에만 싣는다. */
+const SHARE_TITLE = "성수영 기자의 미술지도";
+
 /* 전시 하나를 보낸다. 별점과 한줄평을 문구에 실어 받는 사람이 열기 전에 안다. */
 function briefOf(e){
   const b = (e.blurb || "").trim();
@@ -1456,7 +1460,7 @@ async function shareOne(id){
   const when = e.end ? ` (${md(e.end)}까지)` : "";
   const body = briefOf(e);
   const data = {
-    title: `${title} — ${e.venue}`,
+    title: SHARE_TITLE,
     text: `${tag}${title} · ${e.venue}${when}
 ${body}`,
     url
@@ -1483,7 +1487,7 @@ function openPending(){
 
 async function doShare(){
   const url = shareUrl();
-  const data = { title: "성수영 기자의 전시 지도", text: shareText(), url };
+  const data = { title: SHARE_TITLE, text: shareText(), url };
   /* 폰은 네이티브 공유 시트(카톡·인스타·문자)가 뜬다. PC는 대개 없어서 주소 복사로 간다. */
   if (navigator.share){
     try { await navigator.share(data); return; }
