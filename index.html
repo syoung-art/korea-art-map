@@ -114,6 +114,9 @@ button{font:inherit;color:inherit}
   padding:.34em .8em;
 }
 .standfirst{margin:0;max-width:60ch;color:var(--ink-2);font-size:16.5px;line-height:1.72}
+/* 휴대폰에서는 소개문을 지워 지도가 곧바로 나오게 한다(2026-09-11 기자 지시).
+   beta 표시는 제목 옆 배지가 계속 알려준다. */
+@media (max-width:700px){.standfirst{display:none}}
 .off-note{
   margin:0;padding:10px 13px;
   border:1px dashed var(--line);border-radius:4px;
