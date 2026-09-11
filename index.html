@@ -367,6 +367,18 @@ button{font:inherit;color:inherit}
   padding:15px 17px 14px;display:grid;gap:6px;
   transition:border-color .14s,box-shadow .14s;
 }
+/* 기사 첫 사진을 카드 오른쪽에 작게 붙인다(2026-09-11 기자 지시).
+   84px면 카드 최소 높이(186px) 안에 들어가 목록 길이가 늘지 않는다 —
+   큰 사진을 넣으면 한 화면 카드가 3.1장에서 1.8장으로 줄어 "어디 갈까" 비교가 안 된다.
+   사진은 한경 서버를 그대로 가리킨다. 묶음 기사에 물린 건은 사진이 그 전시 것이
+   아니라서 아예 넣지 않는다. */
+.entry.has-shot{grid-template-columns:minmax(0,1fr) 84px}
+.entry.has-shot > *{grid-column:1}
+.shot{
+  grid-column:2;grid-row:1 / span 3;align-self:start;
+  width:84px;height:84px;object-fit:cover;
+  border:1px solid var(--line);border-radius:3px;background:var(--card-2);
+}
 .list .entry{cursor:pointer}
 .list .entry:hover{border-color:var(--ink-3)}
 .entry.on{border-color:var(--seal);box-shadow:0 0 0 1px var(--seal),var(--shadow)}
@@ -1241,6 +1253,10 @@ const markHTML = e => {
   return `<span class="mk m${lv}" role="img" aria-label="${MARK_LABEL[lv]}"></span>`;
 };
 
+/* 기사 첫 사진(한경 서버). 단독 기사 32건만 — 묶음 기사는 첫 사진이 다른 전시 것이다. */
+const PHOTOS = {"suh":"202608/01.45458019.1.jpg","conceptual":"202606/01.44770030.1.jpg","parkseobo":"202608/01.45437097.1.jpg","hamyangah":"202607/01.45265695.1.jpg","kangyobae":"202608/01.45303264.1.jpg","devlin":"202609/01.45383008.1.jpg","sunhyewon":"202609/01.45651745.1.jpg","kwoninkyung":"202608/01.45494300.1.jpg","yooyoungkuk":"202605/01.44453744.1.jpg","baselitz-sehwa":"202608/AA.45329090.1.jpg","koojeonga":"202609/AA.45548574.1.jpg","attia":"202608/01.45509880.1.jpg","iosifzon":"202608/01.45496184.1.jpg","sallyhan":"202608/01.45402603.1.jpg","atkins":"202609/01.45646522.1.jpg","sollewitt":"202609/AA.45638781.1.jpg","bapsang":"202606/01.44854991.1.jpg","chusa":"202608/01.45296132.1.jpg","consortium":"202609/01.45638139.1.jpg","banksy":"202607/01.45116380.1.jpg","cubist":"202605/AA.44341884.1.jpg","parkseobo-museum":"202608/01.45380144.1.jpg","choilala":"202609/01.45604025.1.jpg","goya":"202606/01.44819640.1.jpg","spain500":"202609/AA.45622873.1.jpg","martinparr":"202607/01.45042953.1.jpg","kaws":"202607/01.45111888.1.jpg","mmca-gwacheon":"202607/01.45006842.1.jpg","shiota":"202608/01.45498600.1.jpg","gwangju-biennale":"202609/01.45575679.1.jpg","austria-pavilion":"202609/AA.45622878.1.jpg","banghyeja":"202604/01.44115526.1.jpg"};
+const photoOf = e => PHOTOS[e.id] ? "https://img.hankyung.com/photo/" + PHOTOS[e.id] : null;
+
 function entryHTML(e){
   const notYet = isUpcoming(e);
   const zone = zoneByKey[e.zone];
@@ -1258,6 +1274,7 @@ function entryHTML(e){
     <h3>${markHTML(e)}${e.title ? e.title : (e.artist ? e.artist + " 개인전" : e.venue)}</h3>
     ${e.artist && e.title ? `<p class="artist">${e.artist}</p>` : ""}
     ${e.blurb ? `<p class="blurb">${e.blurb}</p>` : ""}
+    ${photoOf(e) ? `<img class="shot" src="${photoOf(e)}" alt="" loading="lazy" decoding="async">` : ""}
     <div class="entry-foot">
       ${e.fee ? `<span class="fee${e.fee === "무료" ? " free" : ""}">${e.fee}${e.booking ? " · 예약 필수" : ""}</span>` : ""}
       ${links.join("")}
@@ -1333,7 +1350,7 @@ function drawList(){
     }
     /* 지도에 점이 없는 건도 data-id를 준다. 없으면 아래 핸들러가 안 붙어
        "본문을 눌러도 기사로 안 나간다"가 된다(2026-09-11 독자 민원). */
-    html += `<li class="entry${e.zone ? "" : " off"}" data-id="${e.id}" tabindex="0" role="button">${entryHTML(e)}</li>`;
+    html += `<li class="entry${e.zone ? "" : " off"}${photoOf(e) ? " has-shot" : ""}" data-id="${e.id}" tabindex="0" role="button">${entryHTML(e)}</li>`;
   });
   ul.innerHTML = html;
 
