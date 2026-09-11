@@ -1296,8 +1296,13 @@ function buildChips(){
     const k = e.zone || e.area;
     if (k) counts[k] = (counts[k] || 0) + 1;
   });
-  const zoneKeys = ZONES.map(z => z.key).filter(k => counts[k]);
-  const areaKeys = AREA_ORDER.filter(k => counts[k]);
+  /* 단추도 목록과 같이 전시 많은 순이다(2026-09-11 기자 지시).
+     한 건짜리 동네가 줄 앞에 오면 고를 이유가 없는 것이 먼저 보인다. */
+  const bySize = (a,b) => counts[b] - counts[a]
+    || ZONES.findIndex(z => z.key === a) - ZONES.findIndex(z => z.key === b);
+  const zoneKeys = ZONES.map(z => z.key).filter(k => counts[k]).sort(bySize);
+  const areaKeys = AREA_ORDER.filter(k => counts[k])
+    .sort((a,b) => counts[b] - counts[a] || AREA_ORDER.indexOf(a) - AREA_ORDER.indexOf(b));
   const chip = k => {
     const label = k === "전체" ? "전체" : (zoneByKey[k] ? zoneByKey[k].name : k);
     const n = k === "전체" ? OPEN.length : counts[k];
