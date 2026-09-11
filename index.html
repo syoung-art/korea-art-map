@@ -350,13 +350,15 @@ button{font:inherit;color:inherit}
 .outer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,420px));justify-content:start;gap:10px;list-style:none;margin:0;padding:0}
 .ctrl-label.split{margin-left:8px;padding-left:14px;border-left:1px solid var(--line)}
 .chip.area-chip[aria-pressed="true"]{background:var(--ink-2);border-color:var(--ink-2);color:var(--card)}
-/* 좁은 화면에서는 서울 권역 단추를 숨긴다(2026-09-11 기자 지시).
-   19개가 네 줄을 차지해 첫 카드까지 1500px을 내려야 했다.
-   서울 권역은 지도에서 직접 누를 수 있으니 기능은 안 잃는다.
-   지방은 지도에 핀이 없어 이 단추가 유일한 경로라 남긴다. */
-@media (max-width:1020px){.chip.zone-chip{display:none}
-  /* 권역 단추가 사라지면 "권역" 머리말도 뜻이 없다. "전체"는 남긴다 — 지도에서 켠 권역을 끄는 유일한 단추다. */
-  #zoneChips .ctrl-label:not(.split){display:none}}
+/* 좁은 화면에서는 권역 줄 전체를 단추 하나로 접는다(2026-09-11 기자 지시).
+   단추 19개가 네 줄을 차지해 첫 카드까지 1572px을 내려야 했다.
+   서울 권역은 지도에서 직접 누르면 되고, 지도에 점이 없어 손댈 길이
+   없는 '서울 바깥'만 단추로 남긴다. 이 단추가 필터를 끄는 길도 겸한다. */
+.chip.out-chip{display:none}
+@media (max-width:1020px){
+  #zoneChips .chip:not(.out-chip),#zoneChips .ctrl-label{display:none}
+  .chip.out-chip{display:inline-block}
+}
 .list .entry.off{background:var(--card-2);cursor:default}
 .list .entry.off:hover{border-color:var(--line)}
 .region{
@@ -1031,7 +1033,8 @@ const AREA_ORDER = ["서울 외곽","수도권","충청·강원","호남","영�
 let OPEN = [];      /* 오늘 열려 있는 전시 전부 — 목록에 다 나온다 */
 let PINNED = [];    /* 그중 약도 안에 들어오는 것 — 지도에 점으로 찍힌다 */
 let SOON_OPEN = [];
-let zoneFilter = "전체";   /* "전체" | 권역 키 | 지역 이름(AREA_ORDER) */
+const OUT_KEY = "서울밖";   /* 지도에 점이 없는 것 전부 — 좁은 화면 전용 묶음 */
+let zoneFilter = "전체";   /* "전체" | OUT_KEY | 권역 키 | 지역 이름(AREA_ORDER) */
 let sortMode = "권역";   /* 기본은 권역순 — "어디 갈까"가 먼저다 */
 let selected = null;
 
@@ -1177,7 +1180,9 @@ const orderOf = e => e.zone
 function drawList(){
   const ul = document.getElementById("list");
   let items = OPEN.filter(e =>
-    zoneFilter === "전체" || e.zone === zoneFilter || e.area === zoneFilter);
+    zoneFilter === "전체" ? true
+    : zoneFilter === OUT_KEY ? !e.zone
+    : (e.zone === zoneFilter || e.area === zoneFilter));
   const groupSize = {};
   items.forEach(e => { const k = e.zone || e.area; groupSize[k] = (groupSize[k]||0)+1; });
   items = items.slice().sort((a,b) => {
@@ -1205,6 +1210,7 @@ function drawList(){
   document.getElementById("listCount").textContent = `${items.length}건`;
   document.getElementById("listTitle").textContent =
     zoneFilter === "전체" ? "전시 목록"
+    : zoneFilter === OUT_KEY ? "서울 바깥 전시"
     : (zoneByKey[zoneFilter] ? zoneByKey[zoneFilter].name : zoneFilter);
 
   const note = document.getElementById("offNote");
@@ -1212,7 +1218,10 @@ function drawList(){
   if (offCount){
     note.hidden = false;
     note.textContent = zoneFilter === "전체"
-      ? `이 가운데 ${offCount}건은 서울 외곽과 지방이라 약도에 점이 없습니다. 위 권역 단추에서 지역을 고르면 따로 볼 수 있습니다.`
+      ? `이 가운데 ${offCount}건은 서울 외곽과 지방이라 약도에 점이 없습니다. ${
+          matchMedia("(max-width:1020px)").matches
+            ? "위 '서울 바깥 전시 펼치기'를 누르면"
+            : "위 권역 단추에서 지역을 고르면"} 따로 볼 수 있습니다.`
       : "약도 범위를 벗어난 곳이라 지도에 점이 없습니다.";
   } else {
     note.hidden = true;
@@ -1224,7 +1233,7 @@ function drawList(){
   }
   /* 권역순으로 전체를 볼 때만 묶음 머리글을 끼운다. 카드만 넘겨봐도
      어디서 동네가 바뀌는지 보이게 하려는 것이다(2026-09-11 기자 지시). */
-  const grouped = (sortMode === "권역" && zoneFilter === "전체");
+  const grouped = (sortMode === "권역" && (zoneFilter === "전체" || zoneFilter === OUT_KEY));
 
   let html = "", lastKey = null;
   items.forEach(e => {
@@ -1316,9 +1325,18 @@ function buildChips(){
     const cls = k === "전체" ? "" : (areaKeys.includes(k) ? " area-chip" : " zone-chip");
     return `<button class="chip${cls}" type="button" data-zone="${k}" aria-pressed="${zoneFilter === k}">${label}<span class="n">${n}</span></button>`;
   };
+  /* 좁은 화면에는 이 단추 하나만 보인다. 상태에 따라 다음에 쓸 만한 수 하나를 내놓는다:
+     전체를 보는 중이면 서울 바깥을 펼치고, 펼친 중이면 접고, 지도에서 권역을 골랐으면 그걸 푼다. */
+  const offTotal = OPEN.filter(e => !e.zone).length;
+  const out = zoneFilter === OUT_KEY
+    ? { to:"전체", label:"서울 바깥 전시 접기", n:offTotal, on:true }
+    : zoneFilter === "전체"
+      ? { to:OUT_KEY, label:"서울 바깥 전시 펼치기", n:offTotal, on:false }
+      : { to:"전체", label:"전체 전시 보기", n:OPEN.length, on:false };
   zc.innerHTML = `<span class="ctrl-label">권역</span>`
     + ["전체", ...zoneKeys].map(chip).join("")
-    + (areaKeys.length ? `<span class="ctrl-label split">지방</span>` + areaKeys.map(chip).join("") : "");
+    + (areaKeys.length ? `<span class="ctrl-label split">지방</span>` + areaKeys.map(chip).join("") : "")
+    + (offTotal ? `<button class="chip out-chip" type="button" data-zone="${out.to}" aria-pressed="${out.on}">${out.label}<span class="n">${out.n}</span></button>` : "");
   zc.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
     zoneFilter = c.dataset.zone; selected = null; buildChips(); drawList(); paintSelection();
   }));
