@@ -1341,6 +1341,10 @@ function drawList(){
       if (ga !== gb) return gb - ga;
       const oa = orderOf(a), ob = orderOf(b);
       if (oa !== ob) return oa - ob;
+      /* 같은 동네 안에서는 추천이 앞에 온다(2026-09-12 기자 지시).
+         동네를 정한 독자에게 다음 질문은 "그중에 뭘 보나"다. */
+      const ra = a.stars || 0, rb = b.stars || 0;
+      if (ra !== rb) return rb - ra;
       return (daysLeft(a.end) ?? 9999) - (daysLeft(b.end) ?? 9999);
     }
   });
