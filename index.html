@@ -354,7 +354,9 @@ button{font:inherit;color:inherit}
    19개가 네 줄을 차지해 첫 카드까지 1500px을 내려야 했다.
    서울 권역은 지도에서 직접 누를 수 있으니 기능은 안 잃는다.
    지방은 지도에 핀이 없어 이 단추가 유일한 경로라 남긴다. */
-@media (max-width:1020px){.chip.zone-chip{display:none}}
+@media (max-width:1020px){.chip.zone-chip{display:none}
+  /* 권역 단추가 사라지면 "권역" 머리말도 뜻이 없다. "전체"는 남긴다 — 지도에서 켠 권역을 끄는 유일한 단추다. */
+  #zoneChips .ctrl-label:not(.split){display:none}}
 .list .entry.off{background:var(--card-2);cursor:default}
 .list .entry.off:hover{border-color:var(--line)}
 .region{
