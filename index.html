@@ -1265,7 +1265,7 @@ const markHTML = e => {
    절차는 사진_짝짓기.js. 묶음 기사라도 그 전시 사진이 실려 있으면 찾아낸다.
    전시장 이름만 겹치는 것은 버린다(이대원 자리에 서도호, 조숙진 자리에 마틴 파가
    들어갔던 사고, 2026-09-11). 못 찾은 12건은 그 기사에 사진이 아예 없는 건들이다. */
-const PHOTOS = {"suh":"202608/01.45458019.1.jpg","conceptual":"202606/01.44770028.1.jpg","parkseobo":"202608/01.45437097.1.jpg","kimseeun":"202608/01.45509798.1.jpg","kimbohee":"202608/01.45498875.1.jpg","christinesunkim":"202608/01.45498884.1.jpg","hamyangah":"202607/01.45265693.1.jpg","kimmuyoung":"202608/01.45509802.1.png","kangyobae":"202608/01.45303264.1.jpg","devlin":"202609/01.45383008.1.jpg","sunhyewon":"202609/01.45651745.1.jpg","kwoninkyung":"202608/01.45494299.1.jpg","yooyoungkuk":"202605/01.44453741.1.jpg","baselitz-sehwa":"202608/AA.45329090.1.jpg","choiyoonhee-pico":"202608/01.45509800.1.jpg","koojeonga":"202609/AA.45548575.1.jpg","attia":"202608/01.45509880.1.jpg","iosifzon":"202608/01.45496187.1.jpg","sallyhan":"202608/01.45402603.1.jpg","atkins":"202609/01.45646522.1.jpg","seongryul":"202608/AA.45469825.1.jpg","kunath":"202609/01.45640884.1.jpg","sollewitt":"202609/AA.45638781.1.jpg","bapsang":"202606/01.44854991.1.jpg","chusa":"202608/01.45296132.1.jpg","choiyoonhee-zi":"202608/01.45509800.1.jpg","consortium":"202609/01.45638137.1.jpg","banksy":"202607/01.45116380.1.jpg","cubist":"202605/AA.44341884.1.jpg","parkseobo-museum":"202608/01.45380144.1.jpg","choilala":"202609/01.45604025.1.jpg","ida-seoul":"202608/01.45403923.1.jpg","goya":"202606/01.44819640.1.jpg","spain500":"202609/AA.45622873.1.jpg","martinparr":"202608/AA.45264284.1.jpg","kaws":"202607/01.45111872.1.jpg","mmca-gwacheon":"202607/01.45006825.1.png","shiota":"202608/01.45498600.1.jpg","ida-gyeongju":"202608/01.45403922.1.jpg","ida-daegu":"202608/01.45403921.1.png","gwangju-biennale":"202609/01.45575679.1.jpg","austria-pavilion":"202609/AA.45622878.1.jpg","banghyeja":"202604/01.44115525.1.png"};
+const PHOTOS = {"suh":"202608/01.45458019.1.jpg","conceptual":"202606/01.44770028.1.jpg","parkseobo":"202608/01.45437097.1.jpg","kimseeun":"202608/01.45509798.1.jpg","kimbohee":"202608/01.45498875.1.jpg","christinesunkim":"202608/01.45498884.1.jpg","hamyangah":"202607/01.45265693.1.jpg","kimmuyoung":"202608/01.45509802.1.png","kangyobae":"202608/01.45303264.1.jpg","devlin":"202609/01.45383008.1.jpg","sunhyewon":"202609/01.45651745.1.jpg","kwoninkyung":"202608/01.45494299.1.jpg","yooyoungkuk":"202605/01.44453741.1.jpg","baselitz-sehwa":"202608/AA.45329090.1.jpg","choiyoonhee-pico":"202608/01.45509800.1.jpg","koojeonga":"202609/AA.45548575.1.jpg","attia":"202608/01.45527655.1.jpg","iosifzon":"202608/01.45548522.1.jpg","sallyhan":"202608/01.45402603.1.jpg","atkins":"202609/01.45646522.1.jpg","seongryul":"202608/AA.45469825.1.jpg","kunath":"202609/01.45640884.1.jpg","sollewitt":"202609/AA.45638781.1.jpg","bapsang":"202606/01.44854991.1.jpg","chusa":"202608/01.45296132.1.jpg","choiyoonhee-zi":"202608/01.45509800.1.jpg","consortium":"202609/01.45638137.1.jpg","banksy":"202607/01.45116380.1.jpg","cubist":"202605/AA.44341884.1.jpg","parkseobo-museum":"202608/01.45380144.1.jpg","choilala":"202609/01.45604025.1.jpg","ida-seoul":"202608/01.45403923.1.jpg","goya":"202606/01.44819640.1.jpg","spain500":"202609/AA.45622873.1.jpg","martinparr":"202608/AA.45264284.1.jpg","kaws":"202607/01.45111872.1.jpg","mmca-gwacheon":"202607/01.45006825.1.png","shiota":"202608/01.45498600.1.jpg","ida-gyeongju":"202608/01.45403922.1.jpg","ida-daegu":"202608/01.45403921.1.png","gwangju-biennale":"202609/01.45575679.1.jpg","austria-pavilion":"202609/AA.45622878.1.jpg","banghyeja":"202604/01.44115525.1.png"};
 /* 기자가 직접 고른 사진. 배포자산/photo/ 에 <전시id>.jpg 를 넣고
    전시페이지_만들기.py를 돌리면 아래 줄이 자동으로 다시 써진다.
    직접 고른 사진이 있으면 그것이 한경 기사 사진보다 앞선다. */
@@ -1316,16 +1316,17 @@ function drawList(){
     zoneFilter === "전체" ? true
     : zoneFilter === OUT_KEY ? !e.zone
     : (e.zone === zoneFilter || e.area === zoneFilter));
+  /* '무료전시'는 정렬이 아니라 거르기다. 묶음 수를 세기 전에 걸러야 머리글 숫자가 맞는다. */
+  if (sortMode === "무료") items = items.filter(e => e.fee === "무료");
   const groupSize = {};
   items.forEach(e => { const k = e.zone || e.area; groupSize[k] = (groupSize[k]||0)+1; });
   items = items.slice().sort((a,b) => {
-    if (sortMode === "별점"){
+    if (sortMode === "추천"){
       const sa = a.stars || 0, sb = b.stars || 0;
       if (sa !== sb) return sb - sa;
       return (daysLeft(a.end) ?? 9999) - (daysLeft(b.end) ?? 9999);
     }
-    if (sortMode === "종료") return (daysLeft(a.end) ?? 9999) - (daysLeft(b.end) ?? 9999);
-    if (sortMode === "권역"){
+    {
       /* 서울 먼저, 그 안에서는 전시가 많은 동네 먼저.
          한 건짜리 변두리로 목록이 시작하면 "어디 갈까"에 답이 안 된다.
          지도 순서(북→남)대로 두려면 groupSize 비교만 지우면 된다. */
@@ -1337,12 +1338,11 @@ function drawList(){
       if (oa !== ob) return oa - ob;
       return (daysLeft(a.end) ?? 9999) - (daysLeft(b.end) ?? 9999);
     }
-    return (b.published || "").localeCompare(a.published || "");
   });
 
   document.getElementById("listCount").textContent = `${items.length}건`;
   document.getElementById("listTitle").textContent =
-    zoneFilter === "전체" ? "전시 목록"
+    zoneFilter === "전체" ? (sortMode === "무료" ? "무료 전시" : "전시 목록")
     : zoneFilter === OUT_KEY ? "서울 바깥 전시"
     : (zoneByKey[zoneFilter] ? zoneByKey[zoneFilter].name : zoneFilter);
 
@@ -1359,7 +1359,7 @@ function drawList(){
   }
   /* 권역순으로 전체를 볼 때만 묶음 머리글을 끼운다. 카드만 넘겨봐도
      어디서 동네가 바뀌는지 보이게 하려는 것이다(2026-09-11 기자 지시). */
-  const grouped = (sortMode === "권역" && (zoneFilter === "전체" || zoneFilter === OUT_KEY));
+  const grouped = (sortMode !== "추천" && (zoneFilter === "전체" || zoneFilter === OUT_KEY));
 
   let html = "", lastKey = null;
   items.forEach(e => {
@@ -1382,20 +1382,24 @@ function drawList(){
       if (ev.target.closest("a,button")) return;
       if (ev.type === "keydown" && ev.key !== "Enter" && ev.key !== " ") return;
       if (ev.type === "keydown") ev.preventDefault();
-      /* 지도가 목록 옆에 보이는 넓은 화면에서만 핀을 켠다.
-         좁은 화면에서는 지도가 화면 밖이라 눌러도 아무 반응이 없어 보인다 —
-         그래서 카드를 누르면 곧장 기사로 간다(2026-09-11 독자 반응).
-         지도에 점이 없는 서울 바깥 건은 켤 핀이 없으니 어느 화면에서든 기사로 간다. */
+      /* 어느 화면에서든 카드를 누르면 기사로 간다(2026-09-11).
+         전에는 넓은 화면에서만 핀을 켰는데, 같은 것을 눌렀는데 기기마다 다른 일이
+         일어나는 건 나쁜 설계다. 핀 켜기는 마우스를 올릴 때로 옮겼다 —
+         손가락에는 없는 동작이라 기기 간 차이가 생기지 않는다. */
       const e = OPEN.find(x => x.id === li.dataset.id);
       if (!e) return;
-      if (!e.zone || matchMedia("(max-width:1020px)").matches){
-        window.open(e.naverUrl || e.url, "_blank", "noopener");
-        return;
-      }
-      select(li.dataset.id, false);
+      window.open(e.naverUrl || e.url, "_blank", "noopener");
     };
     li.addEventListener("click", go);
     li.addEventListener("keydown", go);
+    /* 마우스를 올리면 그 전시의 핀이 켜진다. 지도가 목록 옆에 보일 때만 뜻이 있다. */
+    li.addEventListener("mouseenter", () => {
+      if (matchMedia("(max-width:1020px)").matches) return;
+      selected = li.dataset.id; paintSelection();
+    });
+    li.addEventListener("mouseleave", () => {
+      if (selected === li.dataset.id){ selected = null; paintSelection(); }
+    });
   });
   ul.querySelectorAll("[data-share-id]").forEach(b =>
     b.addEventListener("click", () => shareOne(b.dataset.shareId)));
@@ -1598,7 +1602,7 @@ function buildChips(){
   }));
 
   const sc = document.getElementById("sortChips");
-  const modes = [["권역","권역순"],["별점","별점순"],["종료","종료 빠른 순"]];
+  const modes = [["권역","권역순"],["추천","추천순"],["무료","무료전시"]];
   sc.innerHTML = `<span class="ctrl-label">정렬</span>` + modes.map(([k,label]) =>
     `<button class="chip" type="button" data-sort="${k}" aria-pressed="${sortMode === k}">${label}</button>`).join("");
   sc.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
