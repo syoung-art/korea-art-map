@@ -82,6 +82,11 @@ body{
   font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
   font-size:16px;
   line-height:1.7;
+  /* 브라우저 기본값은 한글을 글자 단위로 끊어 '스페인 미술 500 / 년'처럼
+     낱말 중간에서 잘린다. keep-all로 낱말 경계에서만 끊고,
+     끊을 데가 없는 긴 문자열만 break-word로 흘린다. */
+  word-break:keep-all;
+  overflow-wrap:break-word;
 }
 a{color:inherit}
 button{font:inherit;color:inherit}
@@ -309,7 +314,7 @@ button{font:inherit;color:inherit}
 .outer{margin-top:46px;padding-top:26px;border-top:1px solid var(--line)}
 .outer h2{font-family:Hahmlet,serif;font-weight:600;font-size:19px;margin:0 0 4px;letter-spacing:-.01em}
 .outer p.note{margin:0 0 16px;font-size:13px;color:var(--ink-3);max-width:68ch}
-.outer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:10px;list-style:none;margin:0;padding:0}
+.outer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;list-style:none;margin:0;padding:0;max-width:900px}
 .ctrl-label.split{margin-left:8px;padding-left:14px;border-left:1px solid var(--line)}
 .chip.area-chip[aria-pressed="true"]{background:var(--ink-2);border-color:var(--ink-2);color:var(--card)}
 .list .entry.off{background:var(--card-2);cursor:default}
