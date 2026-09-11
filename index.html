@@ -254,7 +254,11 @@ button{font:inherit;color:inherit}
 .map-base{display:block;width:100%;height:auto}
 .zone-label:hover,.zone-label:focus-visible{border-color:var(--seal);color:var(--seal)}
 .zone-label.on{background:var(--seal);border-color:var(--seal);color:#FCF8F7}
-.pin-layer{position:absolute;inset:0}
+/* 핀 층은 지도 전체를 덮는 판이다. pointer-events를 끄지 않으면
+   아래 깔린 권역 과녁과 이름표에 손가락이 영영 닿지 않는다(2026-09-11).
+   .click() 직접 호출은 이 판을 건너뛰므로 자동 점검으로는 안 잡혔다. */
+.pin-layer{position:absolute;inset:0;pointer-events:none}
+.pin{pointer-events:auto}
 /* 권역 이름은 SVG 안에 두면 지도와 함께 줄어들어 휴대폰에서 5~6px이 된다.
    고정 크기 HTML로 빼내 어느 화면에서나 같은 크기로 읽히게 했다. */
 /* 권역 자체를 누를 수 있게 한다. 휴대폰에서 핀은 너무 작고 촘촘해
