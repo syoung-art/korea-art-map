@@ -169,7 +169,14 @@ button{font:inherit;color:inherit}
   font-size:11.5px;opacity:.7;margin-left:5px;
 }
 
-.rating-key{padding:18px 2px 2px}
+/* 집계·기준일은 지도 바로 아래에 둔다(2026-09-11 기자 지시).
+   제목 다음에 곧바로 지도가 오도록 머리글에서 내렸다. */
+.tally-line{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:5px 12px;
+  margin:13px 2px 0;font-size:13px;color:var(--ink-3);
+}
+.tally-line b{color:var(--ink-2);font-weight:500}
+.rating-key{padding:16px 2px 2px}
 .key-label{
   margin:0 0 9px;font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
   font-size:11.5px;letter-spacing:.02em;color:var(--ink-3);
@@ -380,8 +387,6 @@ button{font:inherit;color:inherit}
         <span class="who">성수영 한국경제신문 문화부 기자</span>
         <span class="more">소개<span class="more-ext"> · SNS</span></span>
       </a>
-      <span class="tally" id="tally">—</span>
-      <span>·</span><span>기준일 <b id="today">—</b></span>
     </p>
   </header>
 
@@ -419,6 +424,11 @@ button{font:inherit;color:inherit}
           <span>위치는 권역 기준 대략치입니다</span>
         </div>
       </div>
+
+      <p class="tally-line">
+        <span class="tally" id="tally">—</span>
+        <span>·</span><span>기준일 <b id="today">—</b></span>
+      </p>
 
       <section class="rating-key" aria-label="별점 기준">
         <p class="key-label">별점 기준</p>
