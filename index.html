@@ -11,7 +11,16 @@
 <meta property="og:description" content="지금 서울에서 열리는 전시 중 가볼 만한 곳을 지도에 표시했습니다. 점을 누르면 전시 정보가 열리고 기사로 이어집니다.">
 <meta property="og:url" content="https://syoung-art.github.io/korea-art-map/">
 <meta property="og:locale" content="ko_KR">
-<meta name="twitter:card" content="summary">
+<!-- 링크 미리보기 그림. 카톡·인스타는 이걸로 썸네일을 그린다.
+     정적 파일이라 숫자는 넣지 않았다 — 며칠 뒤 틀린 수가 되기 때문. -->
+<meta property="og:image" content="https://syoung-art.github.io/korea-art-map/og.png">
+<meta property="og:image:secure_url" content="https://syoung-art.github.io/korea-art-map/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="서울 권역 약도에 전시 위치를 점으로 찍은 그림">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://syoung-art.github.io/korea-art-map/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap">
@@ -243,6 +252,8 @@ button{font:inherit;color:inherit}
   .board{padding-top:18px}
 }
 .map-base{display:block;width:100%;height:auto}
+.zone-label:hover,.zone-label:focus-visible{border-color:var(--seal);color:var(--seal)}
+.zone-label.on{background:var(--seal);border-color:var(--seal);color:#FCF8F7}
 .pin-layer{position:absolute;inset:0}
 /* 권역 이름은 SVG 안에 두면 지도와 함께 줄어들어 휴대폰에서 5~6px이 된다.
    고정 크기 HTML로 빼내 어느 화면에서나 같은 크기로 읽히게 했다. */
@@ -258,12 +269,19 @@ button{font:inherit;color:inherit}
 .zone-hit button:hover,.zone-hit button:focus-visible{background:var(--seal-ghost)}
 .zone-hit button.on{background:var(--seal-ghost)}
 .zone-layer{position:absolute;inset:0;pointer-events:none}
+/* 이름표를 누를 수 있게 했다(2026-09-11 동료 지적).
+   권역 덩어리에는 이미 과녁이 있었지만 핀이 그 위를 덮어 손가락이 닿지 않았다 —
+   삼청처럼 핀 14개가 몰린 곳은 빈 자리가 없다. 이름표는 덩어리 바깥에 떠 있어
+   핀과 겹치지 않고, 알약 모양이 "누르는 것"이라고 생김새로 알린다. */
 .zone-label{
   position:absolute;transform:translate(-50%,-50%);
-  font-size:clamp(10.5px,2.7vw,13px);
+  font-family:inherit;pointer-events:auto;cursor:pointer;
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px;
+  background:var(--card);
+  transition:background .14s,border-color .14s,color .14s;
+  font-size:clamp(10px,2.5vw,12.5px);
   font-weight:500;letter-spacing:-.01em;
   color:var(--ink-2);white-space:nowrap;
-  text-shadow:0 0 3px var(--land),0 0 6px var(--land);
 }
 
 .pin{
@@ -523,7 +541,7 @@ button{font:inherit;color:inherit}
           <span class="scale"><i class="mk m0"></i>좋은 전시</span>
           <span class="scale"><i class="mk m1"></i>추천</span>
           <span class="scale"><i class="mk m2"></i>강력 추천</span>
-          <span>권역별 대략적인 위치입니다</span>
+          <span>동네 이름을 누르면 그 동네 전시만 · 위치는 대략치입니다</span>
         </div>
       </div>
 
@@ -1149,8 +1167,12 @@ function drawZones(){
     el.setAttribute("fill","var(--land-2)");
     shapes.appendChild(el);
 
-    const t = document.createElement("span");
+    const t = document.createElement("button");
+    t.type = "button";
     t.className = "zone-label";
+    t.dataset.zone = z.key;
+    t.setAttribute("aria-label", z.name + " 전시만 보기");
+    t.addEventListener("click", () => pickZone(z.key));
     t.style.left = ((x + z.lx) / VB.w * 100).toFixed(3) + "%";
     t.style.top  = ((y + z.ly) / VB.h * 100).toFixed(3) + "%";
     t.textContent = z.short || z.name;
@@ -1404,6 +1426,8 @@ function paintSelection(){
   });
   document.querySelectorAll(".list .entry").forEach(li => li.classList.toggle("on", li.dataset.id === selected));
   document.querySelectorAll(".zone-hit button").forEach(b =>
+    b.classList.toggle("on", b.dataset.zone === zoneFilter));
+  document.querySelectorAll(".zone-label").forEach(b =>
     b.classList.toggle("on", b.dataset.zone === zoneFilter));
 }
 
