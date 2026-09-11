@@ -396,6 +396,9 @@ button{font:inherit;color:inherit}
 .read{font-size:13.5px;color:var(--seal);text-decoration:none;border-bottom:1px solid var(--seal-ring);padding-bottom:1px}
 .read:hover{border-bottom-color:var(--seal)}
 .read .arr{font-family:"IBM Plex Mono",monospace}
+button.read{background:none;border:0;border-bottom:1px solid var(--seal-ring);font-family:inherit;cursor:pointer}
+.read.one{color:var(--ink-3);border-bottom-color:var(--line)}
+.read.one:hover{color:var(--ink-2);border-bottom-color:var(--ink-3)}
 .read.map{color:var(--ink-3);border-bottom-color:var(--line)}
 .read.map:hover{color:var(--ink-2);border-bottom-color:var(--ink-3)}
 .headline{font-size:12.5px;color:var(--ink-3);width:100%;margin:0}
@@ -1242,6 +1245,8 @@ function entryHTML(e){
               : (e.end ? `${md(e.end)}까지` : "기간 미확인");
   const links = [`<a class="read" href="${e.naverUrl || e.url}" target="_blank" rel="noopener">기사 읽기 <span class="arr">→</span></a>`];
   links.push(`<a class="read map" href="https://map.naver.com/p/search/${encodeURIComponent(mapQuery(e))}" target="_blank" rel="noopener">네이버지도 <span class="arr">↗</span></a>`);
+  /* 카드마다 공유. 보내는 주소는 ?id=… 라서 받은 사람은 이 카드가 열린 지도를 본다. */
+  links.push(`<button class="read one" type="button" data-share-id="${e.id}">공유 <span class="arr">↗</span></button>`);
   return `
     <div class="entry-top">
       <span class="place">${e.venue} <span class="zone">· ${zone ? zone.name.split("·")[0] : (e.region || "지방")}</span></span>
@@ -1331,7 +1336,7 @@ function drawList(){
 
   ul.querySelectorAll(".entry[data-id]").forEach(li => {
     const go = ev => {
-      if (ev.target.closest("a")) return;
+      if (ev.target.closest("a,button")) return;
       if (ev.type === "keydown" && ev.key !== "Enter" && ev.key !== " ") return;
       if (ev.type === "keydown") ev.preventDefault();
       /* 지도가 목록 옆에 보이는 넓은 화면에서만 핀을 켠다.
@@ -1349,6 +1354,8 @@ function drawList(){
     li.addEventListener("click", go);
     li.addEventListener("keydown", go);
   });
+  ul.querySelectorAll("[data-share-id]").forEach(b =>
+    b.addEventListener("click", () => shareOne(b.dataset.shareId)));
   paintSelection();
   syncUrl();
 }
@@ -1374,7 +1381,10 @@ function syncUrl(){
   } catch (e) {}
 }
 function readUrl(){
-  const p = new URLSearchParams(location.search).get("zone");
+  const q = new URLSearchParams(location.search);
+  const id = q.get("id");
+  if (id && EXHIBITIONS.some(e => e.id === id)) pendingId = id;
+  const p = q.get("zone");
   if (!p) return;
   const ok = p === OUT_KEY || ZONES.some(z => z.key === p) || AREA_ORDER.includes(p);
   if (ok) zoneFilter = p;
@@ -1393,6 +1403,46 @@ function toast(msg){
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove("on"), 2200);
 }
+/* 전시 하나를 보낸다. 별점과 한줄평을 문구에 실어 받는 사람이 열기 전에 안다. */
+function briefOf(e){
+  const b = (e.blurb || "").trim();
+  if (!b) return "";
+  return b.length <= 90 ? b : b.slice(0, 88).replace(/[ ,·]+$/, "") + "…";
+}
+async function shareOne(id){
+  const e = OPEN.find(x => x.id === id);
+  if (!e) return;
+  const url = location.origin + location.pathname + "?id=" + encodeURIComponent(id);
+  const title = e.title || (e.artist ? e.artist + " 개인전" : e.venue);
+  const tag = e.stars === 2 ? "[강력 추천] " : e.stars === 1 ? "[추천] " : "";
+  const when = e.end ? ` (${md(e.end)}까지)` : "";
+  const body = briefOf(e);
+  const data = {
+    title: `${title} — ${e.venue}`,
+    text: `${tag}${title} · ${e.venue}${when}
+${body}`,
+    url
+  };
+  if (navigator.share){
+    try { await navigator.share(data); return; }
+    catch (err){ if (err && err.name === "AbortError") return; }
+  }
+  try { await navigator.clipboard.writeText(url); toast("주소를 복사했습니다"); }
+  catch (err){ toast("주소: " + url); }
+}
+
+/* ?id=… 로 들어온 사람에게 그 카드를 펴 보인다 */
+let pendingId = null;
+function openPending(){
+  if (!pendingId) return;
+  const id = pendingId; pendingId = null;
+  const li = document.querySelector(`.list .entry[data-id="${id.replace(/"/g, "")}"]`);
+  if (!li) return;
+  selected = id;
+  paintSelection();
+  li.scrollIntoView({ block: "center" });
+}
+
 async function doShare(){
   const url = shareUrl();
   const data = { title: "성수영 기자의 전시 지도", text: shareText(), url };
@@ -1537,6 +1587,7 @@ function boot(){
 
   document.querySelectorAll("[data-share]").forEach(b =>
     b.addEventListener("click", doShare));
+  openPending();
 }
 boot();
 
