@@ -413,14 +413,18 @@ button{font:inherit;color:inherit}
   font-variant-numeric:tabular-nums;
 }
 .fee.free{color:var(--ink);border-color:var(--ink-3)}
-.read{font-size:13.5px;color:var(--seal);text-decoration:none;border-bottom:1px solid var(--seal-ring);padding-bottom:1px}
-.read:hover{border-bottom-color:var(--seal)}
-.read .arr{font-family:"IBM Plex Mono",monospace}
-button.read{background:none;border:0;border-bottom:1px solid var(--seal-ring);font-family:inherit;cursor:pointer}
-.read.one{color:var(--ink-3);border-bottom-color:var(--line)}
-.read.one:hover{color:var(--ink-2);border-bottom-color:var(--ink-3)}
-.read.map{color:var(--ink-3);border-bottom-color:var(--line)}
-.read.map:hover{color:var(--ink-2);border-bottom-color:var(--ink-3)}
+.read{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:13.5px;color:var(--seal);text-decoration:none;
+  background:none;border:0;padding:0;font-family:inherit;cursor:pointer;
+}
+.read .ic{font-size:14px;line-height:1;filter:saturate(.9)}
+.read .lb{border-bottom:1px solid var(--seal-ring);padding-bottom:1px}
+.read:hover .lb{border-bottom-color:var(--seal)}
+.read.one,.read.map{color:var(--ink-2)}
+.read.one .lb,.read.map .lb{border-bottom-color:var(--line)}
+.read.one:hover,.read.map:hover{color:var(--ink)}
+.read.one:hover .lb,.read.map:hover .lb{border-bottom-color:var(--ink-3)}
 .headline{font-size:13px;line-height:1.6;color:var(--ink-3);width:100%;margin:0}
 /* 휴대폰에서는 기사 제목을 뺀다(2026-09-11 기자 지시).
    전시명·작가·한줄평이면 충분하고, 기사 제목은 눌러서 가면 어차피 보인다. */
@@ -1286,10 +1290,10 @@ function entryHTML(e){
   const zone = zoneByKey[e.zone];
   const stamp = notYet ? `${md(e.start)} 개막`
               : (e.end ? `${md(e.end)}까지` : "기간 미확인");
-  const links = [`<a class="read" href="${e.naverUrl || e.url}" target="_blank" rel="noopener">기사 읽기 <span class="arr">→</span></a>`];
-  links.push(`<a class="read map" href="https://map.naver.com/p/search/${encodeURIComponent(mapQuery(e))}" target="_blank" rel="noopener">네이버지도 <span class="arr">↗</span></a>`);
+  const links = [`<a class="read" href="${e.naverUrl || e.url}" target="_blank" rel="noopener"><span class="ic">📰</span><span class="lb">기사</span></a>`];
+  links.push(`<a class="read map" href="https://map.naver.com/p/search/${encodeURIComponent(mapQuery(e))}" target="_blank" rel="noopener"><span class="ic">📍</span><span class="lb">지도</span></a>`);
   /* 카드마다 공유. 보내는 주소는 ?id=… 라서 받은 사람은 이 카드가 열린 지도를 본다. */
-  links.push(`<button class="read one" type="button" data-share-id="${e.id}">공유 <span class="arr">↗</span></button>`);
+  links.push(`<button class="read one" type="button" data-share-id="${e.id}"><span class="ic">🔗</span><span class="lb">공유</span></button>`);
   return `
     <div class="entry-top">
       <span class="place">${e.venue} <span class="zone">· ${zone ? zone.name.split("·")[0] : (e.region || "지방")}</span></span>
