@@ -1,0 +1,1196 @@
+<title>성수영 기자의 전시 지도(beta)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EBEEEF;
+  --card:#FFFFFF;
+  --card-2:#F4F7F8;
+  --land:#DEE4E5;
+  --land-2:#D3DBDD;
+  --river:#A4BFC5;
+  --ink:#161A1C;
+  --ink-2:#4C575C;
+  --ink-3:#7B868B;
+  --line:#D1D8DA;
+  --line-2:#E2E7E8;
+  --seal:#B23A2E;
+  --seal-deep:#8C2B21;
+  --seal-ring:rgba(178,58,46,.26);
+  --focus:#236F89;
+  --shadow:0 1px 2px rgba(22,26,28,.06), 0 8px 24px -12px rgba(22,26,28,.22);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#101315;
+    --card:#181C1F;
+    --card-2:#1E2326;
+    --land:#212A2D;
+    --land-2:#2A3336;
+    --river:#1C333A;
+    --ink:#E9E6E1;
+    --ink-2:#A2ACB0;
+    --ink-3:#78848A;
+    --line:#2A3235;
+    --line-2:#222A2D;
+    --seal:#E0705C;
+    --seal-deep:#F09A8A;
+    --seal-ring:rgba(224,112,92,.32);
+    --focus:#5FB3C9;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#101315;
+  --card:#181C1F;
+  --card-2:#1E2326;
+  --land:#212A2D;
+  --land-2:#2A3336;
+  --river:#1C333A;
+  --ink:#E9E6E1;
+  --ink-2:#A2ACB0;
+  --ink-3:#78848A;
+  --line:#2A3235;
+  --line-2:#222A2D;
+  --seal:#E0705C;
+  --seal-deep:#F09A8A;
+  --seal-ring:rgba(224,112,92,.32);
+  --focus:#5FB3C9;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  font-size:15px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+
+.shell{max-width:1400px;margin:0 auto;padding:clamp(22px,3.4vw,42px) clamp(16px,3.4vw,38px) 72px}
+
+.masthead{display:grid;gap:16px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.eyebrow{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
+  font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--seal);margin:0;
+}
+.masthead h1{
+  font-family:Hahmlet,"Apple SD Gothic Neo",serif;
+  font-weight:600;font-size:clamp(31px,4.4vw,50px);
+  line-height:1.1;letter-spacing:-.025em;margin:0;text-wrap:balance;
+}
+.beta{
+  display:inline-block;vertical-align:middle;
+  margin-left:.4em;transform:translateY(-.18em);
+  font-family:"IBM Plex Mono",monospace;
+  font-size:.26em;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--seal);border:1px solid var(--seal-ring);border-radius:999px;
+  padding:.34em .8em;
+}
+.standfirst{margin:0;max-width:62ch;color:var(--ink-2);font-size:15.5px}
+.off-note{
+  margin:0;padding:10px 13px;
+  border:1px dashed var(--line);border-radius:4px;
+  font-size:12.5px;color:var(--ink-3);
+}
+.byline{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:13px;color:var(--ink-3)}
+.byline b{color:var(--ink-2);font-weight:500}
+.author-link{
+  display:inline-flex;align-items:baseline;gap:9px;
+  padding:7px 15px 7px 14px;margin-right:4px;
+  background:var(--seal);border-radius:999px;
+  text-decoration:none;color:#FCF8F7;
+}
+.author-link .who{font-weight:600;font-size:13.5px;letter-spacing:-.01em}
+.author-link .more{
+  font-size:11.5px;opacity:.82;
+  border-left:1px solid rgba(255,255,255,.35);padding-left:9px;
+}
+.author-link:hover{background:var(--seal-deep)}
+:root[data-theme="dark"] .author-link,
+:root:not([data-theme="light"]) .author-link{color:#15110F}
+:root[data-theme="dark"] .author-link .more,
+:root:not([data-theme="light"]) .author-link .more{border-left-color:rgba(0,0,0,.28)}
+.tally{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
+  font-variant-numeric:tabular-nums;color:var(--seal);font-weight:500;
+}
+
+.controls{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;padding:17px 0;border-bottom:1px solid var(--line)}
+.ctrl-group{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.ctrl-label{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
+  font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);margin-right:2px;
+}
+.chip{
+  border:1px solid var(--line);background:var(--card);border-radius:999px;
+  padding:5px 13px;font-size:13px;color:var(--ink-2);cursor:pointer;white-space:nowrap;
+  transition:border-color .14s,color .14s,background .14s;
+}
+.chip:hover{border-color:var(--ink-3);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--seal);border-color:var(--seal);color:#FCF8F7}
+.chip .n{
+  font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  font-size:11.5px;opacity:.7;margin-left:5px;
+}
+
+.rating-key{padding:16px 0 2px}
+.key-label{
+  margin:0 0 9px;font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
+  font-size:10.5px;letter-spacing:.04em;color:var(--ink-3);
+}
+.rating-key ul{
+  display:flex;flex-wrap:wrap;
+  gap:7px 26px;list-style:none;margin:0;padding:0;
+}
+.rating-key li{display:flex;align-items:baseline;gap:7px;font-size:12.5px;color:var(--ink-2)}
+.rating-key .mark{
+  flex:none;color:var(--seal);font-size:13.5px;letter-spacing:.06em;
+}
+.rating-key .mark.none{
+  color:var(--ink-3);font-size:11px;letter-spacing:0;
+  font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
+}
+.key-note{margin:11px 0 0;font-size:11.5px;line-height:1.6;color:var(--ink-3);max-width:74ch}
+.stars{color:var(--seal);margin-right:.42em;letter-spacing:.05em;font-size:.9em}
+
+.board{display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,.86fr);gap:30px;align-items:start;padding-top:26px}
+@media (max-width:1020px){.board{grid-template-columns:1fr;gap:24px}}
+
+.map-panel{position:sticky;top:18px}
+@media (max-width:1020px){.map-panel{position:static}}
+.map-frame{
+  background:var(--land);border:1px solid var(--line);border-radius:4px;overflow:hidden;
+  max-width:min(100%,72vh);margin:0 auto;
+}
+.map-inner{position:relative;width:100%}
+@media (max-width:1020px){.map-frame{max-width:100%}}
+.map-base{display:block;width:100%;height:auto}
+.pin-layer{position:absolute;inset:0}
+
+.pin{
+  position:absolute;transform:translate(-50%,-50%);
+  width:22px;height:22px;display:grid;place-items:center;
+  border:0;background:none;padding:0;cursor:pointer;border-radius:50%;
+}
+.pin i{
+  display:block;border-radius:50%;
+  background:var(--seal);
+  box-shadow:0 0 0 2px var(--land),0 1px 3px rgba(0,0,0,.3);
+  transition:transform .16s cubic-bezier(.2,.8,.3,1),background .16s;
+}
+/* 별점을 단계마다 다른 모양으로 — 속 빈 원 / 채운 원 / 테 두른 원 / 큰 원 */
+.pin.s0 i{
+  width:11px;height:11px;background:transparent;
+  border:2.5px solid var(--seal);box-shadow:none;opacity:.92;
+}
+.pin.s1 i{width:11px;height:11px}
+.pin.s2 i{
+  width:14px;height:14px;
+  box-shadow:0 0 0 2px var(--land),0 0 0 5px var(--seal);
+}
+.pin.s3 i{
+  width:18px;height:18px;
+  box-shadow:0 0 0 2px var(--land),0 0 0 5px var(--seal);
+}
+.pin.s1{z-index:2}
+.pin.s2{z-index:3}
+.pin.s3{z-index:4}
+.pin:hover{z-index:6}
+.pin.on{z-index:7}
+.pin:hover i{transform:scale(1.3);opacity:1}
+.pin.on i{transform:scale(1.4);background:var(--seal-deep);opacity:1}
+.pin.on.s0 i{background:transparent;border-color:var(--seal-deep)}
+.pin.dim{opacity:.18;pointer-events:none}
+.pin-tip{
+  position:absolute;bottom:calc(100% + 3px);left:50%;transform:translateX(-50%);
+  background:var(--ink);color:var(--paper);
+  font-size:11.5px;line-height:1.35;padding:4px 8px;border-radius:3px;
+  white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .12s;z-index:5;
+}
+.pin:hover .pin-tip,.pin:focus-visible .pin-tip,.pin.on .pin-tip{opacity:1}
+
+.map-legend{
+  display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;
+  padding:11px 14px;border-top:1px solid var(--line);
+  background:var(--card-2);font-size:12px;color:var(--ink-3);
+}
+.map-legend span{display:inline-flex;align-items:center;gap:6px}
+.scale{display:inline-flex;align-items:center;gap:7px}
+.scale i{border-radius:50%;background:var(--seal);flex:none;display:block}
+.scale i.d0{width:11px;height:11px;background:transparent;border:2.5px solid var(--seal);opacity:.92}
+.scale i.d1{width:11px;height:11px}
+.scale i.d2{width:14px;height:14px;box-shadow:0 0 0 2px var(--card-2),0 0 0 5px var(--seal);margin:0 4px}
+.scale i.d3{width:18px;height:18px;box-shadow:0 0 0 2px var(--card-2),0 0 0 5px var(--seal);margin:0 4px}
+.scale b{color:var(--seal);font-weight:400;letter-spacing:.04em}
+
+.list-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
+.list-head h2{font-family:Hahmlet,serif;font-weight:600;font-size:19px;margin:0;letter-spacing:-.01em}
+.list-head .count{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.list{display:flex;flex-direction:column;gap:10px;list-style:none;margin:0;padding:0}
+
+.entry{
+  background:var(--card);border:1px solid var(--line);border-radius:4px;
+  padding:15px 17px 14px;display:grid;gap:6px;
+  transition:border-color .14s,box-shadow .14s;
+}
+.list .entry{cursor:pointer}
+.list .entry:hover{border-color:var(--ink-3)}
+.entry.on{border-color:var(--seal);box-shadow:0 0 0 1px var(--seal),var(--shadow)}
+.entry-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.place{font-size:12.5px;color:var(--ink-2);font-weight:500}
+.place .zone{color:var(--ink-3);font-weight:400}
+.dday{
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+  font-variant-numeric:tabular-nums;color:var(--ink-3);white-space:nowrap;
+}
+.entry h3{
+  font-family:Hahmlet,serif;font-weight:600;font-size:18px;line-height:1.34;
+  margin:0;letter-spacing:-.015em;text-wrap:balance;
+}
+.artist{font-size:13.5px;color:var(--ink-2);margin:0}
+.blurb{margin:0;font-size:13.5px;line-height:1.72;color:var(--ink-2)}
+.entry-foot{
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;
+  margin-top:3px;padding-top:9px;border-top:1px solid var(--line-2);
+}
+.run{font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-variant-numeric:tabular-nums;color:var(--ink-3)}
+.read{font-size:12.5px;color:var(--seal);text-decoration:none;border-bottom:1px solid var(--seal-ring);padding-bottom:1px}
+.read:hover{border-bottom-color:var(--seal)}
+.read .arr{font-family:"IBM Plex Mono",monospace}
+.read.map{color:var(--ink-3);border-bottom-color:var(--line)}
+.read.map:hover{color:var(--ink-2);border-bottom-color:var(--ink-3)}
+.headline{font-size:12px;color:var(--ink-3);width:100%;margin:0}
+
+.empty{border:1px dashed var(--line);border-radius:4px;padding:26px 20px;text-align:center;color:var(--ink-3);font-size:13.5px}
+
+.outer{margin-top:46px;padding-top:26px;border-top:1px solid var(--line)}
+.outer h2{font-family:Hahmlet,serif;font-weight:600;font-size:19px;margin:0 0 4px;letter-spacing:-.01em}
+.outer p.note{margin:0 0 16px;font-size:13px;color:var(--ink-3);max-width:68ch}
+.outer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:10px;list-style:none;margin:0;padding:0}
+.ctrl-label.split{margin-left:8px;padding-left:14px;border-left:1px solid var(--line)}
+.chip.area-chip[aria-pressed="true"]{background:var(--ink-2);border-color:var(--ink-2);color:var(--card)}
+.list .entry.off{background:var(--card-2);cursor:default}
+.list .entry.off:hover{border-color:var(--line)}
+.region{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
+  font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--seal);
+}
+
+.profile{
+  margin-top:52px;
+  scroll-margin-top:20px;
+  padding:26px 28px 28px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-left:3px solid var(--seal);
+  border-radius:4px;
+  display:grid;gap:10px;max-width:70ch;
+}
+.profile-label{
+  margin:0;font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
+  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);
+}
+.profile-name{
+  font-family:Hahmlet,serif;font-weight:600;font-size:24px;
+  margin:0;letter-spacing:-.02em;
+}
+.bio{margin:0;font-size:14.5px;line-height:1.78;color:var(--ink-2)}
+.links{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:4px 0 0;padding:0}
+.links a{
+  display:inline-flex;align-items:baseline;gap:7px;
+  border:1px solid var(--line);border-radius:999px;
+  padding:6px 15px;font-size:13px;text-decoration:none;color:var(--ink-2);
+  transition:border-color .14s,color .14s;
+}
+.links a:hover{border-color:var(--seal);color:var(--seal)}
+.links .handle{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
+  font-size:12px;color:var(--ink-3);
+}
+.links a:hover .handle{color:var(--seal)}
+.byline a{color:var(--ink-2);text-underline-offset:3px;text-decoration-color:var(--line)}
+.byline a:hover{text-decoration-color:var(--seal)}
+
+.colophon{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);display:grid;gap:8px;font-size:12.5px;color:var(--ink-3);max-width:76ch}
+.colophon b{color:var(--ink-2);font-weight:500}
+
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms !important;animation-duration:.01ms !important}}
+</style>
+
+<div class="shell">
+
+  <header class="masthead">
+    <p class="eyebrow">한국경제신문 · 미술</p>
+    <h1>성수영 기자의 전시 지도<span class="beta">beta</span></h1>
+    <p class="standfirst">진행중인 전시 중 가볼 만한 것들을 지도에 표시했습니다. 대부분의 전시 내용은 직접 다녀온 뒤 작성한 리뷰 기사로 확인할 수 있고, 나머지 전시는 한두 줄로 정리돼 있습니다. 아직 베타 테스트 단계이니 잘 작동하지 않아도 양해 바랍니다.</p>
+    <p class="byline">
+      <a class="author-link" href="#profile">
+        <span class="who">성수영 기자</span>
+        <span class="more">소개 · 인스타그램 · 유튜브</span>
+      </a>
+      <span class="tally" id="tally">—</span>
+      <span>·</span><span>기준일 <b id="today">—</b></span>
+    </p>
+  </header>
+
+  <div class="controls">
+    <div class="ctrl-group" id="zoneChips"><span class="ctrl-label">권역</span></div>
+    <div class="ctrl-group" id="sortChips"><span class="ctrl-label">정렬</span></div>
+  </div>
+
+  <section class="rating-key" aria-label="별점 기준">
+    <p class="key-label">별점 기준</p>
+    <ul>
+      <li><span class="mark none">별점 없음</span><span class="what">좋은 전시</span></li>
+      <li><span class="mark">★</span><span class="what">기자가 추천하는 전시</span></li>
+      <li><span class="mark">★★</span><span class="what">근처에 들르면 봐야 할 전시</span></li>
+      <li><span class="mark">★★★</span><span class="what">이 전시를 위해 먼 걸음을 감수할 만한 전시</span></li>
+    </ul>
+    <p class="key-note">별점은 개인적인 취향이 반영된 평가로, 한국경제신문 및 아르떼의 공식 입장과 관련 없습니다.</p>
+  </section>
+
+  <div class="board">
+    <section class="map-panel" aria-label="전시 지도">
+      <div class="map-frame">
+        <div class="map-inner">
+          <svg class="map-base" viewBox="0 0 1000 1052" role="img" aria-label="서울 미술 권역 약도. 한강과 주요 전시 권역의 대략적 위치를 나타냅니다.">
+            <defs>
+              <linearGradient id="riverFade" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="var(--river)" stop-opacity=".5"/>
+                <stop offset=".14" stop-color="var(--river)" stop-opacity="1"/>
+                <stop offset=".86" stop-color="var(--river)" stop-opacity="1"/>
+                <stop offset="1" stop-color="var(--river)" stop-opacity=".5"/>
+              </linearGradient>
+            </defs>
+
+            <rect x="0" y="0" width="1000" height="1052" fill="var(--land)"/>
+            <g id="zoneShapes"></g>
+
+            <path d="M0,479 C48,530 96,575 144,620 C200,645 256,668 313,691 C354,705 396,720 438,730 C473,734 509,739 544,738 C579,714 609,689 644,664 C685,635 727,613 769,589 C804,568 840,545 875,526 C912,534 950,542 988,550 L1000,556"
+                  fill="none" stroke="url(#riverFade)" stroke-width="32" stroke-linecap="round"/>
+            <text x="240" y="742" font-size="15" letter-spacing="7" fill="var(--ink-3)" opacity=".85">한 강</text>
+
+            <g opacity=".5">
+              <path d="M481,439 L489,422 L497,439 Z" fill="none" stroke="var(--ink-3)" stroke-width="1.6"/>
+              <text x="503" y="438" font-size="12.5" fill="var(--ink-3)">남산</text>
+              <circle cx="391" cy="409" r="3.4" fill="var(--ink-3)"/>
+              <text x="383" y="413" font-size="12.5" text-anchor="end" fill="var(--ink-3)">서울역</text>
+              <circle cx="932" cy="730" r="3.4" fill="var(--ink-3)"/>
+              <text x="924" y="734" font-size="12.5" text-anchor="end" fill="var(--ink-3)">코엑스</text>
+            </g>
+
+            <g id="zoneLabels"></g>
+          </svg>
+          <div class="pin-layer" id="pinLayer"></div>
+        </div>
+        <div class="map-legend">
+          <span class="scale"><i class="d0"></i>별점 없음</span>
+          <span class="scale"><i class="d1"></i><b>★</b></span>
+          <span class="scale"><i class="d2"></i><b>★★</b></span>
+          <span class="scale"><i class="d3"></i><b>★★★</b></span>
+          <span>위치는 권역 기준 대략치입니다</span>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="전시 목록">
+      <div class="list-head">
+        <h2 id="listTitle">전시 목록</h2>
+        <span class="count" id="listCount"></span>
+      </div>
+      <p class="off-note" id="offNote" hidden></p>
+      <ul class="list" id="list"></ul>
+    </section>
+  </div>
+
+  <section class="outer" id="soonSection" hidden>
+    <h2>곧 문 여는 전시</h2>
+    <p class="note" id="soonNote"></p>
+    <ul class="outer-grid" id="soonList"></ul>
+  </section>
+
+  <section class="profile" id="profile">
+    <p class="profile-label">쓴 사람</p>
+    <h2 class="profile-name">성수영</h2>
+    <p class="bio">한국경제신문 문화부에서 미술과 문화유산을 담당하는 기자. &lt;명화의 탄생, 그때 그 사람&gt; 등 베스트셀러 미술교양서 시리즈 4권을 출간했으며, 벌거벗은세계사와 아르떼TV 아트룸 등 방송에 출연했다. 인스타그램과 유튜브에서 우리 문화유산과 역사를 소개하는 숏폼 영상을 연재하고 있다.</p>
+    <ul class="links">
+      <li><a href="https://www.instagram.com/syoung_art/" target="_blank" rel="noopener">
+        인스타그램 <span class="handle">@syoung_art</span></a></li>
+      <li><a href="https://www.youtube.com/@syoung_art" target="_blank" rel="noopener">
+        유튜브 <span class="handle">문화부 기자 성수영</span></a></li>
+      <li><a href="mailto:syoung@hankyung.com">
+        강연·방송 문의 <span class="handle">syoung@hankyung.com</span></a></li>
+    </ul>
+  </section>
+
+  <footer class="colophon">
+    <p><b>전시 기간은 기사 게재 시점에 확인한 일정입니다.</b> 연장되거나 앞당겨 끝나는 경우가 있으니 방문 전 각 미술관·갤러리 공지를 확인하시기 바랍니다. 휴관일도 공간마다 다릅니다.</p>
+    <p>지도의 점은 실제 주소가 아니라 <b>권역 기준 대략적 위치</b>입니다. 같은 동네의 공간들은 겹치지 않도록 조금씩 벌려 찍었습니다.</p>
+    <p id="sourceLine"></p>
+  </footer>
+
+</div>
+
+<script>
+/* =====================================================================
+   데이터 — 한 항목이 전시 하나다. 기사 하나가 전시 여럿을 다루면 항목도 여럿.
+     zone   : 지도 권역 키(아래 ZONES). 지도 범위 밖이면 null
+     region : zone이 null일 때 어디인지 (예: "서울 창동", "대전")
+     end    : 종료일. 확인된 것만 적는다 — 확인 못 하면 지도에 올리지 않는다
+     url    : 한경 기사. urlAlt는 같은 전시의 짝 기사(지면판·인터넷판)
+     naverUrl : 네이버뉴스 주소(n.news.naver.com/...). 적어 두면 '기사 읽기'가
+                한경 대신 이쪽으로 간다. 비어 있으면 url을 쓴다
+     mapq   : 네이버지도 검색어. 안 적으면 venue에서 괄호만 떼고 검색한다.
+              'K2' '신관' 같은 관(館) 구분이 붙은 곳만 따로 적어 뒀다
+     blurb  : 기사 본문 문장을 그대로 옮긴다. 새로 쓰지 않는다
+     stars  : 별점 1·2·3. 적지 않으면 0(=별점 없음)으로 본다.
+              기자가 하나씩 매긴다 — 항목에 `stars:2,` 한 줄만 끼워 넣으면 된다.
+                없음 = 좋은 전시
+                1 ★   = 기자가 추천하는 전시
+                2 ★★  = 근처에 들르면 봐야 할 전시
+                3 ★★★ = 이 전시를 위해 먼 걸음을 감수할 만한 전시
+   ===================================================================== */
+const BUILT_ON = "2026년 9월 11일";
+const UPCOMING_WINDOW = 45;
+
+const EXHIBITIONS = [
+/* ── 삼청·소격·안국 ───────────────────────────────────────────── */
+{id:"suh", stars:2, zone:"삼청", lon:126.9800, lat:37.5789,
+ venue:"국립현대미술관 서울관", title:"서도호", artist:"서도호",
+ start:"2026-08-27", end:"2027-02-09",
+ blurb:"설치·드로잉·영상 등 500여 점이 나온 작가 인생 최대 규모 전시로, 유치원 시절 그림부터 올해 완성한 신작까지 모았다.",
+ url:"https://www.hankyung.com/article/202608264545i", urlAlt:"https://www.hankyung.com/article/2026082647131",
+ headline:"‘집의 작가’ 서도호가 ‘집’으로 돌아왔다", published:"2026-08-26"},
+
+{id:"conceptual", zone:"삼청", lon:126.9803, lat:37.5792,
+ venue:"국립현대미술관 서울관", title:"이것은 개념미술이 (아니)다", artist:"김범·이건용·주재환 등 28명",
+ start:null, end:"2026-10-11",
+ blurb:"작가 28명의 작품 140여 점을 통해 한국 개념미술을 집중 조명하는 대규모 기획전이다.",
+ url:"https://www.hankyung.com/article/202606233159i", urlAlt:"https://www.hankyung.com/article/2026062947851",
+ headline:"그림이 없는데 풍경이 떠오르네…‘머리로 보는’ 개념미술", published:"2026-06-24"},
+
+{id:"parkseobo", stars:1, zone:"삼청", lon:126.9805, lat:37.5793,
+ venue:"국제갤러리 K1·K3·한옥", mapq:"국제갤러리", title:"변하는 변하지 않는", artist:"박서보",
+ start:null, end:"2026-10-18",
+ blurb:"박서보의 3주기를 맞아 열린 대규모 회고전이다. K1과 K3, 한옥 등 세 공간에 40점을 걸었다.",
+ url:"https://www.hankyung.com/article/202608248379i", urlAlt:"https://www.hankyung.com/article/2026082521071",
+ headline:"“변하지 않으면 추락한다”…3주기에 박서보를 돌아본다", published:"2026-08-25"},
+
+{id:"kimseeun", zone:"삼청", lon:126.9808, lat:37.5796,
+ venue:"국제갤러리 K2", mapq:"국제갤러리", title:"핏월과 픽토", artist:"김세은",
+ start:null, end:"2026-10-18",
+ blurb:"전시 제목은 자동차 경주 F1에서 따왔다. ‘핏월’은 F1 경기 상황을 실시간으로 분석하고 전략을 전달하는 공간, ‘픽토’는 정보를 압축해 전달하는 그림 문자를 뜻한다.",
+ url:"https://www.hankyung.com/article/202608314907i", urlAlt:"https://www.hankyung.com/article/2026090173641",
+ headline:"거장들 사이에 선 ‘차세대 미술 스타’…아트위크가 점찍은 젊은 작가들", published:"2026-09-01"},
+
+{id:"kimbohee", stars:1, zone:"삼청", lon:126.9796, lat:37.5786,
+ venue:"갤러리현대 신관", mapq:"갤러리현대", title:"투워즈: 빛이 있었다", artist:"김보희",
+ start:null, end:"2026-10-18",
+ blurb:"1988년 ‘김보희 작품전’ 이후 38년 만에 이 화랑과 함께 여는 전시다.",
+ url:"https://www.hankyung.com/article/202608290768i", urlAlt:null,
+ headline:"제주의 빛을 화폭에…‘완판 화가’ 김보희, 갤러리현대에 오다", published:"2026-08-31"},
+
+{id:"christinesunkim", zone:"삼청", lon:126.9793, lat:37.5783,
+ venue:"갤러리현대 구관", mapq:"갤러리현대", title:"달 마음", artist:"김 크리스틴 선",
+ start:null, end:"2026-10-18",
+ blurb:"갤러리현대 구관에서는 한국계 미국인 작가 김 크리스틴 선(46)의 개인전 ‘달 마음(Moon Mind)’이 열리고 있다.",
+ url:"https://www.hankyung.com/article/202608290768i", urlAlt:null,
+ headline:"제주의 빛을 화폭에…‘완판 화가’ 김보희, 갤러리현대에 오다", published:"2026-08-31"},
+
+{id:"hamyangah", stars:1, zone:"삼청", lon:126.9812, lat:37.5797,
+ venue:"아트선재센터", title:"정의되지 않은 파노라마", artist:"함양아",
+ start:null, end:"2026-10-04",
+ blurb:"2010년 이후 16년 만에 아트선재센터에서 여는 전시다. 작가가 지난 8년간 만든 영상 설치 작업이 전시장 세 개 층을 채웠다.",
+ url:"https://www.hankyung.com/article/202607317291i", urlAlt:"https://www.hankyung.com/article/2026080927461",
+ headline:"“AI·팬데믹·냉전…미디어아트로 에워싼 현대사”", published:"2026-08-07"},
+
+{id:"kimmuyoung", zone:"삼청", lon:126.9815, lat:37.5800,
+ venue:"아트선재센터 아트홀", mapq:"아트선재센터", title:"피그", artist:"김무영",
+ start:null, end:"2026-10-04",
+ blurb:"작가는 리노베이션을 앞두고 곧 철거될 극장의 계단과 객석을 작품으로 되살렸다. 객석 의자가 제각기 다른 속도로 움직이며 마찰음을 내는 키네틱 설치 작업, 작가의 사진 연작이 나왔다.",
+ url:"https://www.hankyung.com/article/202608314907i", urlAlt:"https://www.hankyung.com/article/2026090173641",
+ headline:"거장들 사이에 선 ‘차세대 미술 스타’…아트위크가 점찍은 젊은 작가들", published:"2026-09-01"},
+
+{id:"kangyobae", stars:1, zone:"삼청", lon:126.9819, lat:37.5802,
+ venue:"학고재", title:"소소, 반색", artist:"강요배",
+ start:"2026-08-12", end:"2026-09-12",
+ blurb:"회화 28점을 소개하는 이번 전시의 제목은 ‘소소, 반색’. 일상에서 스쳐 지나가기 쉬운 작고 미미한 존재들을 반갑게 맞이한다는 뜻을 담았다.",
+ url:"https://www.hankyung.com/article/202608114437i", urlAlt:"https://www.hankyung.com/article/2026081150671",
+ headline:"“제목 말고 그림부터 봐주세요”…강요배가 담은 제주의 자연", published:"2026-08-11"},
+
+{id:"devlin", stars:3, zone:"삼청", lon:126.9820, lat:37.5845,
+ venue:"푸투라서울", title:"세 번째 시: 에스 데블린, 다시 집으로", artist:"에스 데블린",
+ start:"2026-08-20", end:"2027-01-17",
+ blurb:"거울로 둘러싸인 방에 들어서면 빛과 언어가 겹겹이 반사되며 관객을 에워싼다. 비욘세와 U2 등 팝스타들의 무대 디자인과 미술, 건축을 넘나들며 세계가 주목해온 작가다.",
+ url:"https://www.hankyung.com/article/202609016381i", urlAlt:"https://www.hankyung.com/article/2026082775691",
+ headline:"책 1만 권이 말을 걸어왔다…데블린이 ‘조각한’ 관객의 시간", published:"2026-09-01"},
+
+{id:"jarsma", zone:"삼청", lon:126.9827, lat:37.5820,
+ venue:"백아트 서울", title:"나의 숨결, 나무로 돌아가다", artist:"멜라 야르스마",
+ start:"2026-08-26", end:"2026-10-10",
+ blurb:"백아트에서는 네덜란드 출신 작가 멜라 야르스마의 개인전이 열리고 있다.",
+ url:"https://www.hankyung.com/article/2026082775691", urlAlt:null,
+ headline:"데블린의 거울 미로·서도호의 집…공간이 주는 여운에 잠기다", published:"2026-08-27"},
+
+{id:"sunhyewon", stars:1, zone:"삼청", lon:126.9838, lat:37.5878,
+ venue:"선혜원", title:"흔들리는 것들의 안부", artist:"모나 하툼·최성임·김윤수",
+ start:"2026-09-02", end:"2026-10-31",
+ blurb:"경흥각에 들어서면 굵은 서까래 아래 유리구슬 1200개를 만날 수 있다. 하툼의 설치작 ‘웹(Web)’이다. 무료지만 예약 없이는 들어갈 수 없다.",
+ url:"https://www.hankyung.com/article/202609118817i", urlAlt:"https://www.hankyung.com/article/2026082775691",
+ headline:"‘가장 예약 어려운 전시’…삼청동 선혜원 ‘거미줄 작품’ 인기", published:"2026-09-11"},
+
+{id:"yunhyongkeun", zone:"삼청", lon:126.9805, lat:37.5836,
+ venue:"PKM갤러리", title:null, artist:"윤형근",
+ start:null, end:"2026-10-03",
+ blurb:"단색화를 대표하는 또 다른 화가 윤형근(1928~2007)의 전시는 PKM갤러리에서 열린다. 시기별 대표작 30점으로 화업을 훑어보는 전시다.",
+ url:"https://www.hankyung.com/article/2026082775691", urlAlt:null,
+ headline:"데블린의 거울 미로·서도호의 집…공간이 주는 여운에 잠기다", published:"2026-08-27"},
+
+{id:"kwoninkyung", zone:"삼청", lon:126.9857, lat:37.5738,
+ venue:"갤러리밈 (인사동)", title:"너의 방에 숲이 무성할 때", artist:"권인경",
+ start:null, end:"2026-10-30",
+ blurb:"권 작가의 신작 20여 점을 모은 자리다. 갤러리밈에서 3년 만에 여는 전시이자 작가의 16번째 개인전이다.",
+ url:"https://www.hankyung.com/article/202608290770i", urlAlt:"https://www.hankyung.com/article/2026083145211",
+ headline:"콘크리트 뚫고 자란 숲…권인경이 그린 ‘마음의 방’", published:"2026-08-30"},
+
+/* ── 광화문·정동·서소문 ───────────────────────────────────────── */
+{id:"yooyoungkuk", stars:2, zone:"광화문", lon:126.9738, lat:37.5640,
+ venue:"서울시립미술관 서소문본관", title:"유영국", artist:"유영국",
+ start:null, end:"2026-10-25",
+ blurb:"탄생 110주년을 맞아 작품 세계를 조명하는 역대 최대 규모 전시다. 전시작 수는 유화 115점에 사진·드로잉 등을 합쳐 178점에 달한다.",
+ url:"https://www.hankyung.com/article/202605285104i", urlAlt:"https://www.hankyung.com/article/2026060350171",
+ headline:"한평생 山을 그리고 떠난 유영국이 왔다", published:"2026-06-03"},
+
+{id:"baselitz-sehwa", stars:2, zone:"광화문", lon:126.9722, lat:37.5697,
+ venue:"세화미술관", title:"게오르크 바젤리츠 회고전", artist:"게오르크 바젤리츠",
+ start:"2026-08-12", end:"2026-12-27",
+ blurb:"전시장에는 1966년 초기작부터 숨을 거두기 직전 완성한 유작까지 회화, 드로잉, 조각 46점이 나와 있다.",
+ url:"https://www.hankyung.com/article/2026081399501", urlAlt:null,
+ headline:"세상을 뒤집은 바젤리츠, 그의 마지막 흔적을 마주하다", published:"2026-08-13"},
+
+{id:"leedaewon", stars:1, zone:"광화문", lon:126.9750, lat:37.5657,
+ venue:"국립현대미술관 덕수궁관", title:"이대원 회고전", artist:"이대원",
+ start:"2026-08-06", end:"2026-11-08",
+ blurb:"정동 국립현대미술관 덕수궁은 ‘색채의 마법사’ 이대원(1921~2005)의 첫 대규모 회고전에 유화 120여 점을 펼쳤다.",
+ url:"https://www.hankyung.com/article/2026082775691", urlAlt:"https://www.hankyung.com/article/2026080691511",
+ headline:"데블린의 거울 미로·서도호의 집…공간이 주는 여운에 잠기다", published:"2026-08-27"},
+
+/* ── 종로·동대문·중구 ─────────────────────────────────────────── */
+{id:"choiyoonhee-pico", zone:"종로", lon:126.9950, lat:37.5630,
+ venue:"피코 (중구)", title:null, artist:"최윤희",
+ start:null, end:"2026-10-04",
+ blurb:"서울 중구의 전시공간 피코에서는 물감이 자유롭게 풀어지고 번지는 수채 드로잉과 대형 회화가 걸려 있다.",
+ url:"https://www.hankyung.com/article/202608314907i", urlAlt:"https://www.hankyung.com/article/2026090173641",
+ headline:"거장들 사이에 선 ‘차세대 미술 스타’…아트위크가 점찍은 젊은 작가들", published:"2026-09-01"},
+
+/* ── 한남·이태원 ──────────────────────────────────────────────── */
+{id:"koojeonga", stars:1, zone:"한남", lon:126.9990, lat:37.5385,
+ venue:"리움미술관", title:"구정아: 우스모스", artist:"구정아",
+ start:"2026-09-05", end:"2026-12-27",
+ blurb:"국내에서 열리는 구정아의 최대 규모 개인전으로, 1990년대 초기작부터 신작까지 35점이 나온다. 이번 전시는 M2와 로비를 넘어 고미술 상설전시실까지 미술관 곳곳을 무대로 삼는다.",
+ url:"https://www.hankyung.com/article/2026090327171", urlAlt:"https://www.hankyung.com/article/2026082775811",
+ headline:"샤프심·야광·향기…이해하지 않아도 좋은 구정아의 우주", published:"2026-09-03"},
+
+{id:"insideotherspaces", zone:"한남", lon:126.9992, lat:37.5382,
+ venue:"리움미술관", title:"다른 공간 안으로: 여성 작가들의 공감각적 환경 1956–1976", artist:null,
+ start:"2026-05-05", end:"2026-11-29",
+ blurb:"1세대 여성 설치미술가들을 조명한 전시다.",
+ url:"https://www.hankyung.com/article/2026080691511", urlAlt:null,
+ headline:"반 고흐부터 마틴 파까지…명작으로 더위 날려볼까", published:"2026-08-06"},
+
+{id:"attia", zone:"한남", lon:126.9985, lat:37.5396,
+ venue:"리만머핀 서울", title:"되돌리지 않는 수리", artist:"카데르 아티아",
+ start:null, end:"2026-10-17",
+ blurb:"그가 20여 년간 집중한 주제 ‘상처와 수리’를 조각과 설치, 사진으로 풀어낸 자리다.",
+ url:"https://www.hankyung.com/article/202608312827i", urlAlt:null,
+ headline:"칼로 긋고 꿰매 ‘흉터’를 만들다…카데르 아티아 서울 첫 개인전", published:"2026-09-01"},
+
+{id:"iosifzon", stars:1, zone:"한남", lon:126.9995, lat:37.5360,
+ venue:"파운드리 서울", title:"무중력", artist:"율리아 아이오실존",
+ start:null, end:"2026-10-03",
+ blurb:"반투명 캔버스 회화와 세라믹 모자이크, 천으로 만든 조형 작품이 나왔다. 이를 통해 작가는 땅과 바다, 하늘의 경계를 넘나드는 환상 속 풍경을 관객에게 보여준다.",
+ url:"https://www.hankyung.com/article/202608301523i", urlAlt:"https://www.hankyung.com/article/2026090328061",
+ headline:"공중에 뜬 해파리, 속 비치는 캔버스…한남동에 뜬 ‘무중력의 정원’", published:"2026-08-30"},
+
+{id:"sallyhan", zone:"한남", lon:127.0005, lat:37.5368,
+ venue:"리아트코리아", title:"물끄러미", artist:"샐리 한",
+ start:"2026-09-01", end:"2026-10-31",
+ blurb:"화면 속 인물은 얼굴을 돌리고 있거나 무엇을 보는지 알 수 없다. 좀처럼 관객과 눈을 마주치지 않는다.",
+ url:"https://www.hankyung.com/article/202608213889i", urlAlt:"https://www.hankyung.com/article/2026090819381",
+ headline:"마이애미·베이루트도 소장…33세 샐리 한 국내 첫 개인전", published:"2026-08-21"},
+
+{id:"atkins", stars:1, zone:"한남", lon:127.0000, lat:37.5373,
+ venue:"글래드스톤 서울", title:"1 day in space", artist:"에드 앳킨스",
+ start:"2026-08-31", end:"2026-10-31",
+ blurb:"앳킨스를 스타로 만들어준 CG 작품은 이번에 오지 않았다. 대신 골판지와 흑연, 필름 사진으로 만든 신작 24점이 왔다. 이번 전시작들을 관통하는 주제는 ‘상실감’이다.",
+ url:"https://www.hankyung.com/article/202609107696i", urlAlt:"https://www.hankyung.com/article/2026082775811",
+ headline:"영국 미술계 뒤흔든 ‘40대 슈퍼스타’…서울 한남동에 뜬 이유", published:"2026-09-10"},
+
+{id:"seongryul", zone:"한남", lon:127.0015, lat:37.5378,
+ venue:"갤러리조은", title:null, artist:"성률",
+ start:null, end:"2026-09-19",
+ blurb:"갤러리조은에서 열리고 있는 성률의 첫 개인전에는 파란 하늘과 뭉게구름을 그린 회화가 걸렸다. 봉준호 영화감독이 전시 도록에 작가론을 썼다.",
+ url:"https://www.hankyung.com/article/2026082775811", urlAlt:null,
+ headline:"그림도 조각도 없다…구정아는 향기, 솔 르윗은 지시문 내걸어", published:"2026-08-27"},
+
+{id:"baton", zone:"한남", lon:127.0031, lat:37.5362,
+ venue:"갤러리바톤", title:"GRACE", artist:null,
+ start:"2026-09-01", end:"2026-10-10",
+ blurb:"확장 이전한 갤러리바톤의 재개관전이다. 소속 작가들의 작품을 모은 전시다.",
+ url:"https://www.hankyung.com/article/2026082775811", urlAlt:null,
+ headline:"그림도 조각도 없다…구정아는 향기, 솔 르윗은 지시문 내걸어", published:"2026-08-27"},
+
+{id:"baselitz-ropac", zone:"한남", lon:127.0012, lat:37.5391,
+ venue:"타데우스로팍 서울 포트힐", mapq:"타데우스로팍 서울", title:"손끝에서", artist:"게오르크 바젤리츠",
+ start:"2026-09-01", end:"2026-11-14",
+ blurb:"광화문 세화미술관의 회고전과 함께 타계한 거장을 추모하는 전시다.",
+ url:"https://www.hankyung.com/article/2026082775811", urlAlt:null,
+ headline:"그림도 조각도 없다…구정아는 향기, 솔 르윗은 지시문 내걸어", published:"2026-08-27"},
+
+{id:"kunath", zone:"한남", lon:127.0020, lat:37.5350,
+ venue:"페이스갤러리 서울", title:"The Nearest Faraway Place", artist:"프리드리히 쿠나스",
+ start:"2026-09-01", end:"2026-10-24",
+ blurb:null,
+ url:"https://www.hankyung.com/article/2026082775811", urlAlt:null,
+ headline:"그림도 조각도 없다…구정아는 향기, 솔 르윗은 지시문 내걸어", published:"2026-08-27"},
+
+{id:"fujiwara", zone:"한남", lon:127.0023, lat:37.5362,
+ venue:"에스더쉬퍼 서울", title:"Who Lived Happily Ever After?", artist:"사이먼 후지와라",
+ start:"2026-09-02", end:"2026-10-31",
+ blurb:"곰 캐릭터 ‘후 더 베어’ 연작으로 유명한 사이먼 후지와라의 개인전이다.",
+ url:"https://www.hankyung.com/article/2026082775811", urlAlt:null,
+ headline:"그림도 조각도 없다…구정아는 향기, 솔 르윗은 지시문 내걸어", published:"2026-08-27"},
+
+/* ── 용산·이촌 ────────────────────────────────────────────────── */
+{id:"sollewitt", stars:2, zone:"용산", lon:126.9723, lat:37.5270,
+ venue:"아모레퍼시픽미술관", title:"솔 르윗: 오픈 스트럭처", artist:"솔 르윗",
+ start:"2026-09-01", end:"2027-02-28",
+ blurb:"르윗은 벽에 그림을 그리는 대신 노트에 글을 써서 현대미술의 전설이 됐다. 벽화 13점은 국내 미술 전공자 23명이 작가가 남긴 지시문을 해석해 전시장 벽에 직접 그렸다.",
+ url:"https://www.hankyung.com/article/2026091071651", urlAlt:"https://www.hankyung.com/article/2026082775811",
+ headline:"그림 대신 노트에 개념 남겼다…죽은 작가가 낸 ‘미술 퍼즐’ 풀기", published:"2026-09-10"},
+
+{id:"bapsang", zone:"용산", lon:126.9800, lat:37.5240,
+ venue:"국립중앙박물관", title:"우리들의 밥상", artist:null,
+ start:"2026-07-01", end:"2026-10-25",
+ blurb:"청동기시대 볍씨부터 박수근의 그림까지, 국보 한 점과 보물 5점을 포함해 51개 기관에서 모은 유물 및 작품 684점이 나왔다.",
+ url:"https://www.hankyung.com/article/202606306110i", urlAlt:"https://www.hankyung.com/article/2026072174731",
+ headline:"삼천년 전 볍씨부터 박수근 ‘굴비’까지…국중박이 차린 ‘한국인의 밥상’", published:"2026-06-30"},
+
+{id:"chusa", zone:"용산", lon:126.9803, lat:37.5243,
+ venue:"국립중앙박물관 서화실", mapq:"국립중앙박물관", title:"추사 김정희와 그의 동반자", artist:"김정희",
+ start:null, end:"2026-11-22",
+ blurb:"편지와 글씨, 그림 등 38점이 그의 넓은 인간관계를 보여주는 증거다.",
+ url:"https://www.hankyung.com/article/202608105328i", urlAlt:"https://www.hankyung.com/article/2026081878441",
+ headline:"“고고한 천재가 아니었다”…추사 김정희가 만난 사람들", published:"2026-08-11"},
+
+/* ── 청담·압구정·신사 ─────────────────────────────────────────── */
+{id:"choiyoonhee-zi", zone:"청담", lon:127.0430, lat:37.5250,
+ venue:"지갤러리", title:"중력을 잊은 형상들", artist:"최윤희",
+ start:null, end:"2026-09-30",
+ blurb:"얇은 막과 층이 중첩된 견고한 표면의 유화가 나와 있다.",
+ url:"https://www.hankyung.com/article/202608314907i", urlAlt:"https://www.hankyung.com/article/2026090173641",
+ headline:"거장들 사이에 선 ‘차세대 미술 스타’…아트위크가 점찍은 젊은 작가들", published:"2026-09-01"},
+
+/* ── 성수·서울숲 ──────────────────────────────────────────────── */
+{id:"consortium", stars:1, zone:"성수", lon:127.0440, lat:37.5445,
+ venue:"더페이지갤러리", title:"업 어게인스트 더 월스!", artist:"우고 론디노네·존 암리더 등",
+ start:null, end:"2026-10-10",
+ blurb:"이번 전시 주제는 벽이다. 미술관과 갤러리에서 벽은 늘 그림을 거는 ‘배경’이었지만, 이번 전시장에서는 벽 자체가 작품의 일부가 된다.",
+ url:"https://www.hankyung.com/article/202609106391i", urlAlt:null,
+ headline:"“머리 아프게 공부하지마”…성수동에 펼친 佛 미술관 작품들", published:"2026-09-10"},
+
+/* ── 여의도·영등포 ────────────────────────────────────────────── */
+{id:"banksy", zone:"여의도", lon:126.9265, lat:37.5258,
+ venue:"더현대서울 ALT.1", mapq:"더현대 서울", title:"뱅크시: 스틸 히어", artist:"뱅크시",
+ start:null, end:"2026-11-03",
+ blurb:"그가 30년간 걸어온 길을 돌아보는 전시다. PCO와 POW의 인증 판화, 비인증 사진과 오브제 등 전시작의 출처와 종류를 각 작품 옆에 정확히 표기했다.",
+ url:"https://www.hankyung.com/article/202607220240i", urlAlt:"https://www.hankyung.com/article/2026072664781",
+ headline:"‘얼굴 없는 예술가’ 뱅크시, 서울서 대규모 전시…작품 진짜일까", published:"2026-07-23"},
+
+{id:"cubist", zone:"여의도", lon:126.9400, lat:37.5195,
+ venue:"퐁피두센터 한화 (63빌딩)", mapq:"퐁피두센터 한화 서울", title:"큐비스트: 시각의 혁신가들", artist:"피카소·브라크·레제 등",
+ start:"2026-06-04", end:"2026-10-04",
+ blurb:"피카소를 필두로 조르주 브라크와 페르낭 레제 등 40여 명의 회화·조각 90여 점을 8개 섹션으로 나눠 선보인다.",
+ url:"https://www.hankyung.com/article/2026051969851", urlAlt:null,
+ headline:"피카소·브라크…63빌딩서 ‘입체파’ 만난다", published:"2026-05-19"},
+
+/* ── 연희·서교·홍대 ───────────────────────────────────────────── */
+{id:"parkseobo-museum", zone:"연희", lon:126.9320, lat:37.5670,
+ venue:"박서보미술관", title:"박서보와 흐엉 도딘: 비움 그 충만", artist:"박서보·흐엉 도딘",
+ start:"2026-08-21", end:"2027-01-03",
+ blurb:"이번 전시에서는 박서보의 회화 25점을 베트남 출신 프랑스 화가 흐엉 도딘(81)의 회화 17점과 함께 선보인다.",
+ url:"https://www.hankyung.com/article/202608198384i", urlAlt:null,
+ headline:"“미술관 생기면 걸겠다”던…박서보 마지막 ‘백색 묘법’ 나왔다", published:"2026-08-19"},
+
+{id:"choilala", zone:"연희", lon:126.9430, lat:37.5480,
+ venue:"레이어스튜디오 11 (신수동)", title:null, artist:"최랄라",
+ start:null, end:"2026-09-30",
+ blurb:"촬영한 사진을 인화한 다음 그 위에 드로잉과 페인팅을 얹고, 이를 다시 사진으로 찍는 과정을 되풀이했다.",
+ url:"https://www.hankyung.com/article/202609079761i", urlAlt:null,
+ headline:"K팝 스타 찍던 최랄라의 진화…5년 만의 개인전", published:"2026-09-08"},
+
+/* ── 홍지·부암·평창 ───────────────────────────────────────────── */
+{id:"ida-seoul", zone:"평창", lon:126.9540, lat:37.5960,
+ venue:"우손갤러리 서울", title:"시 유 투모로", artist:"이다 유키마사",
+ start:"2026-08-27", end:"2026-10-31",
+ blurb:"우손갤러리 서울에는 올해 그린 ‘반 고흐 No.2’가 걸린다.",
+ url:"https://www.hankyung.com/article/202608214201i", urlAlt:null,
+ headline:"하루에 한 점씩 그린다…일본 이다 유키마사 첫 한국 개인전", published:"2026-08-21"},
+
+/* ── 서초·예술의전당 ──────────────────────────────────────────── */
+{id:"goya", zone:"서초", lon:127.0118, lat:37.4800,
+ venue:"예술의전당 한가람미술관", title:"스페인의 거장 고야: 이성이 잠들 때, 괴물이 깨어난다", artist:"프란시스코 고야",
+ start:null, end:"2026-09-30",
+ blurb:"전시의 핵심이자 ‘원작’이라 할 수 있는 작품은 판화집 ‘카프리초스’에 수록된 80점이다. 1799년 고야가 펴낸 이 풍자 판화 연작은 서양미술사에서 빼놓을 수 없는 명작이다.",
+ url:"https://www.hankyung.com/article/202606271531i", urlAlt:null,
+ headline:"고야 명작 판화 연작 전시…“판화전인줄 몰랐다” 불만도", published:"2026-06-29"},
+
+{id:"spain500", zone:"서초", lon:127.0122, lat:37.4804,
+ venue:"예술의전당 한가람디자인미술관", title:"스페인 미술 500년: 빛과 어둠의 연대기", artist:"엘 그레코·벨라스케스·고야 등",
+ start:"2026-09-22", end:"2027-01-20",
+ blurb:"엘 그레코의 ‘성가족’, 고야의 전신 초상 ‘돈 마누엘 라페냐’, 벨라스케스가 그린 추기경 초상 등 초상화들도 만날 수 있다.",
+ url:"https://www.hankyung.com/article/2026090947471", urlAlt:"https://www.hankyung.com/article/202607277550i",
+ headline:"엘 그레코의 성모가 유난히 우아한 이유가 있다", published:"2026-09-09"},
+
+/* ── 관악·사당 ────────────────────────────────────────────────── */
+{id:"chosukjin", zone:"관악", lon:126.9800, lat:37.4785,
+ venue:"서울시립 남서울미술관", title:"지나가는 자리", artist:"조숙진",
+ start:"2026-07-29", end:"2026-11-15",
+ blurb:"남부에서는 남현동 남서울미술관의 조숙진 개인전 ‘지나가는 자리’가 눈에 띈다.",
+ url:"https://www.hankyung.com/article/2026080691511", urlAlt:null,
+ headline:"반 고흐부터 마틴 파까지…명작으로 더위 날려볼까", published:"2026-08-06"},
+
+/* ── 지도 밖 ──────────────────────────────────────────────────── */
+{id:"martinparr", stars:2, zone:null, area:"서울 외곽", region:"서울 창동", lon:127.0480, lat:37.6537,
+ venue:"서울시립 사진미술관", title:"마틴 파: 위 아 마틴 파", artist:"마틴 파",
+ start:"2026-07-16", end:"2026-10-18",
+ blurb:"총 595점에 달하는 작품을 통해 파가 어떤 작가였는지를 보여주는 대규모 회고전이다.",
+ url:"https://www.hankyung.com/article/202607156787i", urlAlt:"https://www.hankyung.com/article/2026072051541",
+ headline:"오늘 휴대폰으로 찍는 평범한 일상, 이 거장이 30년 전에 찍었다", published:"2026-07-16"},
+
+{id:"kaws", stars:1, zone:null, area:"서울 외곽", region:"서울 마곡", lon:126.8280, lat:37.5670,
+ venue:"스페이스K 서울", title:"친구, 그리고 이웃", artist:"카우스",
+ start:"2026-07-23", end:"2026-12-27",
+ blurb:"전시장의 주인공은 ‘아주 친한 친구’라는 뜻의 캐릭터 ‘첨(CHUM)’이다.",
+ url:"https://www.hankyung.com/article/202607228951i", urlAlt:"https://www.hankyung.com/article/2026072299741",
+ headline:"‘그래피티 소년’ 카우스, ‘X’ 눈 인형으로 미술판을 뒤집다", published:"2026-07-22"},
+
+{id:"mmca-gwacheon", zone:null, area:"수도권", region:"경기 과천", lon:127.0170, lat:37.4320,
+ venue:"국립현대미술관 과천관", title:"MMCA 과천 40주년: 빛의 상상들", artist:"필립 파레노·제임스 터렐 등",
+ start:null, end:"2026-11-29",
+ blurb:"국립현대미술관은 ‘빛’을 주제로 국내외 작가 9명의 작품을 고른 뒤 이를 로비와 전시실, 야외 조각공원 등에 전시했다.",
+ url:"https://www.hankyung.com/article/202607120355i", urlAlt:"https://www.hankyung.com/article/2026072789391",
+ headline:"마흔 살 과천 국립현대미술관, 빛으로 물들다", published:"2026-07-13"},
+
+{id:"shiota", stars:1, zone:null, area:"충청·강원", region:"대전", lon:127.4260, lat:36.3300,
+ venue:"헤레디움·아트사이트 소제", mapq:"헤레디움", title:"기억의 빛 속으로", artist:"시오타 치하루",
+ start:null, end:"2027-02-21",
+ blurb:"대형 설치작품 ‘인 더 라이트 오브 메모리’에는 붉은 실과 함께 대전 소제동의 옛 철도관사에서 쓰던 문(門)과 대전시민들의 낡은 신발이 사용됐다.",
+ url:"https://www.hankyung.com/article/202608302233i", urlAlt:"https://www.hankyung.com/article/2026083145251",
+ headline:"낡은 문·헌 신발…日 작가가 붉은 실로 엮은 대전의 기억", published:"2026-08-31"},
+
+{id:"warhol", zone:null, area:"영남", region:"대구", lon:128.5600, lat:35.8670,
+ venue:"대구문화예술회관", title:"앤디 워홀: 예술을 팔다", artist:"앤디 워홀",
+ start:"2026-08-03", end:"2026-10-25",
+ blurb:"워홀 연구자이자 컬렉터인 폴 마레샬이 30년간 수집한 희귀 작품과 아카이브 300여 점이 국내에서 처음으로 공개됐다.",
+ url:"https://www.hankyung.com/article/2026080691511", urlAlt:null,
+ headline:"반 고흐부터 마틴 파까지…명작으로 더위 날려볼까", published:"2026-08-06"},
+
+{id:"ida-gyeongju", zone:null, area:"영남", region:"경북 경주", lon:129.2250, lat:35.8400,
+ venue:"오아르미술관", title:"리멤버링 유: 기억의 행위", artist:"이다 유키마사",
+ start:"2026-08-23", end:"2027-03-14",
+ blurb:"‘리멤버링 유: 기억의 행위’라는 제목으로 회화와 조각, 영상 50여 점을 지하 1층과 지상 2층에 건다.",
+ url:"https://www.hankyung.com/article/202608214201i", urlAlt:null,
+ headline:"하루에 한 점씩 그린다…일본 이다 유키마사 첫 한국 개인전", published:"2026-08-21"},
+
+{id:"ida-daegu", zone:null, area:"영남", region:"대구", lon:128.6000, lat:35.8600,
+ venue:"우손갤러리 대구", title:"이너 가든", artist:"이다 유키마사",
+ start:"2026-08-27", end:"2026-10-31",
+ blurb:"우손갤러리 서울과 대구에서 ‘시 유 투모로’와 ‘이너 가든’이 동시에 문을 연다.",
+ url:"https://www.hankyung.com/article/202608214201i", urlAlt:null,
+ headline:"하루에 한 점씩 그린다…일본 이다 유키마사 첫 한국 개인전", published:"2026-08-21"},
+
+{id:"gwangju-biennale", stars:2, zone:null, area:"호남", region:"광주", lon:126.8900, lat:35.1600,
+ venue:"광주비엔날레 전시관", title:"너는 네 삶을 바꿔야 한다", artist:"43팀",
+ start:"2026-09-04", end:"2026-11-15",
+ blurb:"아시아 최대 비엔날레인 이 행사의 올해 참여 작가는 43팀에 불과하다. ‘변화’를 화두로 다양한 작품들을 배치했다.",
+ url:"https://www.hankyung.com/article/202609055982i", urlAlt:"https://www.hankyung.com/article/2026090669051",
+ headline:"파격적으로 참가팀 줄이자 더욱 또렷해진 광주비엔날레", published:"2026-09-06"},
+
+{id:"austria-pavilion", zone:null, area:"호남", region:"광주", lon:126.9200, lat:35.1470,
+ venue:"은암미술관", title:"광주비엔날레 오스트리아관", artist:"비르케 고름",
+ start:null, end:"2026-11-15",
+ blurb:"작가는 “다락은 버리지는 않았지만 없는 셈 치는 물건을 올려두는 자리”라며 “가사노동도 비슷한 취급을 받는다는 생각을 하며 작업했다”고 말했다.",
+ url:"https://www.hankyung.com/article/202609081455i", urlAlt:null,
+ headline:"광주産 쓰레기로 채운 ‘오스트리아산 미술품’", published:"2026-09-08"},
+
+{id:"banghyeja", stars:1, zone:null, area:"충청·강원", region:"충북 청주", lon:127.4900, lat:36.6400,
+ venue:"국립현대미술관 청주관", title:"천지에 마음의 빛 뿌리며 간다", artist:"방혜자",
+ start:null, end:"2026-09-27",
+ blurb:"작가 타계 4년 만에 뒤늦게 열린 첫 대규모 회고전이다. 한불 수교 140주년을 기념해 열린 이 전시에는 작품 67점과 아카이브 200여 점이 나왔다.",
+ url:"https://www.hankyung.com/article/202604283747i", urlAlt:"https://www.hankyung.com/article/2026050567981",
+ headline:"프랑스가 알아본 ‘피카소 옆방 한국 화가’…故 방혜자 회고전", published:"2026-04-29"},
+
+{id:"paiknamjune", zone:null, area:"수도권", region:"경기 용인", lon:127.1100, lat:37.2400,
+ venue:"백남준아트센터", title:"백남준의 행성: Waiting for UFO", artist:"백남준",
+ start:"2026-07-16", end:"2027-02-14",
+ blurb:"백남준 서거 20주기를 맞아 용인 백남준아트센터에서 열리고 있다.",
+ url:"https://www.hankyung.com/article/2026080691511", urlAlt:null,
+ headline:"반 고흐부터 마틴 파까지…명작으로 더위 날려볼까", published:"2026-08-06"},
+
+{id:"leebae-museumsan", zone:null, area:"충청·강원", region:"강원 원주", lon:128.0500, lat:37.3000,
+ venue:"뮤지엄산", title:"En attendant: 기다리며", artist:"이배",
+ start:"2026-04-07", end:"2026-12-06",
+ blurb:"강원도에서는 원주 뮤지엄산에서 이배 개인전이 열리고 있다.",
+ url:"https://www.hankyung.com/article/2026080691511", urlAlt:null,
+ headline:"반 고흐부터 마틴 파까지…명작으로 더위 날려볼까", published:"2026-08-06"},
+
+{id:"kangyobae-gwangju", zone:null, area:"호남", region:"광주", lon:126.8830, lat:35.1850,
+ venue:"광주시립미술관", title:"강요배: 시간을 품다", artist:"강요배",
+ start:"2026-05-08", end:"2026-09-27",
+ blurb:"제주 4·3의 기억을 화폭에 새겨온 민중미술 1세대 작가 강요배의 첫 개인전 50주년을 기념하는 대규모 회고전으로, 5·18민주화운동 45주년을 맞아 제작한 신작 ‘철목’과 ‘광음’이 처음 공개됐다.",
+ url:"https://www.hankyung.com/article/2026080691511", urlAlt:null,
+ headline:"반 고흐부터 마틴 파까지…명작으로 더위 날려볼까", published:"2026-08-06"}
+];
+
+/* =====================================================================
+   지도 투영 — 위경도를 약도 좌표로.
+   권역 앵커는 30_비서\서울행\서울_미술공간_이동표.md의 역 좌표 캐시(실측)를
+   근거로 잡았다.
+   ===================================================================== */
+const BOUNDS = { lonMin:126.910, lonMax:127.070, latMin:37.472, latMax:37.606 };
+const VB = { w:1000, h:1052 };
+const projX = lon => (lon - BOUNDS.lonMin) / (BOUNDS.lonMax - BOUNDS.lonMin) * VB.w;
+const projY = lat => (BOUNDS.latMax - lat) / (BOUNDS.latMax - BOUNDS.latMin) * VB.h;
+
+const ZONES = [
+  { key:"평창",   name:"홍지·부암·평창",     lon:126.9540, lat:37.5960, rx:46, ry:36, lx:0,   ly:-48 },
+  { key:"삼청",   name:"삼청·소격·안국",     lon:126.9822, lat:37.5800, rx:98, ry:92, lx:0,   ly:-108 },
+  { key:"서촌",   name:"서촌·경복궁 서측",   lon:126.9715, lat:37.5790, rx:44, ry:34, lx:-56, ly:-2 },
+  { key:"광화문", name:"광화문·정동·서소문", lon:126.9740, lat:37.5660, rx:58, ry:48, lx:-30, ly:70 },
+  { key:"종로",   name:"종로·동대문·중구",   lon:126.9950, lat:37.5630, rx:50, ry:38, lx:0,   ly:54 },
+  { key:"연희",   name:"연희·서교·홍대",     lon:126.9370, lat:37.5580, rx:56, ry:70, lx:-80, ly:0 },
+  { key:"한남",   name:"한남·이태원",        lon:127.0005, lat:37.5372, rx:84, ry:80, lx:0,   ly:-96 },
+  { key:"용산",   name:"용산·이촌",          lon:126.9760, lat:37.5255, rx:52, ry:40, lx:-16, ly:56 },
+  { key:"성수",   name:"성수·서울숲",        lon:127.0440, lat:37.5445, rx:46, ry:36, lx:6,   ly:-48 },
+  { key:"청담",   name:"청담·압구정·신사",   lon:127.0430, lat:37.5250, rx:50, ry:38, lx:8,   ly:56 },
+  { key:"여의도", name:"여의도·영등포",      lon:126.9330, lat:37.5225, rx:66, ry:46, lx:10,  ly:64 },
+  { key:"관악",   name:"관악·사당",          lon:126.9800, lat:37.4785, rx:44, ry:34, lx:0,   ly:-52 },
+  { key:"서초",   name:"서초·예술의전당",    lon:127.0120, lat:37.4802, rx:48, ry:36, lx:0,   ly:52 }
+];
+const zoneByKey = Object.fromEntries(ZONES.map(z => [z.key, z]));
+
+/* =====================================================================
+   날짜
+   ===================================================================== */
+const today = new Date();
+today.setHours(0,0,0,0);
+const parseDate = s => { if(!s) return null; const [y,m,d] = s.split("-").map(Number); const dt = new Date(y, m-1, d); dt.setHours(0,0,0,0); return dt; };
+const daysLeft = s => { const d = parseDate(s); return d ? Math.round((d - today) / 86400000) : null; };
+const md = s => `${Number(s.split("-")[1])}.${Number(s.split("-")[2])}`;
+
+/* 오늘 열려 있는 전시: 종료일이 확인됐고 아직 안 지났으며, 이미 개막한 것.
+   종료일을 확인하지 못한 전시는 열려 있다고 단정할 수 없으므로 싣지 않는다. */
+const isOpen = e => {
+  const left = daysLeft(e.end);
+  if (left === null || left < 0) return false;
+  const s = daysLeft(e.start);
+  return s === null || s <= 0;
+};
+const isUpcoming = e => {
+  const s = daysLeft(e.start);
+  return s !== null && s > 0 && s <= UPCOMING_WINDOW;
+};
+const inBounds = e => {
+  const z = zoneByKey[e.zone];
+  if (!z) return false;
+  const lon = e.lon ?? z.lon, lat = e.lat ?? z.lat;
+  return lon >= BOUNDS.lonMin && lon <= BOUNDS.lonMax && lat >= BOUNDS.latMin && lat <= BOUNDS.latMax;
+};
+
+/* =====================================================================
+   상태
+   ===================================================================== */
+const AREA_ORDER = ["서울 외곽","수도권","충청·강원","호남","영남"];
+let OPEN = [];      /* 오늘 열려 있는 전시 전부 — 목록에 다 나온다 */
+let PINNED = [];    /* 그중 약도 안에 들어오는 것 — 지도에 점으로 찍힌다 */
+let SOON_OPEN = [];
+let zoneFilter = "전체";   /* "전체" | 권역 키 | 지역 이름(AREA_ORDER) */
+let sortMode = "별점";
+let selected = null;
+
+/* =====================================================================
+   렌더
+   ===================================================================== */
+function layoutPins(items){
+  const pts = items.map(e => {
+    const z = zoneByKey[e.zone];
+    return { id:e.id, x:projX(e.lon ?? z.lon), y:projY(e.lat ?? z.lat) };
+  });
+  /* 같은 동네 공간들은 한 점에 겹치므로 눌러 앉지 않게 벌린다.
+     단위는 viewBox(1000폭) 기준이라, 지도가 화면에서 절반 크기로 줄어드는 것까지
+     감안해 핀 지름의 세 배쯤을 띄운다. */
+  const MIN = 42;
+  for (let pass = 0; pass < 260; pass++){
+    let moved = false;
+    for (let i = 0; i < pts.length; i++){
+      for (let j = i+1; j < pts.length; j++){
+        let dx = pts[j].x - pts[i].x, dy = pts[j].y - pts[i].y;
+        let d = Math.hypot(dx, dy);
+        if (d < MIN){
+          if (d < 0.001){ dx = Math.cos(i*2.39); dy = Math.sin(i*2.39); d = 1; }
+          const push = (MIN - d) / 2 / d;
+          pts[i].x -= dx*push; pts[i].y -= dy*push;
+          pts[j].x += dx*push; pts[j].y += dy*push;
+          moved = true;
+        }
+      }
+    }
+    if (!moved) break;
+  }
+  const pad = 18;
+  pts.forEach(p => {
+    p.x = Math.min(VB.w - pad, Math.max(pad, p.x));
+    p.y = Math.min(VB.h - pad, Math.max(pad, p.y));
+  });
+  return Object.fromEntries(pts.map(p => [p.id, p]));
+}
+
+const SVGNS = "http://www.w3.org/2000/svg";
+function drawZones(){
+  const shapes = document.getElementById("zoneShapes");
+  const labels = document.getElementById("zoneLabels");
+  const used = new Set(PINNED.map(e => e.zone));
+  shapes.innerHTML = ""; labels.innerHTML = "";
+  ZONES.filter(z => used.has(z.key)).forEach(z => {
+    const x = projX(z.lon), y = projY(z.lat);
+    const el = document.createElementNS(SVGNS,"ellipse");
+    el.setAttribute("cx", x.toFixed(1)); el.setAttribute("cy", y.toFixed(1));
+    el.setAttribute("rx", z.rx); el.setAttribute("ry", z.ry);
+    el.setAttribute("fill","var(--land-2)");
+    shapes.appendChild(el);
+
+    const t = document.createElementNS(SVGNS,"text");
+    t.setAttribute("x", (x + z.lx).toFixed(1));
+    t.setAttribute("y", (y + z.ly).toFixed(1));
+    t.setAttribute("text-anchor","middle");
+    t.setAttribute("font-size","15.5");
+    t.setAttribute("font-weight","500");
+    t.setAttribute("fill","var(--ink-2)");
+    t.textContent = z.name;
+    labels.appendChild(t);
+  });
+}
+
+function drawPins(){
+  const layer = document.getElementById("pinLayer");
+  const pos = layoutPins(PINNED);
+  layer.innerHTML = "";
+  PINNED.forEach(e => {
+    const p = pos[e.id];
+    const b = document.createElement("button");
+    b.className = "pin s" + Math.min(3, e.stars || 0);
+    b.style.left = (p.x / VB.w * 100).toFixed(3) + "%";
+    b.style.top  = (p.y / VB.h * 100).toFixed(3) + "%";
+    b.dataset.id = e.id;
+    b.type = "button";
+    b.setAttribute("aria-label", `${e.venue}, ${e.title || e.artist || "전시"}`);
+    const tip = document.createElement("span");
+    tip.className = "pin-tip";
+    tip.textContent = (e.stars ? "★".repeat(e.stars) + " " : "") + e.venue;
+    b.appendChild(document.createElement("i"));
+    b.appendChild(tip);
+    b.addEventListener("click", () => select(e.id, true));
+    layer.appendChild(b);
+  });
+}
+
+/* 네이버지도 검색어. 전시장 표기에 괄호나 관(館) 구분이 붙으면 검색이 안 되므로
+   그런 항목에는 데이터에 mapq를 따로 적어 뒀다. */
+const mapQuery = e => e.mapq || e.venue.replace(/\s*\([^)]*\)\s*/g, " ").trim();
+
+/* 별점 — 0(또는 없음)이면 아무것도 찍지 않는다 */
+const starHTML = n => (n > 0)
+  ? `<span class="stars" aria-label="별 ${n}개">${"★".repeat(n)}</span>` : "";
+
+function entryHTML(e){
+  const notYet = isUpcoming(e);
+  const zone = zoneByKey[e.zone];
+  const stamp = notYet ? `${md(e.start)} 개막`
+              : (e.end ? `${md(e.end)}까지` : "기간 미확인");
+  const links = [`<a class="read" href="${e.naverUrl || e.url}" target="_blank" rel="noopener">기사 읽기 <span class="arr">→</span></a>`];
+  if (e.urlAlt) links.push(`<a class="read" href="${e.urlAlt}" target="_blank" rel="noopener">다른 기사 <span class="arr">→</span></a>`);
+  links.push(`<a class="read map" href="https://map.naver.com/p/search/${encodeURIComponent(mapQuery(e))}" target="_blank" rel="noopener">네이버지도 <span class="arr">↗</span></a>`);
+  return `
+    <div class="entry-top">
+      <span class="place">${e.venue} <span class="zone">· ${zone ? zone.name.split("·")[0] : (e.region || "지방")}</span></span>
+      <span class="dday">${stamp}</span>
+    </div>
+    <h3>${starHTML(e.stars)}${e.title ? e.title : (e.artist ? e.artist + " 개인전" : e.venue)}</h3>
+    ${e.artist && e.title ? `<p class="artist">${e.artist}</p>` : ""}
+    ${e.blurb ? `<p class="blurb">${e.blurb}</p>` : ""}
+    <div class="entry-foot">
+      ${links.join("")}
+      ${e.headline ? `<p class="headline">${e.headline}</p>` : ""}
+    </div>`;
+}
+
+/* 목록 정렬용 순서: 서울 권역 먼저, 그 뒤 지방 */
+const orderOf = e => e.zone
+  ? ZONES.findIndex(z => z.key === e.zone)
+  : ZONES.length + AREA_ORDER.indexOf(e.area);
+
+function drawList(){
+  const ul = document.getElementById("list");
+  let items = OPEN.filter(e =>
+    zoneFilter === "전체" || e.zone === zoneFilter || e.area === zoneFilter);
+  items = items.slice().sort((a,b) => {
+    if (sortMode === "별점"){
+      const sa = a.stars || 0, sb = b.stars || 0;
+      if (sa !== sb) return sb - sa;
+      return (daysLeft(a.end) ?? 9999) - (daysLeft(b.end) ?? 9999);
+    }
+    if (sortMode === "종료") return (daysLeft(a.end) ?? 9999) - (daysLeft(b.end) ?? 9999);
+    if (sortMode === "권역"){
+      const oa = orderOf(a), ob = orderOf(b);
+      if (oa !== ob) return oa - ob;
+      return (daysLeft(a.end) ?? 9999) - (daysLeft(b.end) ?? 9999);
+    }
+    return (b.published || "").localeCompare(a.published || "");
+  });
+
+  document.getElementById("listCount").textContent = `${items.length}건`;
+  document.getElementById("listTitle").textContent =
+    zoneFilter === "전체" ? "전시 목록"
+    : (zoneByKey[zoneFilter] ? zoneByKey[zoneFilter].name : zoneFilter);
+
+  const note = document.getElementById("offNote");
+  const offCount = items.filter(e => !e.zone).length;
+  if (offCount){
+    note.hidden = false;
+    note.textContent = zoneFilter === "전체"
+      ? `이 가운데 ${offCount}건은 서울 외곽과 지방이라 약도에 점이 없습니다. 위 권역 단추에서 지역을 고르면 따로 볼 수 있습니다.`
+      : "약도 범위를 벗어난 곳이라 지도에 점이 없습니다.";
+  } else {
+    note.hidden = true;
+  }
+
+  if (!items.length){
+    ul.innerHTML = `<li class="empty">여기는 지금 열려 있는 전시가 없습니다.</li>`;
+    return;
+  }
+  ul.innerHTML = items.map(e =>
+    e.zone
+      ? `<li class="entry" data-id="${e.id}" tabindex="0" role="button">${entryHTML(e)}</li>`
+      : `<li class="entry off">${entryHTML(e)}</li>`
+  ).join("");
+
+  ul.querySelectorAll(".entry[data-id]").forEach(li => {
+    const go = ev => {
+      if (ev.target.closest("a")) return;
+      if (ev.type === "keydown" && ev.key !== "Enter" && ev.key !== " ") return;
+      if (ev.type === "keydown") ev.preventDefault();
+      select(li.dataset.id, false);
+    };
+    li.addEventListener("click", go);
+    li.addEventListener("keydown", go);
+  });
+  paintSelection();
+}
+
+function paintSelection(){
+  document.querySelectorAll(".pin").forEach(p => {
+    p.classList.toggle("on", p.dataset.id === selected);
+    const e = PINNED.find(x => x.id === p.dataset.id);
+    p.classList.toggle("dim", zoneFilter !== "전체" && e && e.zone !== zoneFilter);
+  });
+  document.querySelectorAll(".list .entry").forEach(li => li.classList.toggle("on", li.dataset.id === selected));
+}
+
+function select(id, fromMap){
+  selected = (selected === id) ? null : id;
+  if (selected && fromMap){
+    const e = PINNED.find(x => x.id === selected);
+    if (e && zoneFilter !== "전체" && e.zone !== zoneFilter){ zoneFilter = "전체"; buildChips(); drawList(); }
+    const li = document.querySelector(`.list .entry[data-id="${selected}"]`);
+    if (li) li.scrollIntoView({ behavior:"smooth", block:"center" });
+  }
+  paintSelection();
+}
+
+function buildChips(){
+  const zc = document.getElementById("zoneChips");
+  const counts = {};
+  OPEN.forEach(e => {
+    const k = e.zone || e.area;
+    if (k) counts[k] = (counts[k] || 0) + 1;
+  });
+  const zoneKeys = ZONES.map(z => z.key).filter(k => counts[k]);
+  const areaKeys = AREA_ORDER.filter(k => counts[k]);
+  const chip = k => {
+    const label = k === "전체" ? "전체" : (zoneByKey[k] ? zoneByKey[k].name : k);
+    const n = k === "전체" ? OPEN.length : counts[k];
+    return `<button class="chip${areaKeys.includes(k) ? " area-chip" : ""}" type="button" data-zone="${k}" aria-pressed="${zoneFilter === k}">${label}<span class="n">${n}</span></button>`;
+  };
+  zc.innerHTML = `<span class="ctrl-label">권역</span>`
+    + ["전체", ...zoneKeys].map(chip).join("")
+    + (areaKeys.length ? `<span class="ctrl-label split">지방</span>` + areaKeys.map(chip).join("") : "");
+  zc.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
+    zoneFilter = c.dataset.zone; selected = null; buildChips(); drawList(); paintSelection();
+  }));
+
+  const sc = document.getElementById("sortChips");
+  const modes = [["별점","별점순"],["권역","권역순"],["최신","기사 최신순"],["종료","종료 빠른 순"]];
+  sc.innerHTML = `<span class="ctrl-label">정렬</span>` + modes.map(([k,label]) =>
+    `<button class="chip" type="button" data-sort="${k}" aria-pressed="${sortMode === k}">${label}</button>`).join("");
+  sc.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
+    sortMode = c.dataset.sort; buildChips(); drawList();
+  }));
+}
+
+function drawSoon(){
+  const sec = document.getElementById("soonSection");
+  if (!SOON_OPEN.length){ sec.hidden = true; return; }
+  sec.hidden = false;
+  document.getElementById("soonNote").textContent = "아직 개막 전이라 지도에는 없습니다. 문을 여는 순서대로 놓았습니다.";
+  document.getElementById("soonList").innerHTML = SOON_OPEN.map(e => {
+    const d = daysLeft(e.start);
+    const where = e.region || (zoneByKey[e.zone] ? zoneByKey[e.zone].name : "");
+    return `<li class="entry"><span class="region">${where} · ${d === 1 ? "내일 개막" : d + "일 뒤 개막"}</span>${entryHTML(e)}</li>`;
+  }).join("");
+}
+
+/* =====================================================================
+   시작
+   ===================================================================== */
+function boot(){
+  OPEN = EXHIBITIONS.filter(isOpen);
+  PINNED = OPEN.filter(inBounds);
+  SOON_OPEN = EXHIBITIONS.filter(isUpcoming).sort((a,b) => daysLeft(a.start) - daysLeft(b.start));
+
+  const off = OPEN.length - PINNED.length;
+  document.getElementById("tally").textContent =
+    `전시 ${OPEN.length}건 진행 중` + (off ? ` · 서울 ${PINNED.length} · 서울 밖 ${off}` : "");
+  document.getElementById("today").textContent =
+    `${today.getFullYear()}년 ${today.getMonth()+1}월 ${today.getDate()}일`;
+  document.getElementById("sourceLine").innerHTML =
+    `수록 기준 <b>${BUILT_ON}</b> · 한국경제신문에 실린 기사만 올렸습니다. 종료된 전시는 지도에서 자동으로 빠집니다.`;
+
+  buildChips();
+  drawZones();
+  drawPins();
+  drawList();
+  drawSoon();
+}
+boot();
+</script>
