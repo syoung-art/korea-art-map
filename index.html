@@ -383,8 +383,7 @@ button{font:inherit;color:inherit}
 .out-btn .out-arr{font-size:11px;opacity:.72}
 .out-btn[aria-pressed="true"]{background:var(--seal);border-color:var(--seal);color:#FCF8F7}
 .out-btn[aria-pressed="true"] .out-n,.out-btn[aria-pressed="true"] .out-arr{opacity:.85}
-.list .entry.off{background:var(--card-2);cursor:default}
-.list .entry.off:hover{border-color:var(--line)}
+.list .entry.off{background:var(--card-2)}
 .region{
   font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
   font-size:11.5px;letter-spacing:.02em;color:var(--seal);
@@ -1264,9 +1263,9 @@ function drawList(){
         lastKey = k;
       }
     }
-    html += e.zone
-      ? `<li class="entry" data-id="${e.id}" tabindex="0" role="button">${entryHTML(e)}</li>`
-      : `<li class="entry off">${entryHTML(e)}</li>`;
+    /* 지도에 점이 없는 건도 data-id를 준다. 없으면 아래 핸들러가 안 붙어
+       "본문을 눌러도 기사로 안 나간다"가 된다(2026-09-11 독자 민원). */
+    html += `<li class="entry${e.zone ? "" : " off"}" data-id="${e.id}" tabindex="0" role="button">${entryHTML(e)}</li>`;
   });
   ul.innerHTML = html;
 
@@ -1277,10 +1276,12 @@ function drawList(){
       if (ev.type === "keydown") ev.preventDefault();
       /* 지도가 목록 옆에 보이는 넓은 화면에서만 핀을 켠다.
          좁은 화면에서는 지도가 화면 밖이라 눌러도 아무 반응이 없어 보인다 —
-         그래서 카드를 누르면 곧장 기사로 간다(2026-09-11 독자 반응). */
-      if (matchMedia("(max-width:1020px)").matches){
-        const e = OPEN.find(x => x.id === li.dataset.id);
-        if (e) window.open(e.naverUrl || e.url, "_blank", "noopener");
+         그래서 카드를 누르면 곧장 기사로 간다(2026-09-11 독자 반응).
+         지도에 점이 없는 서울 바깥 건은 켤 핀이 없으니 어느 화면에서든 기사로 간다. */
+      const e = OPEN.find(x => x.id === li.dataset.id);
+      if (!e) return;
+      if (!e.zone || matchMedia("(max-width:1020px)").matches){
+        window.open(e.naverUrl || e.url, "_blank", "noopener");
         return;
       }
       select(li.dataset.id, false);
