@@ -350,6 +350,11 @@ button{font:inherit;color:inherit}
 .outer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,420px));justify-content:start;gap:10px;list-style:none;margin:0;padding:0}
 .ctrl-label.split{margin-left:8px;padding-left:14px;border-left:1px solid var(--line)}
 .chip.area-chip[aria-pressed="true"]{background:var(--ink-2);border-color:var(--ink-2);color:var(--card)}
+/* 좁은 화면에서는 서울 권역 단추를 숨긴다(2026-09-11 기자 지시).
+   19개가 네 줄을 차지해 첫 카드까지 1500px을 내려야 했다.
+   서울 권역은 지도에서 직접 누를 수 있으니 기능은 안 잃는다.
+   지방은 지도에 핀이 없어 이 단추가 유일한 경로라 남긴다. */
+@media (max-width:1020px){.chip.zone-chip{display:none}}
 .list .entry.off{background:var(--card-2);cursor:default}
 .list .entry.off:hover{border-color:var(--line)}
 .region{
@@ -1306,7 +1311,8 @@ function buildChips(){
   const chip = k => {
     const label = k === "전체" ? "전체" : (zoneByKey[k] ? zoneByKey[k].name : k);
     const n = k === "전체" ? OPEN.length : counts[k];
-    return `<button class="chip${areaKeys.includes(k) ? " area-chip" : ""}" type="button" data-zone="${k}" aria-pressed="${zoneFilter === k}">${label}<span class="n">${n}</span></button>`;
+    const cls = k === "전체" ? "" : (areaKeys.includes(k) ? " area-chip" : " zone-chip");
+    return `<button class="chip${cls}" type="button" data-zone="${k}" aria-pressed="${zoneFilter === k}">${label}<span class="n">${n}</span></button>`;
   };
   zc.innerHTML = `<span class="ctrl-label">권역</span>`
     + ["전체", ...zoneKeys].map(chip).join("")
