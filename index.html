@@ -272,7 +272,10 @@ button{font:inherit;color:inherit}
 }
 .zone-hit button:hover,.zone-hit button:focus-visible{background:var(--seal-ghost)}
 .zone-hit button.on{background:var(--seal-ghost)}
-.zone-layer{position:absolute;inset:0;pointer-events:none}
+/* 이름표 층을 핀보다 위에 둔다. 안 그러면 삼청·마곡·한남·용산처럼
+   핀이 이름표 한복판에 앉은 곳은 영영 못 누른다(2026-09-11 실측 10/14).
+   가려지는 핀 한둘보다 이름표가 확실히 눌리는 쪽이 낫다 — 목록에도 다 있다. */
+.zone-layer{position:absolute;inset:0;pointer-events:none;z-index:3}
 /* 이름표를 누를 수 있게 했다(2026-09-11 동료 지적).
    권역 덩어리에는 이미 과녁이 있었지만 핀이 그 위를 덮어 손가락이 닿지 않았다 —
    삼청처럼 핀 14개가 몰린 곳은 빈 자리가 없다. 이름표는 덩어리 바깥에 떠 있어
