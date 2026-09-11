@@ -1420,6 +1420,11 @@ function syncUrl(){
 }
 function readUrl(){
   const q = new URLSearchParams(location.search);
+  /* ?theme=light|dark 로 테마를 못박는다. 기본은 독자 기기 설정을 따르는 것이고
+     이건 화면을 찍을 때 쓴다 — 헤드리스 브라우저는 제 운영체제 테마를 따라가서
+     의도한 색으로 안 나온다(2026-09-11 인스타 이미지 작업). */
+  const th = q.get("theme");
+  if (th === "light" || th === "dark") document.documentElement.dataset.theme = th;
   const id = q.get("id");
   if (id && EXHIBITIONS.some(e => e.id === id)) pendingId = id;
   const p = q.get("zone");
