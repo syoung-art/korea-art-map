@@ -132,7 +132,8 @@ button{font:inherit;color:inherit}
   border-left:1px solid var(--line);padding-left:9px;
 }
 .author-link:hover{border-color:var(--seal)}
-/* 좁은 화면에서는 이름이 길어 부가 설명을 숨긴다 */
+/* 좁은 화면에서는 '· SNS'만 숨기고 '소개'는 남긴다 —
+   눌러서 뭐가 나오는지 알려주는 말이라 모바일에서도 보여야 한다 */
 @media (max-width:430px){.author-link .more-ext{display:none}}
 .tally{
   font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
@@ -365,7 +366,7 @@ button{font:inherit;color:inherit}
 
   <header class="masthead">
     <h1>성수영 기자의 전시 지도<span class="beta">beta</span></h1>
-    <p class="standfirst">진행중인 전시 중 가볼 만한 것들을 지도에 표시했습니다. 아직 베타테스트 단계이니 오작동시 양해 바랍니다.</p>
+    <p class="standfirst">진행중인 전시 중 가볼 만한 것들을 지도에 표시했습니다. 아직 베타테스트 단계입니다.</p>
     <p class="byline">
       <a class="author-link" href="#profile">
         <span class="who">성수영 한국경제신문 문화부 기자</span>
