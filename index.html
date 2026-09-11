@@ -801,12 +801,16 @@ const EXHIBITIONS = [
  headline:"데블린의 거울 미로·서도호의 집…공간이 주는 여운에 잠기다", published:"2026-08-27"},
 
 /* ── 종로·동대문·중구 ─────────────────────────────────────────── */
+/* 최윤희 피코(중구) 건은 표시에서 뺐다(2026-09-12 기자 지시).
+   같은 작가의 지갤러리 전시와 사진·설명이 겹쳐 목록이 중복돼 보였다.
+   되살리려면 아래를 주석에서 꺼내면 된다.
 {id:"choiyoonhee-pico", fee:"무료", zone:"종로", lon:126.9950, lat:37.5630,
  venue:"피코 (중구)", title:null, artist:"최윤희",
  start:null, end:"2026-10-04",
  blurb:"서울 중구의 전시공간 피코에서는 물감이 자유롭게 풀어지고 번지는 수채 드로잉과 대형 회화가 걸려 있다.",
- url:"https://www.hankyung.com/article/202608314907i", naverUrl:"https://n.news.naver.com/article/015/0005327183", urlAlt:"https://www.hankyung.com/article/2026090173641",
- headline:"거장들 사이에 선 ‘차세대 미술 스타’…아트위크가 점찍은 젊은 작가들", published:"2026-09-01"},
+ url:"https://www.hankyung.com/article/202608314907i", naverUrl:"https://n.news.naver.com/article/015/0005327183",
+ headline:"거장들 사이에 선 '차세대 미술 스타'...아트위크가 점찍은 젊은 작가들", published:"2026-09-01"},
+*/
 
 /* ── 한남·이태원 ──────────────────────────────────────────────── */
 {id:"koojeonga", fee:"1만8000원 · 통합권 2만5000원", stars:1, zone:"한남", lon:126.9990, lat:37.5385,
@@ -1269,7 +1273,7 @@ const markHTML = e => {
    절차는 사진_짝짓기.js. 묶음 기사라도 그 전시 사진이 실려 있으면 찾아낸다.
    전시장 이름만 겹치는 것은 버린다(이대원 자리에 서도호, 조숙진 자리에 마틴 파가
    들어갔던 사고, 2026-09-11). 못 찾은 12건은 그 기사에 사진이 아예 없는 건들이다. */
-const PHOTOS = {"suh":"202608/01.45458019.1.jpg","conceptual":"202606/01.44770028.1.jpg","parkseobo":"202608/01.45437097.1.jpg","kimseeun":"202608/01.45509798.1.jpg","kimbohee":"202608/01.45498875.1.jpg","christinesunkim":"202608/01.45498884.1.jpg","hamyangah":"202607/01.45265693.1.jpg","kimmuyoung":"202608/01.45509802.1.png","kangyobae":"202608/01.45303264.1.jpg","devlin":"202609/01.45383008.1.jpg","sunhyewon":"202609/01.45651745.1.jpg","kwoninkyung":"202608/01.45494299.1.jpg","yooyoungkuk":"202605/01.44453741.1.jpg","baselitz-sehwa":"202608/AA.45329090.1.jpg","choiyoonhee-pico":"202608/01.45509800.1.jpg","koojeonga":"202609/AA.45548575.1.jpg","attia":"202608/01.45527655.1.jpg","iosifzon":"202608/01.45548522.1.jpg","sallyhan":"202608/01.45402603.1.jpg","atkins":"202609/01.45646522.1.jpg","seongryul":"202608/AA.45469825.1.jpg","kunath":"202609/01.45640884.1.jpg","sollewitt":"202609/AA.45638781.1.jpg","bapsang":"202606/01.44854991.1.jpg","chusa":"202608/01.45296132.1.jpg","choiyoonhee-zi":"202608/01.45509800.1.jpg","consortium":"202609/01.45638137.1.jpg","banksy":"202607/01.45116380.1.jpg","cubist":"202605/AA.44341884.1.jpg","parkseobo-museum":"202608/01.45380144.1.jpg","choilala":"202609/01.45604025.1.jpg","ida-seoul":"202608/01.45403923.1.jpg","goya":"202606/01.44819640.1.jpg","spain500":"202609/AA.45622873.1.jpg","martinparr":"202608/AA.45264284.1.jpg","kaws":"202607/01.45111872.1.jpg","mmca-gwacheon":"202607/01.45006825.1.png","shiota":"202608/01.45498600.1.jpg","ida-gyeongju":"202608/01.45403922.1.jpg","ida-daegu":"202608/01.45403921.1.png","gwangju-biennale":"202609/01.45575679.1.jpg","austria-pavilion":"202609/AA.45622878.1.jpg","banghyeja":"202604/01.44115525.1.png"};
+const PHOTOS = {"suh":"202608/01.45458019.1.jpg","conceptual":"202606/01.44770028.1.jpg","parkseobo":"202608/01.45437097.1.jpg","kimseeun":"202608/01.45509798.1.jpg","kimbohee":"202608/01.45498875.1.jpg","christinesunkim":"202608/01.45498884.1.jpg","hamyangah":"202607/01.45265693.1.jpg","kimmuyoung":"202608/01.45509802.1.png","kangyobae":"202608/01.45303264.1.jpg","devlin":"202609/01.45383008.1.jpg","sunhyewon":"202609/01.45651745.1.jpg","kwoninkyung":"202608/01.45494299.1.jpg","yooyoungkuk":"202605/01.44453741.1.jpg","baselitz-sehwa":"202608/AA.45329090.1.jpg","koojeonga":"202609/AA.45548575.1.jpg","attia":"202608/01.45527655.1.jpg","iosifzon":"202608/01.45548522.1.jpg","sallyhan":"202608/01.45402603.1.jpg","atkins":"202609/01.45646522.1.jpg","seongryul":"202608/AA.45469825.1.jpg","kunath":"202609/01.45640884.1.jpg","sollewitt":"202609/AA.45638781.1.jpg","bapsang":"202606/01.44854991.1.jpg","chusa":"202608/01.45296132.1.jpg","choiyoonhee-zi":"202608/01.45509800.1.jpg","consortium":"202609/01.45638137.1.jpg","banksy":"202607/01.45116380.1.jpg","cubist":"202605/AA.44341884.1.jpg","parkseobo-museum":"202608/01.45380144.1.jpg","choilala":"202609/01.45604025.1.jpg","ida-seoul":"202608/01.45403923.1.jpg","goya":"202606/01.44819640.1.jpg","spain500":"202609/AA.45622873.1.jpg","martinparr":"202608/AA.45264284.1.jpg","kaws":"202607/01.45111872.1.jpg","mmca-gwacheon":"202607/01.45006825.1.png","shiota":"202608/01.45498600.1.jpg","ida-gyeongju":"202608/01.45403922.1.jpg","ida-daegu":"202608/01.45403921.1.png","gwangju-biennale":"202609/01.45575679.1.jpg","austria-pavilion":"202609/AA.45622878.1.jpg","banghyeja":"202604/01.44115525.1.png"};
 /* 기자가 직접 고른 사진. 배포자산/photo/ 에 <전시id>.jpg 를 넣고
    전시페이지_만들기.py를 돌리면 아래 줄이 자동으로 다시 써진다.
    직접 고른 사진이 있으면 그것이 한경 기사 사진보다 앞선다. */
