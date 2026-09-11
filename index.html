@@ -35,7 +35,7 @@
   --river:#A4BFC5;
   --ink:#161A1C;
   --ink-2:#4C575C;
-  --ink-3:#697378;
+  --ink-3:#5C666B;
   --line:#D1D8DA;
   --line-2:#E2E7E8;
   --seal:#B23A2E;
@@ -114,8 +114,8 @@ button{font:inherit;color:inherit}
 }
 .masthead h1{
   font-family:Hahmlet,"Apple SD Gothic Neo",serif;
-  font-weight:600;font-size:clamp(31px,4.4vw,50px);
-  line-height:1.1;letter-spacing:-.025em;margin:0;text-wrap:balance;
+  font-weight:600;font-size:clamp(37px,9.6vw,52px);
+  line-height:1.12;letter-spacing:-.025em;margin:0;text-wrap:balance;
 }
 .beta{
   display:inline-block;vertical-align:middle;
@@ -286,7 +286,7 @@ button{font:inherit;color:inherit}
   padding:3px 9px;border:1px solid var(--line);border-radius:999px;
   background:var(--card);
   transition:background .14s,border-color .14s,color .14s;
-  font-size:clamp(10px,2.5vw,12.5px);
+  font-size:clamp(11.5px,3.1vw,13px);
   font-weight:500;letter-spacing:-.01em;
   color:var(--ink-2);white-space:nowrap;
 }
@@ -357,7 +357,7 @@ button{font:inherit;color:inherit}
   margin-top:14px;padding:9px 2px 7px;
   background:var(--paper);
   border-bottom:1px solid var(--line);
-  font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-.01em;
+  font-size:15px;font-weight:600;color:var(--ink);letter-spacing:-.01em;
 }
 .list .group-head:first-child{margin-top:0}
 .group-head .gn{font-size:12px;font-weight:400;color:var(--ink-3);font-variant-numeric:tabular-nums}
@@ -385,10 +385,10 @@ button{font:inherit;color:inherit}
 .list .entry:hover{border-color:var(--ink-3)}
 .entry.on{border-color:var(--seal);box-shadow:0 0 0 1px var(--seal),var(--shadow)}
 .entry-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
-.place{font-size:13px;color:var(--ink-2);font-weight:500}
+.place{font-size:13.5px;color:var(--ink-2);font-weight:500}
 .place .zone{color:var(--ink-3);font-weight:400}
 .dday{
-  font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;font-size:12.5px;
+  font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;font-size:13px;
   font-variant-numeric:tabular-nums;color:var(--ink-3);white-space:nowrap;font-weight:500;
 }
 .entry h3{
@@ -396,7 +396,8 @@ button{font:inherit;color:inherit}
   margin:0;letter-spacing:-.015em;text-wrap:balance;
 }
 .artist{font-size:14px;color:var(--ink-2);margin:0}
-.blurb{margin:0;font-size:14.5px;line-height:1.78;color:var(--ink-2)}
+/* 카드에서 사람이 실제로 읽는 유일한 글이다. 14.5px는 한글 본문으로 작다. */
+.blurb{margin:0;font-size:16px;line-height:1.8;color:var(--ink-2)}
 .entry-foot{
   display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;
   margin-top:3px;padding-top:9px;border-top:1px solid var(--line-2);
@@ -418,7 +419,7 @@ button.read{background:none;border:0;border-bottom:1px solid var(--seal-ring);fo
 .read.one:hover{color:var(--ink-2);border-bottom-color:var(--ink-3)}
 .read.map{color:var(--ink-3);border-bottom-color:var(--line)}
 .read.map:hover{color:var(--ink-2);border-bottom-color:var(--ink-3)}
-.headline{font-size:12.5px;color:var(--ink-3);width:100%;margin:0}
+.headline{font-size:13px;line-height:1.6;color:var(--ink-3);width:100%;margin:0}
 
 .empty{border:1px dashed var(--line);border-radius:4px;padding:26px 20px;text-align:center;color:var(--ink-3);font-size:13.5px}
 
