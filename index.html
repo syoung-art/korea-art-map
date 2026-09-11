@@ -114,8 +114,8 @@ button{font:inherit;color:inherit}
 }
 .masthead h1{
   font-family:Hahmlet,"Apple SD Gothic Neo",serif;
-  font-weight:600;font-size:clamp(37px,9.6vw,52px);
-  line-height:1.12;letter-spacing:-.025em;margin:0;text-wrap:balance;
+  font-weight:600;font-size:clamp(44px,11.8vw,60px);
+  line-height:1.1;letter-spacing:-.025em;margin:0;text-wrap:balance;
 }
 .beta{
   display:inline-block;vertical-align:middle;
@@ -372,14 +372,15 @@ button{font:inherit;color:inherit}
    큰 사진을 넣으면 한 화면 카드가 3.1장에서 1.8장으로 줄어 "어디 갈까" 비교가 안 된다.
    사진은 한경 서버를 그대로 가리킨다. 묶음 기사에 물린 건은 사진이 그 전시 것이
    아니라서 아예 넣지 않는다. */
-.entry.has-shot{grid-template-columns:minmax(0,1fr) 84px;column-gap:12px}
-.entry.has-shot > *{grid-column:1}
-/* 선택자 값을 > * 보다 높게 잡아야 한다. .shot만으로는 (0,1,0)이라
-   .entry.has-shot > * (0,2,0)에 져서 사진이 1열로 밀린다(2026-09-11 사고). */
-.entry.has-shot > .shot{
-  grid-column:2;grid-row:1 / span 3;align-self:start;
-  width:84px;height:84px;object-fit:cover;
-  border:1px solid var(--line);border-radius:3px;background:var(--card-2);
+/* 사진은 카드 위에 가로로 꽉 채운다(2026-09-11 기자 지시).
+   order:-1로 맨 위에 올리고, 음수 여백으로 카드 안쪽 여백까지 밀어내
+   테두리에 딱 붙인다. 비율 3:2는 한경 사진 원본(1200x800) 그대로라
+   작품이 잘리지 않는다. 목록은 그만큼 길어진다 — 사진 한 장에 약 229px. */
+.entry > .shot{
+  order:-1;display:block;
+  width:calc(100% + 34px);margin:-15px -17px 3px;
+  aspect-ratio:3 / 2;object-fit:cover;
+  border-radius:3px 3px 0 0;background:var(--card-2);
 }
 .list .entry{cursor:pointer}
 .list .entry:hover{border-color:var(--ink-3)}
