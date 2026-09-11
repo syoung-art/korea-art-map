@@ -1,4 +1,17 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>성수영 기자의 전시 지도(beta)</title>
+<meta name="description" content="한국경제신문 성수영 기자가 다녀와 기사로 쓴 전시 가운데 지금 열려 있는 곳을 서울 권역 지도에 표시했습니다.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="성수영 기자의 전시 지도">
+<meta property="og:title" content="성수영 기자의 전시 지도(beta)">
+<meta property="og:description" content="지금 서울에서 열리는 전시 중 가볼 만한 곳을 지도에 표시했습니다. 점을 누르면 전시 정보가 열리고 기사로 이어집니다.">
+<meta property="og:url" content="https://syoung-art.github.io/korea-art-map/">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap">
@@ -63,6 +76,7 @@
 
 *{box-sizing:border-box}
 body{
+  margin:0;
   background:var(--paper);
   color:var(--ink);
   font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
@@ -313,6 +327,8 @@ button{font:inherit;color:inherit}
 
 @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms !important;animation-duration:.01ms !important}}
 </style>
+</head>
+<body>
 
 <div class="shell">
 
@@ -1186,3 +1202,5 @@ function boot(){
 }
 boot();
 </script>
+</body>
+</html>
