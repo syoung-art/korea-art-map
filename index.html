@@ -152,16 +152,10 @@ button{font:inherit;color:inherit}
   display:flex;flex-wrap:wrap;
   gap:7px 26px;list-style:none;margin:0;padding:0;
 }
-.rating-key li{display:flex;align-items:baseline;gap:7px;font-size:12.5px;color:var(--ink-2)}
-.rating-key .mark{
-  flex:none;color:var(--seal);font-size:13.5px;letter-spacing:.06em;
-}
-.rating-key .mark.none{
-  color:var(--ink-3);font-size:11px;letter-spacing:0;
-  font-family:"IBM Plex Mono","IBM Plex Sans KR",monospace;
-}
+.rating-key li{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--ink-2)}
+.rating-key .mk{--mkgap:var(--paper)}
 .key-note{margin:11px 0 0;font-size:11.5px;line-height:1.6;color:var(--ink-3);max-width:74ch}
-.stars{color:var(--seal);margin-right:.42em;letter-spacing:.05em;font-size:.9em}
+.entry h3 .mk{margin-right:7px}
 
 .board{display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,.86fr);gap:30px;align-items:start;padding-top:26px}
 @media (max-width:1020px){.board{grid-template-columns:1fr;gap:24px}}
@@ -182,34 +176,31 @@ button{font:inherit;color:inherit}
   width:22px;height:22px;display:grid;place-items:center;
   border:0;background:none;padding:0;cursor:pointer;border-radius:50%;
 }
-.pin i{
-  display:block;border-radius:50%;
-  background:var(--seal);
-  box-shadow:0 0 0 2px var(--land),0 1px 3px rgba(0,0,0,.3);
+/* ── 별점 기호 ──────────────────────────────────────────────────
+   빈 원 / 찬 원 / 이중 원. 바깥 지름은 셋 다 같다 — 이중 원은 테두리
+   안쪽에 틈과 가운데 점을 그려 넣어 만든다(◎).
+   지도 핀·범례·목록이 이 한 벌을 같이 쓴다. --mkgap은 틈 색이라
+   놓이는 배경에 맞춰 각 자리에서 덮어쓴다. */
+.mk{
+  display:inline-block;width:13px;height:13px;border-radius:50%;
+  flex:none;vertical-align:-2px;--mkgap:var(--card);
   transition:transform .16s cubic-bezier(.2,.8,.3,1),background .16s;
 }
-/* 별점을 단계마다 다른 모양으로 — 속 빈 원 / 채운 원 / 테 두른 원 / 큰 원 */
-.pin.s0 i{
-  width:11px;height:11px;background:transparent;
-  border:2.5px solid var(--seal);box-shadow:none;opacity:.92;
+.mk.m0{background:transparent;border:2.5px solid var(--seal);opacity:.92}
+.mk.m1{background:var(--seal)}
+.mk.m2{
+  background:transparent;border:2.5px solid var(--seal);
+  box-shadow:inset 0 0 0 1.5px var(--mkgap), inset 0 0 0 9px var(--seal);
 }
-.pin.s1 i{width:11px;height:11px}
-.pin.s2 i{
-  width:14px;height:14px;
-  box-shadow:0 0 0 2px var(--land),0 0 0 5px var(--seal);
-}
-.pin.s3 i{
-  width:18px;height:18px;
-  box-shadow:0 0 0 2px var(--land),0 0 0 5px var(--seal);
-}
+.pin i{display:block;--mkgap:var(--land)}
 .pin.s1{z-index:2}
 .pin.s2{z-index:3}
-.pin.s3{z-index:4}
 .pin:hover{z-index:6}
 .pin.on{z-index:7}
 .pin:hover i{transform:scale(1.3);opacity:1}
-.pin.on i{transform:scale(1.4);background:var(--seal-deep);opacity:1}
-.pin.on.s0 i{background:transparent;border-color:var(--seal-deep)}
+.pin.on i{transform:scale(1.45);opacity:1}
+.pin.on i.m1{background:var(--seal-deep)}
+.pin.on i.m0,.pin.on i.m2{border-color:var(--seal-deep)}
 .pin.dim{opacity:.18;pointer-events:none}
 .pin-tip{
   position:absolute;bottom:calc(100% + 3px);left:50%;transform:translateX(-50%);
@@ -226,12 +217,7 @@ button{font:inherit;color:inherit}
 }
 .map-legend span{display:inline-flex;align-items:center;gap:6px}
 .scale{display:inline-flex;align-items:center;gap:7px}
-.scale i{border-radius:50%;background:var(--seal);flex:none;display:block}
-.scale i.d0{width:11px;height:11px;background:transparent;border:2.5px solid var(--seal);opacity:.92}
-.scale i.d1{width:11px;height:11px}
-.scale i.d2{width:14px;height:14px;box-shadow:0 0 0 2px var(--card-2),0 0 0 5px var(--seal);margin:0 4px}
-.scale i.d3{width:18px;height:18px;box-shadow:0 0 0 2px var(--card-2),0 0 0 5px var(--seal);margin:0 4px}
-.scale b{color:var(--seal);font-weight:400;letter-spacing:.04em}
+.map-legend .mk{--mkgap:var(--card-2)}
 
 .list-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
 .list-head h2{font-family:Hahmlet,serif;font-weight:600;font-size:19px;margin:0;letter-spacing:-.01em}
@@ -351,10 +337,9 @@ button{font:inherit;color:inherit}
   <section class="rating-key" aria-label="별점 기준">
     <p class="key-label">별점 기준</p>
     <ul>
-      <li><span class="mark none">별점 없음</span><span class="what">좋은 전시</span></li>
-      <li><span class="mark">★</span><span class="what">기자가 추천하는 전시</span></li>
-      <li><span class="mark">★★</span><span class="what">근처에 들르면 봐야 할 전시</span></li>
-      <li><span class="mark">★★★</span><span class="what">이 전시를 위해 먼 걸음을 감수할 만한 전시</span></li>
+      <li><span class="mk m0"></span><span class="what">좋은 전시</span></li>
+      <li><span class="mk m1"></span><span class="what">기자가 추천하는 전시</span></li>
+      <li><span class="mk m2"></span><span class="what">기자가 강력 추천하는 전시</span></li>
     </ul>
     <p class="key-note">별점은 개인적인 취향이 반영된 평가로, 한국경제신문 및 아르떼의 공식 입장과 관련 없습니다.</p>
   </section>
@@ -394,10 +379,9 @@ button{font:inherit;color:inherit}
           <div class="pin-layer" id="pinLayer"></div>
         </div>
         <div class="map-legend">
-          <span class="scale"><i class="d0"></i>별점 없음</span>
-          <span class="scale"><i class="d1"></i><b>★</b></span>
-          <span class="scale"><i class="d2"></i><b>★★</b></span>
-          <span class="scale"><i class="d3"></i><b>★★★</b></span>
+          <span class="scale"><i class="mk m0"></i>좋은 전시</span>
+          <span class="scale"><i class="mk m1"></i>추천</span>
+          <span class="scale"><i class="mk m2"></i>강력 추천</span>
           <span>위치는 권역 기준 대략치입니다</span>
         </div>
       </div>
@@ -453,12 +437,11 @@ button{font:inherit;color:inherit}
      mapq   : 네이버지도 검색어. 안 적으면 venue에서 괄호만 떼고 검색한다.
               'K2' '신관' 같은 관(館) 구분이 붙은 곳만 따로 적어 뒀다
      blurb  : 기사 본문 문장을 그대로 옮긴다. 새로 쓰지 않는다
-     stars  : 별점 1·2·3. 적지 않으면 0(=별점 없음)으로 본다.
+     stars  : 별점 1 또는 2. 적지 않으면 0으로 본다.
               기자가 하나씩 매긴다 — 항목에 `stars:2,` 한 줄만 끼워 넣으면 된다.
-                없음 = 좋은 전시
-                1 ★   = 기자가 추천하는 전시
-                2 ★★  = 근처에 들르면 봐야 할 전시
-                3 ★★★ = 이 전시를 위해 먼 걸음을 감수할 만한 전시
+                0 ○ 빈 원   = 좋은 전시
+                1 ● 찬 원   = 기자가 추천하는 전시
+                2 ◎ 이중 원 = 기자가 강력 추천하는 전시
    ===================================================================== */
 const BUILT_ON = "2026년 9월 11일";
 const UPCOMING_WINDOW = 45;
@@ -528,7 +511,7 @@ const EXHIBITIONS = [
  url:"https://www.hankyung.com/article/202608114437i", urlAlt:"https://www.hankyung.com/article/2026081150671",
  headline:"“제목 말고 그림부터 봐주세요”…강요배가 담은 제주의 자연", published:"2026-08-11"},
 
-{id:"devlin", stars:3, zone:"삼청", lon:126.9820, lat:37.5845,
+{id:"devlin", stars:2, zone:"삼청", lon:126.9820, lat:37.5845,
  venue:"푸투라서울", title:"세 번째 시: 에스 데블린, 다시 집으로", artist:"에스 데블린",
  start:"2026-08-20", end:"2027-01-17",
  blurb:"거울로 둘러싸인 방에 들어서면 빛과 언어가 겹겹이 반사되며 관객을 에워싼다. 비욘세와 U2 등 팝스타들의 무대 디자인과 미술, 건축을 넘나들며 세계가 주목해온 작가다.",
@@ -875,12 +858,12 @@ const projY = lat => (BOUNDS.latMax - lat) / (BOUNDS.latMax - BOUNDS.latMin) * V
 
 const ZONES = [
   { key:"평창",   name:"홍지·부암·평창",     lon:126.9540, lat:37.5960, rx:46, ry:36, lx:0,   ly:-48 },
-  { key:"삼청",   name:"삼청·소격·안국",     lon:126.9822, lat:37.5800, rx:98, ry:92, lx:0,   ly:-108 },
+  { key:"삼청",   name:"삼청·소격·안국",     lon:126.9822, lat:37.5800, rx:84, ry:78, lx:0,   ly:-94 },
   { key:"서촌",   name:"서촌·경복궁 서측",   lon:126.9715, lat:37.5790, rx:44, ry:34, lx:-56, ly:-2 },
   { key:"광화문", name:"광화문·정동·서소문", lon:126.9740, lat:37.5660, rx:58, ry:48, lx:-30, ly:70 },
   { key:"종로",   name:"종로·동대문·중구",   lon:126.9950, lat:37.5630, rx:50, ry:38, lx:0,   ly:54 },
   { key:"연희",   name:"연희·서교·홍대",     lon:126.9370, lat:37.5580, rx:56, ry:70, lx:-80, ly:0 },
-  { key:"한남",   name:"한남·이태원",        lon:127.0005, lat:37.5372, rx:84, ry:80, lx:0,   ly:-96 },
+  { key:"한남",   name:"한남·이태원",        lon:127.0005, lat:37.5372, rx:76, ry:70, lx:0,   ly:-86 },
   { key:"용산",   name:"용산·이촌",          lon:126.9760, lat:37.5255, rx:52, ry:40, lx:-16, ly:56 },
   { key:"성수",   name:"성수·서울숲",        lon:127.0440, lat:37.5445, rx:46, ry:36, lx:6,   ly:-48 },
   { key:"청담",   name:"청담·압구정·신사",   lon:127.0430, lat:37.5250, rx:50, ry:38, lx:8,   ly:56 },
@@ -940,7 +923,7 @@ function layoutPins(items){
   /* 같은 동네 공간들은 한 점에 겹치므로 눌러 앉지 않게 벌린다.
      단위는 viewBox(1000폭) 기준이라, 지도가 화면에서 절반 크기로 줄어드는 것까지
      감안해 핀 지름의 세 배쯤을 띄운다. */
-  const MIN = 42;
+  const MIN = 36;
   for (let pass = 0; pass < 260; pass++){
     let moved = false;
     for (let i = 0; i < pts.length; i++){
@@ -998,17 +981,20 @@ function drawPins(){
   layer.innerHTML = "";
   PINNED.forEach(e => {
     const p = pos[e.id];
+    const lv = markLevel(e);
     const b = document.createElement("button");
-    b.className = "pin s" + Math.min(3, e.stars || 0);
+    b.className = "pin s" + lv;
     b.style.left = (p.x / VB.w * 100).toFixed(3) + "%";
     b.style.top  = (p.y / VB.h * 100).toFixed(3) + "%";
     b.dataset.id = e.id;
     b.type = "button";
-    b.setAttribute("aria-label", `${e.venue}, ${e.title || e.artist || "전시"}`);
+    b.setAttribute("aria-label", `${e.venue}, ${e.title || e.artist || "전시"} — ${MARK_LABEL[lv]}`);
     const tip = document.createElement("span");
     tip.className = "pin-tip";
-    tip.textContent = (e.stars ? "★".repeat(e.stars) + " " : "") + e.venue;
-    b.appendChild(document.createElement("i"));
+    tip.textContent = MARK_CHAR[lv] + " " + e.venue;
+    const dot = document.createElement("i");
+    dot.className = "mk m" + lv;
+    b.appendChild(dot);
     b.appendChild(tip);
     b.addEventListener("click", () => select(e.id, true));
     layer.appendChild(b);
@@ -1019,9 +1005,14 @@ function drawPins(){
    그런 항목에는 데이터에 mapq를 따로 적어 뒀다. */
 const mapQuery = e => e.mapq || e.venue.replace(/\s*\([^)]*\)\s*/g, " ").trim();
 
-/* 별점 — 0(또는 없음)이면 아무것도 찍지 않는다 */
-const starHTML = n => (n > 0)
-  ? `<span class="stars" aria-label="별 ${n}개">${"★".repeat(n)}</span>` : "";
+/* 별점 기호 — 0 빈 원 / 1 찬 원 / 2 이중 원. 지도와 목록이 같은 기호를 쓴다 */
+const MARK_LABEL = ["좋은 전시","기자가 추천하는 전시","기자가 강력 추천하는 전시"];
+const MARK_CHAR  = ["○","●","◎"];
+const markLevel = e => Math.min(2, e.stars || 0);
+const markHTML = e => {
+  const lv = markLevel(e);
+  return `<span class="mk m${lv}" role="img" aria-label="${MARK_LABEL[lv]}"></span>`;
+};
 
 function entryHTML(e){
   const notYet = isUpcoming(e);
@@ -1036,7 +1027,7 @@ function entryHTML(e){
       <span class="place">${e.venue} <span class="zone">· ${zone ? zone.name.split("·")[0] : (e.region || "지방")}</span></span>
       <span class="dday">${stamp}</span>
     </div>
-    <h3>${starHTML(e.stars)}${e.title ? e.title : (e.artist ? e.artist + " 개인전" : e.venue)}</h3>
+    <h3>${markHTML(e)}${e.title ? e.title : (e.artist ? e.artist + " 개인전" : e.venue)}</h3>
     ${e.artist && e.title ? `<p class="artist">${e.artist}</p>` : ""}
     ${e.blurb ? `<p class="blurb">${e.blurb}</p>` : ""}
     <div class="entry-foot">
