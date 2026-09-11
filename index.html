@@ -288,6 +288,18 @@ button{font:inherit;color:inherit}
 .list-head h2{font-family:Hahmlet,serif;font-weight:600;font-size:19px;margin:0;letter-spacing:-.01em}
 .list-head .count{font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
 .list{display:flex;flex-direction:column;gap:10px;list-style:none;margin:0;padding:0}
+/* 권역 묶음 머리글 — 스크롤하는 동안 위에 붙어 있어 지금 어느 동네를
+   보고 있는지 알 수 있다. */
+.group-head{
+  position:sticky;top:0;z-index:3;
+  display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+  margin-top:14px;padding:9px 2px 7px;
+  background:var(--paper);
+  border-bottom:1px solid var(--line);
+  font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-.01em;
+}
+.list .group-head:first-child{margin-top:0}
+.group-head .gn{font-size:12px;font-weight:400;color:var(--ink-3);font-variant-numeric:tabular-nums}
 
 .entry{
   background:var(--card);border:1px solid var(--line);border-radius:4px;
@@ -1013,7 +1025,7 @@ let OPEN = [];      /* 오늘 열려 있는 전시 전부 — 목록에 다 나�
 let PINNED = [];    /* 그중 약도 안에 들어오는 것 — 지도에 점으로 찍힌다 */
 let SOON_OPEN = [];
 let zoneFilter = "전체";   /* "전체" | 권역 키 | 지역 이름(AREA_ORDER) */
-let sortMode = "별점";
+let sortMode = "권역";   /* 기본은 권역순 — "어디 갈까"가 먼저다 */
 let selected = null;
 
 /* =====================================================================
@@ -1194,11 +1206,27 @@ function drawList(){
     ul.innerHTML = `<li class="empty">여기는 지금 열려 있는 전시가 없습니다.</li>`;
     return;
   }
-  ul.innerHTML = items.map(e =>
-    e.zone
+  /* 권역순으로 전체를 볼 때만 묶음 머리글을 끼운다. 카드만 넘겨봐도
+     어디서 동네가 바뀌는지 보이게 하려는 것이다(2026-09-11 기자 지시). */
+  const grouped = (sortMode === "권역" && zoneFilter === "전체");
+  const sizes = {};
+  if (grouped) items.forEach(e => { const k = e.zone || e.area; sizes[k] = (sizes[k]||0)+1; });
+
+  let html = "", lastKey = null;
+  items.forEach(e => {
+    if (grouped){
+      const k = e.zone || e.area;
+      if (k !== lastKey){
+        const label = e.zone ? zoneByKey[e.zone].name : e.area;
+        html += `<li class="group-head"><span>${label}</span><span class="gn">${sizes[k]}</span></li>`;
+        lastKey = k;
+      }
+    }
+    html += e.zone
       ? `<li class="entry" data-id="${e.id}" tabindex="0" role="button">${entryHTML(e)}</li>`
-      : `<li class="entry off">${entryHTML(e)}</li>`
-  ).join("");
+      : `<li class="entry off">${entryHTML(e)}</li>`;
+  });
+  ul.innerHTML = html;
 
   ul.querySelectorAll(".entry[data-id]").forEach(li => {
     const go = ev => {
@@ -1276,7 +1304,7 @@ function buildChips(){
   }));
 
   const sc = document.getElementById("sortChips");
-  const modes = [["별점","별점순"],["권역","권역순"],["최신","기사 최신순"],["종료","종료 빠른 순"]];
+  const modes = [["권역","권역순"],["별점","별점순"],["최신","기사 최신순"],["종료","종료 빠른 순"]];
   sc.innerHTML = `<span class="ctrl-label">정렬</span>` + modes.map(([k,label]) =>
     `<button class="chip" type="button" data-sort="${k}" aria-pressed="${sortMode === k}">${label}</button>`).join("");
   sc.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
