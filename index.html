@@ -255,6 +255,12 @@ button{font:inherit;color:inherit}
    .click() 직접 호출은 이 판을 건너뛰므로 자동 점검으로는 안 잡혔다. */
 .pin-layer{position:absolute;inset:0;pointer-events:none}
 .pin{pointer-events:auto}
+/* 좁은 화면에서는 핀을 눌러도 그 권역이 걸리게 한다(2026-09-12 기자 지시).
+   삼청은 핀 열넷이 29x27px 안에 포개져 있어 손가락으로 한 점을 고르는 건
+   제비뽑기다. 핀의 탭을 아래 권역 과녁으로 흘려보내면 빈 탭이 사라지고
+   핀 뭉치 전체가 그 동네를 고르는 큰 단추가 된다.
+   마우스가 있는 화면에서는 그대로 핀 하나씩 고를 수 있다. */
+@media (max-width:1020px){.pin{pointer-events:none}}
 /* 권역 이름은 SVG 안에 두면 지도와 함께 줄어들어 휴대폰에서 5~6px이 된다.
    고정 크기 HTML로 빼내 어느 화면에서나 같은 크기로 읽히게 했다. */
 /* 권역 자체를 누를 수 있게 한다. 휴대폰에서 핀은 너무 작고 촘촘해
