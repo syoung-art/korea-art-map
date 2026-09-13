@@ -678,7 +678,7 @@ button{font:inherit;color:inherit}
                 1 ● 찬 원   = 기자가 추천하는 전시
                 2 ◎ 이중 원 = 기자가 강력 추천하는 전시
    ===================================================================== */
-const BUILT_ON = "2026년 9월 11일";
+const BUILT_ON = "2026년 9월 13일";
 const UPCOMING_WINDOW = 45;
 
 const EXHIBITIONS = [
@@ -962,6 +962,13 @@ const EXHIBITIONS = [
  headline:"K팝 스타 찍던 최랄라의 진화…5년 만의 개인전", published:"2026-09-08"},
 
 /* ── 홍지·부암·평창 ───────────────────────────────────────────── */
+{id:"ohyun", fee:"무료", zone:"평창", lon:126.9562, lat:37.5978,
+ venue:"서울시립 미술아카이브", title:"오윤", artist:"오윤",
+ start:null, end:"2027-02-14",
+ blurb:"민중미술을 비판하는 사람들도 인정하는 목판화가로, 칼로 파낸 굵고 거친 선이 한 시대를 상징한다. 작고 40주기 전시로 판화 원판과 습작, 노트 300여 점이 작품 31점과 함께 나왔다.",
+ url:"https://www.hankyung.com/article/202609130823i", naverUrl:"https://n.news.naver.com/article/015/0005331728", urlAlt:null,
+ headline:"칼로 새긴 한 시대의 얼굴…진영 넘은 오윤의 판화들", published:"2026-09-13"},
+
 {id:"ida-seoul", fee:"무료", zone:"평창", lon:126.9540, lat:37.5960,
  venue:"우손갤러리 서울", title:"시 유 투모로", artist:"이다 유키마사",
  start:"2026-08-27", end:"2026-10-31",
@@ -1013,6 +1020,13 @@ const EXHIBITIONS = [
  blurb:"1986년 문을 연 뒤 2500만 명이 다녀간 과천관의 마흔 살을 기념하는 전시다. '빛'을 주제로 아홉 명의 작품을 로비와 야외까지 길목마다 놓았고, 제임스 터렐의 작품이 처음 공개됐다.",
  url:"https://www.hankyung.com/article/202607120355i", naverUrl:"https://n.news.naver.com/article/015/0005309175", urlAlt:"https://www.hankyung.com/article/2026072789391",
  headline:"마흔 살 과천 국립현대미술관, 빛으로 물들다", published:"2026-07-13"},
+
+{id:"aamurakami", fee:"7000원", zone:null, area:"수도권", region:"인천 영종도", lon:126.4470, lat:37.4290,
+ venue:"파라다이스시티 아트스페이스", mapq:"파라다이스시티", title:"뉴 네이처", artist:"A.A.무라카미",
+ start:"2026-09-01", end:"2027-02-10",
+ blurb:"비눗방울과 안개처럼 몇 초 만에 사라지는 것을 첨단 장치로 만들어내는 일본·영국 부부 작가 팀이다. 한국 첫 개인전으로 높이 6.4m 쇠나무에서 비눗방울이 맺혔다 떨어지는 '뉴 스프링' 등을 내놨다.",
+ url:"https://www.hankyung.com/article/202609119714i", naverUrl:"https://n.news.naver.com/article/015/0005331689", urlAlt:null,
+ headline:"남녀노소 손 뻗는 '비눗방울 꽃'…A.A무라카미 국내 첫 개인전", published:"2026-09-13"},
 
 {id:"shiota", fee:"1만5000원", stars:1, zone:null, area:"충청·강원", region:"대전", lon:127.4260, lat:36.3300,
  venue:"헤레디움·아트사이트 소제", mapq:"헤레디움", title:"기억의 빛 속으로", artist:"시오타 치하루",
@@ -1276,7 +1290,7 @@ const markHTML = e => {
    절차는 사진_짝짓기.js. 묶음 기사라도 그 전시 사진이 실려 있으면 찾아낸다.
    전시장 이름만 겹치는 것은 버린다(이대원 자리에 서도호, 조숙진 자리에 마틴 파가
    들어갔던 사고, 2026-09-11). 못 찾은 12건은 그 기사에 사진이 아예 없는 건들이다. */
-const PHOTOS = {"suh":"202608/01.45458019.1.jpg","conceptual":"202606/01.44770028.1.jpg","parkseobo":"202608/01.45437097.1.jpg","kimseeun":"202608/01.45509798.1.jpg","kimbohee":"202608/01.45498875.1.jpg","christinesunkim":"202608/01.45498884.1.jpg","hamyangah":"202607/01.45265693.1.jpg","kimmuyoung":"202608/01.45509802.1.png","kangyobae":"202608/01.45303264.1.jpg","devlin":"202609/01.45383008.1.jpg","sunhyewon":"202609/01.45651745.1.jpg","kwoninkyung":"202608/01.45494299.1.jpg","yooyoungkuk":"202605/01.44453741.1.jpg","baselitz-sehwa":"202608/AA.45329090.1.jpg","koojeonga":"202609/AA.45548575.1.jpg","attia":"202608/01.45527655.1.jpg","iosifzon":"202608/01.45548522.1.jpg","sallyhan":"202608/01.45402603.1.jpg","atkins":"202609/01.45646522.1.jpg","seongryul":"202608/AA.45469825.1.jpg","kunath":"202609/01.45640884.1.jpg","sollewitt":"202609/AA.45638781.1.jpg","bapsang":"202606/01.44854991.1.jpg","chusa":"202608/01.45296132.1.jpg","choiyoonhee-zi":"202608/01.45509800.1.jpg","consortium":"202609/01.45638137.1.jpg","banksy":"202607/01.45116380.1.jpg","cubist":"202605/AA.44341884.1.jpg","parkseobo-museum":"202608/01.45380144.1.jpg","choilala":"202609/01.45604025.1.jpg","ida-seoul":"202608/01.45403923.1.jpg","goya":"202606/01.44819640.1.jpg","spain500":"202609/AA.45622873.1.jpg","martinparr":"202608/AA.45264284.1.jpg","kaws":"202607/01.45111872.1.jpg","mmca-gwacheon":"202607/01.45006825.1.png","shiota":"202608/01.45498600.1.jpg","ida-gyeongju":"202608/01.45403922.1.jpg","ida-daegu":"202608/01.45403921.1.png","gwangju-biennale":"202609/01.45575679.1.jpg","austria-pavilion":"202609/AA.45622878.1.jpg","banghyeja":"202604/01.44115525.1.png"};
+const PHOTOS = {"ohyun":"202609/01.45673060.1.jpg","aamurakami":"202609/01.45671897.1.jpg","suh":"202608/01.45458019.1.jpg","conceptual":"202606/01.44770028.1.jpg","parkseobo":"202608/01.45437097.1.jpg","kimseeun":"202608/01.45509798.1.jpg","kimbohee":"202608/01.45498875.1.jpg","christinesunkim":"202608/01.45498884.1.jpg","hamyangah":"202607/01.45265693.1.jpg","kimmuyoung":"202608/01.45509802.1.png","kangyobae":"202608/01.45303264.1.jpg","devlin":"202609/01.45383008.1.jpg","sunhyewon":"202609/01.45651745.1.jpg","kwoninkyung":"202608/01.45494299.1.jpg","yooyoungkuk":"202605/01.44453741.1.jpg","baselitz-sehwa":"202608/AA.45329090.1.jpg","koojeonga":"202609/AA.45548575.1.jpg","attia":"202608/01.45527655.1.jpg","iosifzon":"202608/01.45548522.1.jpg","sallyhan":"202608/01.45402603.1.jpg","atkins":"202609/01.45646522.1.jpg","seongryul":"202608/AA.45469825.1.jpg","kunath":"202609/01.45640884.1.jpg","sollewitt":"202609/AA.45638781.1.jpg","bapsang":"202606/01.44854991.1.jpg","chusa":"202608/01.45296132.1.jpg","choiyoonhee-zi":"202608/01.45509800.1.jpg","consortium":"202609/01.45638137.1.jpg","banksy":"202607/01.45116380.1.jpg","cubist":"202605/AA.44341884.1.jpg","parkseobo-museum":"202608/01.45380144.1.jpg","choilala":"202609/01.45604025.1.jpg","ida-seoul":"202608/01.45403923.1.jpg","goya":"202606/01.44819640.1.jpg","spain500":"202609/AA.45622873.1.jpg","martinparr":"202608/AA.45264284.1.jpg","kaws":"202607/01.45111872.1.jpg","mmca-gwacheon":"202607/01.45006825.1.png","shiota":"202608/01.45498600.1.jpg","ida-gyeongju":"202608/01.45403922.1.jpg","ida-daegu":"202608/01.45403921.1.png","gwangju-biennale":"202609/01.45575679.1.jpg","austria-pavilion":"202609/AA.45622878.1.jpg","banghyeja":"202604/01.44115525.1.png"};
 /* 기자가 직접 고른 사진. 배포자산/photo/ 에 <전시id>.jpg 를 넣고
    전시페이지_만들기.py를 돌리면 아래 줄이 자동으로 다시 써진다.
    직접 고른 사진이 있으면 그것이 한경 기사 사진보다 앞선다. */
