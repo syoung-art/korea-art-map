@@ -962,7 +962,7 @@ const EXHIBITIONS = [
  headline:"K팝 스타 찍던 최랄라의 진화…5년 만의 개인전", published:"2026-09-08"},
 
 /* ── 홍지·부암·평창 ───────────────────────────────────────────── */
-{id:"ohyun", fee:"무료", zone:"평창", lon:126.9562, lat:37.5978,
+{id:"ohyun", fee:"무료", stars:1, zone:"평창", lon:126.9562, lat:37.5978,
  venue:"서울시립 미술아카이브", title:"오윤", artist:"오윤",
  start:null, end:"2027-02-14",
  blurb:"민중미술을 비판하는 사람들도 인정하는 목판화가로, 칼로 파낸 굵고 거친 선이 한 시대를 상징한다. 작고 40주기 전시로 판화 원판과 습작, 노트 300여 점이 작품 31점과 함께 나왔다.",
@@ -1021,7 +1021,7 @@ const EXHIBITIONS = [
  url:"https://www.hankyung.com/article/202607120355i", naverUrl:"https://n.news.naver.com/article/015/0005309175", urlAlt:"https://www.hankyung.com/article/2026072789391",
  headline:"마흔 살 과천 국립현대미술관, 빛으로 물들다", published:"2026-07-13"},
 
-{id:"aamurakami", fee:"7000원", zone:null, area:"수도권", region:"인천 영종도", lon:126.4470, lat:37.4290,
+{id:"aamurakami", fee:"무료(멤버십 가입 시)", stars:1, zone:null, area:"수도권", region:"인천 영종도", lon:126.4470, lat:37.4290,
  venue:"파라다이스시티 아트스페이스", mapq:"파라다이스시티", title:"뉴 네이처", artist:"A.A.무라카미",
  start:"2026-09-01", end:"2027-02-10",
  blurb:"비눗방울과 안개처럼 몇 초 만에 사라지는 것을 첨단 장치로 만들어내는 일본·영국 부부 작가 팀이다. 한국 첫 개인전으로 높이 6.4m 쇠나무에서 비눗방울이 맺혔다 떨어지는 '뉴 스프링' 등을 내놨다.",
@@ -1151,6 +1151,9 @@ const isUpcoming = e => {
   const s = daysLeft(e.start);
   return s !== null && s > 0 && s <= UPCOMING_WINDOW;
 };
+/* 관람료가 '무료'로 시작하면 무료로 친다. "무료(멤버십 가입 시)"처럼 조건이 붙는
+   경우가 있어 완전일치로 보면 무료 전시 거르기에서 빠진다(2026-09-13). */
+const isFree = e => typeof e.fee === "string" && e.fee.startsWith("무료");
 const inBounds = e => {
   const z = zoneByKey[e.zone];
   if (!z) return false;
@@ -1324,7 +1327,7 @@ function entryHTML(e){
     ${e.blurb ? `<p class="blurb">${e.blurb}</p>` : ""}
     ${photoOf(e) ? `<img class="shot" src="${photoOf(e)}" alt="" loading="lazy" decoding="async">` : ""}
     <div class="entry-foot">
-      ${e.fee ? `<span class="fee${e.fee === "무료" ? " free" : ""}">${e.fee}${e.booking ? " · 예약 필수" : ""}</span>` : ""}
+      ${e.fee ? `<span class="fee${isFree(e) ? " free" : ""}">${e.fee}${e.booking ? " · 예약 필수" : ""}</span>` : ""}
       ${links.join("")}
       ${e.headline ? `<p class="headline">${e.headline}</p>` : ""}
     </div>`;
@@ -1351,7 +1354,7 @@ function drawList(){
     : zoneFilter === OUT_KEY ? !e.zone
     : (e.zone === zoneFilter || e.area === zoneFilter));
   /* '무료전시'는 정렬이 아니라 거르기다. 묶음 수를 세기 전에 걸러야 머리글 숫자가 맞는다. */
-  if (sortMode === "무료") items = items.filter(e => e.fee === "무료");
+  if (sortMode === "무료") items = items.filter(isFree);
   const groupSize = {};
   items.forEach(e => { const k = e.zone || e.area; groupSize[k] = (groupSize[k]||0)+1; });
   items = items.slice().sort((a,b) => {
