@@ -1172,14 +1172,29 @@ const inBounds = e => {
 /* =====================================================================
    상태
    ===================================================================== */
-const AREA_ORDER = ["서울 외곽","수도권","충청·강원","호남","영남"];
+const AREA_ORDER = ["수도권","충청·강원","호남","영남"];
+/* 창동·노원과 마곡·강서는 약도 범위 가장자리라 권역 단추가 '지방' 구분선 바로 앞에
+   떨어져 지방으로 읽힌다는 지적이 있었다(2026-09-15 기자 지시). 서울 쪽에 '기타'
+   묶음을 만들어 담는다. 이름은 '서울 외곽'이 아니라 '기타'다. 카드에는 창동·노원,
+   마곡·강서라는 원래 동네 이름이 그대로 남는다. */
+const ETC_KEY = "기타";
+const ETC_ZONES = ["창동","마곡"];
+const isEtcZone = k => ETC_ZONES.includes(k);
+/* 묶음 키: 서울이면 권역 키(기타 권역은 ETC_KEY), 서울 밖이면 지역 이름 */
+const groupKeyOf = e => e.zone ? (isEtcZone(e.zone) ? ETC_KEY : e.zone) : e.area;
 let OPEN = [];      /* 오늘 열려 있는 전시 전부 — 목록에 다 나온다 */
 let PINNED = [];    /* 그중 약도 안에 들어오는 것 — 지도에 점으로 찍힌다 */
 let SOON_OPEN = [];
 const OUT_KEY = "서울밖";   /* 지도에 점이 없는 것 전부 — 좁은 화면 전용 묶음 */
-let zoneFilter = "전체";   /* "전체" | OUT_KEY | 권역 키 | 지역 이름(AREA_ORDER) */
+let zoneFilter = "전체";   /* "전체" | OUT_KEY | ETC_KEY | 권역 키 | 지역 이름(AREA_ORDER) */
 let sortMode = "권역";   /* 기본은 권역순 — "어디 갈까"가 먼저다 */
 let selected = null;
+/* 거르기 판정은 한 군데서 한다. 지도에서 창동 덩어리를 눌렀을 때와 '기타' 단추를
+   눌렀을 때가 둘 다 통해야 하므로 묶음 키와 권역 키를 모두 받는다. */
+const matchesFilter = e =>
+  zoneFilter === "전체" ? true
+  : zoneFilter === OUT_KEY ? !e.zone
+  : (groupKeyOf(e) === zoneFilter || e.zone === zoneFilter);
 
 /* =====================================================================
    렌더
@@ -1350,21 +1365,21 @@ function shuffleKey(e){
   return SHUFFLE[e.id];
 }
 
-/* 목록 정렬용 순서: 서울 권역 먼저, 그 뒤 지방 */
-const orderOf = e => e.zone
-  ? ZONES.findIndex(z => z.key === e.zone)
-  : ZONES.length + AREA_ORDER.indexOf(e.area);
+/* 목록 정렬용 순서: 서울 권역 먼저, 그 뒤 '기타', 그 뒤 지방.
+   '기타'는 크기와 무관하게 서울 블록의 맨 끝이다 — 받아 담는 자리이므로
+   이름 있는 동네보다 앞에 오면 안 된다. */
+const orderOf = e => !e.zone
+  ? ZONES.length + 1 + AREA_ORDER.indexOf(e.area)
+  : isEtcZone(e.zone) ? ZONES.length
+  : ZONES.findIndex(z => z.key === e.zone);
 
 function drawList(){
   const ul = document.getElementById("list");
-  let items = OPEN.filter(e =>
-    zoneFilter === "전체" ? true
-    : zoneFilter === OUT_KEY ? !e.zone
-    : (e.zone === zoneFilter || e.area === zoneFilter));
+  let items = OPEN.filter(matchesFilter);
   /* '무료전시'는 정렬이 아니라 거르기다. 묶음 수를 세기 전에 걸러야 머리글 숫자가 맞는다. */
   if (sortMode === "무료") items = items.filter(isFree);
   const groupSize = {};
-  items.forEach(e => { const k = e.zone || e.area; groupSize[k] = (groupSize[k]||0)+1; });
+  items.forEach(e => { const k = groupKeyOf(e); groupSize[k] = (groupSize[k]||0)+1; });
   items = items.slice().sort((a,b) => {
     if (sortMode === "추천"){
       const sa = a.stars || 0, sb = b.stars || 0;
@@ -1377,7 +1392,10 @@ function drawList(){
          지도 순서(북→남)대로 두려면 groupSize 비교만 지우면 된다. */
       const sa = a.zone ? 0 : 1, sb = b.zone ? 0 : 1;
       if (sa !== sb) return sa - sb;
-      const ga = groupSize[a.zone || a.area] || 0, gb = groupSize[b.zone || b.area] || 0;
+      /* '기타'는 서울 안에서 크기와 상관없이 맨 끝이다. */
+      const ea = a.zone && isEtcZone(a.zone) ? 1 : 0, eb = b.zone && isEtcZone(b.zone) ? 1 : 0;
+      if (ea !== eb) return ea - eb;
+      const ga = groupSize[groupKeyOf(a)] || 0, gb = groupSize[groupKeyOf(b)] || 0;
       if (ga !== gb) return gb - ga;
       const oa = orderOf(a), ob = orderOf(b);
       if (oa !== ob) return oa - ob;
@@ -1413,9 +1431,9 @@ function drawList(){
   let html = "", lastKey = null;
   items.forEach(e => {
     if (grouped){
-      const k = e.zone || e.area;
+      const k = groupKeyOf(e);
       if (k !== lastKey){
-        const label = e.zone ? zoneByKey[e.zone].name : e.area;
+        const label = k === ETC_KEY ? ETC_KEY : (e.zone ? zoneByKey[e.zone].name : e.area);
         html += `<li class="group-head"><span>${label}</span><span class="gn">${groupSize[k]}</span></li>`;
         lastKey = k;
       }
@@ -1487,7 +1505,7 @@ function readUrl(){
   if (id && EXHIBITIONS.some(e => e.id === id)) pendingId = id;
   const p = q.get("zone");
   if (!p) return;
-  const ok = p === OUT_KEY || ZONES.some(z => z.key === p) || AREA_ORDER.includes(p);
+  const ok = p === OUT_KEY || p === ETC_KEY || ZONES.some(z => z.key === p) || AREA_ORDER.includes(p);
   if (ok) zoneFilter = p;
 }
 function shareText(){
@@ -1585,7 +1603,7 @@ function paintSelection(){
   document.querySelectorAll(".pin").forEach(p => {
     p.classList.toggle("on", p.dataset.id === selected);
     const e = PINNED.find(x => x.id === p.dataset.id);
-    p.classList.toggle("dim", zoneFilter !== "전체" && e && e.zone !== zoneFilter);
+    p.classList.toggle("dim", zoneFilter !== "전체" && e && !matchesFilter(e));
   });
   document.querySelectorAll(".list .entry").forEach(li => li.classList.toggle("on", li.dataset.id === selected));
   document.querySelectorAll(".zone-hit button").forEach(b =>
@@ -1598,7 +1616,7 @@ function select(id, fromMap){
   selected = (selected === id) ? null : id;
   if (selected && fromMap){
     const e = PINNED.find(x => x.id === selected);
-    if (e && zoneFilter !== "전체" && e.zone !== zoneFilter){ zoneFilter = "전체"; buildChips(); drawList(); }
+    if (e && zoneFilter !== "전체" && !matchesFilter(e)){ zoneFilter = "전체"; buildChips(); drawList(); }
     const li = document.querySelector(`.list .entry[data-id="${selected}"]`);
     if (li) li.scrollIntoView({ behavior:"smooth", block:"center" });
   }
@@ -1609,14 +1627,17 @@ function buildChips(){
   const zc = document.getElementById("zoneChips");
   const counts = {};
   OPEN.forEach(e => {
-    const k = e.zone || e.area;
+    const k = groupKeyOf(e);
     if (k) counts[k] = (counts[k] || 0) + 1;
   });
   /* 단추도 목록과 같이 전시 많은 순이다(2026-09-11 기자 지시).
      한 건짜리 동네가 줄 앞에 오면 고를 이유가 없는 것이 먼저 보인다. */
   const bySize = (a,b) => counts[b] - counts[a]
     || ZONES.findIndex(z => z.key === a) - ZONES.findIndex(z => z.key === b);
-  const zoneKeys = ZONES.map(z => z.key).filter(k => counts[k]).sort(bySize);
+  /* '기타'는 크기와 무관하게 권역 단추의 맨 끝에 붙인다. 그래야 한 건짜리 동네가
+     '지방' 구분선 바로 앞에 떨어져 지방으로 읽히는 일이 없다. */
+  const zoneKeys = ZONES.map(z => z.key).filter(k => !isEtcZone(k) && counts[k]).sort(bySize)
+    .concat(counts[ETC_KEY] ? [ETC_KEY] : []);
   const areaKeys = AREA_ORDER.filter(k => counts[k])
     .sort((a,b) => counts[b] - counts[a] || AREA_ORDER.indexOf(a) - AREA_ORDER.indexOf(b));
   const chip = k => {
