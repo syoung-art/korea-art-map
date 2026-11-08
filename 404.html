@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>성수영의 전시 지도</title>
+<meta name="robots" content="noindex">
+<style>
+body{margin:0;font:15px/1.7 "Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+background:#EBEEEF;color:#242A2D;display:grid;place-items:center;min-height:100vh;padding:24px;word-break:keep-all}
+a{color:#B23A2E}
+@media (prefers-color-scheme:dark){body{background:#101315;color:#E9E6E1}a{color:#E0705C}}
+</style>
+</head>
+<body>
+<!-- 공유 페이지(e/<id>/)가 아직 안 만들어진 전시를 누가 공유해도 깨진 링크가 되지 않게,
+     그 전시가 열린 지도(?id=<id>)로 돌려보낸다. 다른 없는 주소는 지도 첫 화면으로. -->
+<p><a id="go" href="/korea-art-map/">성수영의 전시 지도로 이동합니다</a></p>
+<script>
+(function(){
+  var p = location.pathname, root = "/korea-art-map/";
+  var m = p.match(/\/korea-art-map\/e\/([^\/?#]+)\/?/);
+  var to = m ? root + "?id=" + encodeURIComponent(decodeURIComponent(m[1])) : root;
+  document.getElementById("go").href = to;
+  location.replace(to);
+})();
+</script>
+</body>
+</html>
