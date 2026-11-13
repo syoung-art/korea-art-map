@@ -817,7 +817,7 @@ body{font-size:16px;line-height:1.7}
                 1 ● 찬 원   = 기자가 추천하는 전시
                 2 ◎ 이중 원 = 기자가 강력 추천하는 전시
    ===================================================================== */
-const BUILT_ON = "2026년 11월 11일";
+const BUILT_ON = "2026년 11월 13일";
 const UPCOMING_WINDOW = 45;
 
 const EXHIBITIONS = [
@@ -962,6 +962,13 @@ const EXHIBITIONS = [
  url:"https://www.hankyung.com/article/202611107568i", urlAlt:null,
  headline:"지뢰 묻힌 고향 땅에 젖니를 묻었다…박광수 개인전 '화려한 숲'", published:"2026-11-10"},
 
+{id:"parkminjoon-hyundai", zone:"삼청", lon:126.9796, lat:37.5786,
+ venue:"갤러리현대", mapq:"갤러리현대", title:"이마기나티오", artist:"박민준",
+ start:null, end:"2026-12-27",
+ blurb:"지금 서울 사간동 갤러리현대에서 열리고 있는 개인전 '이마기나티오(IMAGINATIO)'에서는 종이에 수채화 물감과 아크릴 물감, 금박으로 그린 신작 35점과 조각 한 점을 만날 수 있다. 유화를 주로 그려 왔지만, 이번에는 수채화가 주를 이룬다.",
+ url:"https://www.hankyung.com/article/202611121570i", urlAlt:null,
+ headline:"'소설 쓰는 화가' 박민준, 섬세한 붓끝으로 상상의 세계 펼치다", published:"2026-11-13"},
+
 /* ── 서촌·경복궁 서측 ─────────────────────────────────────────── */
 {id:"dcf-daelim", zone:"서촌",
  venue:"대림미술관", mapq:"대림미술관", title:"DCF 컬렉션: 대림문화재단 소장품전", artist:"김창열·이우환·박서보·백남준·피카소 등",
@@ -1096,6 +1103,13 @@ const EXHIBITIONS = [
  blurb:"아름다운 풍경화로 시장과 SNS에서 인기를 끄는 독일 화가다. 그림 구석에는 사라진 동독에서만 알아보는 만화 캐릭터와 냉소적인 농담이 긁혀 있어, 가까이 가야 다른 그림이 된다.",
  url:"https://www.hankyung.com/article/202609107023i", naverUrl:"https://n.news.naver.com/article/015/0005331425", urlAlt:"https://www.hankyung.com/article/2026082775811",
  headline:"아름다운 풍경화에 만화 캐릭터가…독일 화가의 '가깝고도 먼 고향'", published:"2026-09-11"},
+
+{id:"evelyn-pace", zone:"한남", lon:127.0020, lat:37.5350,
+ venue:"페이스갤러리 서울", title:"더 와일드 아스팔트", artist:"팸 에블린",
+ start:null, end:"2027-01-09",
+ blurb:"지금 서울 한남동 페이스갤러리에서 열리고 있는 '더 와일드 아스팔트(The Wild Asphalt)'는 에블린의 작품들을 소개하는 국내 첫 개인전이다. 신작 유화 9점과 종이 작업 등 20여 점이 나왔다.",
+ url:"https://www.hankyung.com/article/202611123890i", urlAlt:null,
+ headline:"27세에 페이스 '최연소 전속'…팸 에블린, 서울에 왔다", published:"2026-11-13"},
 
 {id:"fujiwara", fee:"무료", zone:"한남", lon:127.0023, lat:37.5362,
  venue:"에스더쉬퍼 서울", title:"Who Lived Happily Ever After?", artist:"사이먼 후지와라",
@@ -1645,7 +1659,7 @@ const markHTML = e => {
    ① 그 전시를 다룬 기자 기사의 사진 ② 같은 전시를 다룬 다른 한경 기사의 사진
    ③ 보도자료로 받은 사진(배포자산/photo/, LOCAL_PHOTOS — credit 필수).
    이 표가 사진의 유일한 정본이다. 전시페이지_만들기.py도 여기서 읽는다. */
-const PHOTOS = {"okeeffe-mmca":"202611/AA.46389326.1.jpg","parkgwangsoo-hakgojae":"202611/01.46375512.1.jpg","kimyunshin-lehmann":"202611/AA.46365215.1.jpg","anchanghong-arario":"202611/AA.46365216.1.jpg","shinjaehwan-rho":"202611/01.46360397.1.jpg","chaesungpil-grimson":"202610/01.46047595.1.jpg","leemyoungho-hyundai":"202610/01.46257626.1.jpg","leemyoungho-savina":"202610/01.46257629.1.jpg","dcf-daelim":"202610/01.46250268.1.jpg","hirako-baton":"202611/01.46311758.1.jpg","things-move-hanyang":"202611/01.46312797.1.jpg","limjiksoon-seoulmuseum":"202610/01.46068243.1.jpg","jeju-biennale":"202609/01.45854317.1.jpg","insideotherspaces":"202605/01.44324050.1.jpg","paiknamjune":"202607/01.45060786.1.jpg","leebae-museumsan":"202604/01.43865147.1.jpg","kansong-sangseo":"202610/01.45986819.1.jpg","seosaeok-suhdoho":"202610/01.45986795.1.jpg","mikelee-jasonhaam":"202610/01.45986822.1.jpg","byunsiji-korea-univ":"202610/01.45986823.1.jpg","thiebaud-ddp":"202609/01.45880617.1.jpg","globalseah-portrait":"202610/01.45934682.1.jpg","gyeomjae-daegu":"202609/01.45799628.1.jpg","ohyun":"202609/01.45673060.1.jpg","aamurakami":"202609/01.45671897.1.jpg","suh":"202608/01.45458019.1.jpg","conceptual":"202606/01.44770028.1.jpg","parkseobo":"202608/01.45437097.1.jpg","kimseeun":"202608/01.45509798.1.jpg","kimbohee":"202608/01.45498875.1.jpg","christinesunkim":"202608/01.45498884.1.jpg","hamyangah":"202607/01.45265693.1.jpg","kimmuyoung":"202608/01.45509802.1.png","kangyobae":"202608/01.45303264.1.jpg","devlin":"202609/01.45383008.1.jpg","sunhyewon":"202609/01.45651745.1.jpg","kwoninkyung":"202608/01.45494299.1.jpg","yooyoungkuk":"202605/01.44453741.1.jpg","baselitz-sehwa":"202608/AA.45329090.1.jpg","koojeonga":"202609/AA.45548575.1.jpg","attia":"202608/01.45527655.1.jpg","iosifzon":"202608/01.45548522.1.jpg","sallyhan":"202608/01.45402603.1.jpg","atkins":"202609/01.45646522.1.jpg","seongryul":"202608/AA.45469825.1.jpg","kunath":"202609/01.45640884.1.jpg","sollewitt":"202609/AA.45638781.1.jpg","bapsang":"202606/01.44854991.1.jpg","chusa":"202608/01.45296132.1.jpg","choiyoonhee-zi":"202608/01.45509800.1.jpg","consortium":"202609/01.45638137.1.jpg","banksy":"202607/01.45116380.1.jpg","cubist":"202605/AA.44341884.1.jpg","parkseobo-museum":"202608/01.45380144.1.jpg","choilala":"202609/01.45604025.1.jpg","ida-seoul":"202608/01.45403923.1.jpg","goya":"202606/01.44819640.1.jpg","spain500":"202609/AA.45622873.1.jpg","martinparr":"202608/AA.45264284.1.jpg","kaws":"202607/01.45111872.1.jpg","mmca-gwacheon":"202607/01.45006825.1.png","shiota":"202608/01.45498600.1.jpg","ida-gyeongju":"202608/01.45403922.1.jpg","ida-daegu":"202608/01.45403921.1.png","gwangju-biennale":"202609/01.45575679.1.jpg","austria-pavilion":"202609/AA.45622878.1.jpg","banghyeja":"202604/01.44115525.1.png"};
+const PHOTOS = {"parkminjoon-hyundai":"202611/01.46404627.1.jpg","evelyn-pace":"202611/01.46405879.1.jpg","okeeffe-mmca":"202611/AA.46389326.1.jpg","parkgwangsoo-hakgojae":"202611/01.46375512.1.jpg","kimyunshin-lehmann":"202611/AA.46365215.1.jpg","anchanghong-arario":"202611/AA.46365216.1.jpg","shinjaehwan-rho":"202611/01.46360397.1.jpg","chaesungpil-grimson":"202610/01.46047595.1.jpg","leemyoungho-hyundai":"202610/01.46257626.1.jpg","leemyoungho-savina":"202610/01.46257629.1.jpg","dcf-daelim":"202610/01.46250268.1.jpg","hirako-baton":"202611/01.46311758.1.jpg","things-move-hanyang":"202611/01.46312797.1.jpg","limjiksoon-seoulmuseum":"202610/01.46068243.1.jpg","jeju-biennale":"202609/01.45854317.1.jpg","insideotherspaces":"202605/01.44324050.1.jpg","paiknamjune":"202607/01.45060786.1.jpg","leebae-museumsan":"202604/01.43865147.1.jpg","kansong-sangseo":"202610/01.45986819.1.jpg","seosaeok-suhdoho":"202610/01.45986795.1.jpg","mikelee-jasonhaam":"202610/01.45986822.1.jpg","byunsiji-korea-univ":"202610/01.45986823.1.jpg","thiebaud-ddp":"202609/01.45880617.1.jpg","globalseah-portrait":"202610/01.45934682.1.jpg","gyeomjae-daegu":"202609/01.45799628.1.jpg","ohyun":"202609/01.45673060.1.jpg","aamurakami":"202609/01.45671897.1.jpg","suh":"202608/01.45458019.1.jpg","conceptual":"202606/01.44770028.1.jpg","parkseobo":"202608/01.45437097.1.jpg","kimseeun":"202608/01.45509798.1.jpg","kimbohee":"202608/01.45498875.1.jpg","christinesunkim":"202608/01.45498884.1.jpg","hamyangah":"202607/01.45265693.1.jpg","kimmuyoung":"202608/01.45509802.1.png","kangyobae":"202608/01.45303264.1.jpg","devlin":"202609/01.45383008.1.jpg","sunhyewon":"202609/01.45651745.1.jpg","kwoninkyung":"202608/01.45494299.1.jpg","yooyoungkuk":"202605/01.44453741.1.jpg","baselitz-sehwa":"202608/AA.45329090.1.jpg","koojeonga":"202609/AA.45548575.1.jpg","attia":"202608/01.45527655.1.jpg","iosifzon":"202608/01.45548522.1.jpg","sallyhan":"202608/01.45402603.1.jpg","atkins":"202609/01.45646522.1.jpg","seongryul":"202608/AA.45469825.1.jpg","kunath":"202609/01.45640884.1.jpg","sollewitt":"202609/AA.45638781.1.jpg","bapsang":"202606/01.44854991.1.jpg","chusa":"202608/01.45296132.1.jpg","choiyoonhee-zi":"202608/01.45509800.1.jpg","consortium":"202609/01.45638137.1.jpg","banksy":"202607/01.45116380.1.jpg","cubist":"202605/AA.44341884.1.jpg","parkseobo-museum":"202608/01.45380144.1.jpg","choilala":"202609/01.45604025.1.jpg","ida-seoul":"202608/01.45403923.1.jpg","goya":"202606/01.44819640.1.jpg","spain500":"202609/AA.45622873.1.jpg","martinparr":"202608/AA.45264284.1.jpg","kaws":"202607/01.45111872.1.jpg","mmca-gwacheon":"202607/01.45006825.1.png","shiota":"202608/01.45498600.1.jpg","ida-gyeongju":"202608/01.45403922.1.jpg","ida-daegu":"202608/01.45403921.1.png","gwangju-biennale":"202609/01.45575679.1.jpg","austria-pavilion":"202609/AA.45622878.1.jpg","banghyeja":"202604/01.44115525.1.png"};
 /* 기자가 직접 고른 사진. 배포자산/photo/ 에 <전시id>.jpg 를 넣고
    전시페이지_만들기.py를 돌리면 아래 줄이 자동으로 다시 써진다.
    직접 고른 사진이 있으면 그것이 한경 기사 사진보다 앞선다. */
